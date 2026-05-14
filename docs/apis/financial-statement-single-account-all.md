@@ -2,7 +2,7 @@
 
 - 공식 문서: https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019020
 - 그룹: 정기보고서 재무정보
-- SDK 상태: MVP 이후 확장 후보
+- SDK 상태: `Client.FullFinancialStatement(ctx, query)` 구현
 
 ## 기본 정보
 
@@ -62,4 +62,3 @@
 | `bfefrmtrm_amount` | 전전기금액 |
 | `ord` | 계정과목 정렬순서 |
 | `currency` | 통화 단위 |
-

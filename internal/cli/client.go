@@ -2,6 +2,7 @@ package cli
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"net/http"
@@ -20,6 +21,10 @@ func newSDKClient(options *rootOptions) (*opendart.Client, error) {
 }
 
 func requestGeneric(ctx context.Context, options *rootOptions, spec apiSpec, values map[string]string) ([]byte, string, error) {
+	if body, contentType, handled, err := requestTypedFile(ctx, options, spec, values); handled || err != nil {
+		return body, contentType, err
+	}
+
 	apiKey, err := options.resolvedAPIKey()
 	if err != nil {
 		return nil, "", err
@@ -47,9 +52,9 @@ func requestGeneric(ctx context.Context, options *rootOptions, spec apiSpec, val
 	}
 	req.Header.Set("User-Agent", "github.com/ev3rlit/opendart/cmd/opendart")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := openDARTHTTPClient().Do(req)
 	if err != nil {
-		return nil, "", err
+		return nil, "", fmt.Errorf("opendart cli: request %s: %s", spec.Endpoint, redactAPIKey(err.Error(), apiKey))
 	}
 	defer resp.Body.Close()
 
@@ -61,6 +66,64 @@ func requestGeneric(ctx context.Context, options *rootOptions, spec apiSpec, val
 		return nil, "", fmt.Errorf("opendart cli: http error: status=%d %s", resp.StatusCode, resp.Status)
 	}
 	return body, resp.Header.Get("Content-Type"), nil
+}
+
+func openDARTHTTPClient() *http.Client {
+	transport := http.DefaultTransport.(*http.Transport).Clone()
+	// OpenDART 서버는 Go 기본 TLS 설정과 협상하지 못하는 경우가 있어
+	// TLS 1.2와 RSA 계열 cipher suite를 명시한다.
+	transport.TLSClientConfig = &tls.Config{
+		MinVersion: tls.VersionTLS12,
+		CipherSuites: []uint16{
+			tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+			tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+			tls.TLS_RSA_WITH_AES_128_GCM_SHA256,
+			tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_RSA_WITH_AES_128_CBC_SHA,
+			tls.TLS_RSA_WITH_AES_256_CBC_SHA,
+		},
+	}
+	return &http.Client{Transport: transport}
+}
+
+func redactAPIKey(message string, apiKey string) string {
+	if strings.TrimSpace(apiKey) == "" {
+		return message
+	}
+	return strings.ReplaceAll(message, apiKey, "[REDACTED]")
+}
+
+func requestTypedFile(ctx context.Context, options *rootOptions, spec apiSpec, values map[string]string) ([]byte, string, bool, error) {
+	if spec.Endpoint != "/api/document.xml" && spec.Endpoint != "/api/fnlttXbrl.xml" {
+		return nil, "", false, nil
+	}
+
+	client, err := newSDKClient(options)
+	if err != nil {
+		return nil, "", true, err
+	}
+
+	switch spec.Endpoint {
+	case "/api/document.xml":
+		file, err := client.Document(ctx, opendart.DocumentQuery{ReceiptNo: values["rcept_no"]})
+		if err != nil {
+			return nil, "", true, err
+		}
+		return file.Body, file.ContentType, true, nil
+	case "/api/fnlttXbrl.xml":
+		file, err := client.FinancialStatementXBRL(ctx, opendart.ReceiptReportQuery{
+			ReceiptNo:  values["rcept_no"],
+			ReportCode: opendart.ReportCode(values["reprt_code"]),
+		})
+		if err != nil {
+			return nil, "", true, err
+		}
+		return file.Body, file.ContentType, true, nil
+	default:
+		return nil, "", false, nil
+	}
 }
 
 func (options *rootOptions) resolvedAPIKey() (string, error) {

@@ -36,7 +36,7 @@ func (client *Client) FinancialStatement(ctx context.Context, query FinancialSta
 		}).
 		Get("/api/fnlttSinglAcnt.json")
 	if err != nil {
-		return nil, err
+		return nil, requestError("/api/fnlttSinglAcnt.json", err, client.apiKey)
 	}
 	if err := checkHTTP(resp); err != nil {
 		return nil, err

@@ -121,4 +121,5 @@
 
 - `Group`, `API ID`, `Endpoint`, `Params`는 공식 상세 페이지에서 확인했다.
 - `CLI command`는 `internal/cli/catalog.go`와 1:1로 대응한다.
+- SDK typed method 대응표는 `docs/apis/typed-sdk-checklist.md`에서 별도로 추적한다.
 - `corp_code`는 OpenDART 고유번호이며 KRX 종목코드가 아니다.

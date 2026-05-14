@@ -68,14 +68,16 @@ OpenDART의 `corp_code`는 DART 공시대상회사 고유번호입니다. KRX �
 
 재무제표 API는 `stock_code`가 아니라 `corp_code`를 요구합니다.
 
-## MVP 지원 API
+## 지원 범위
 
-- 고유번호 조회: `Client.CorpCodes(ctx)`
-  - 공식 endpoint: `GET /api/corpCode.xml`
-  - ZIP 안의 XML을 파싱해 `CorpCode` 목록을 반환합니다.
-- 단일회사 주요계정: `Client.FinancialStatement(ctx, query)`
-  - 공식 endpoint: `GET /api/fnlttSinglAcnt.json`
-  - 최소 query: `corp_code`, `bsns_year`, `reprt_code`
+- SDK typed 전체 API 지원: 공식 인벤토리의 83개 API를 root package typed method로 제공합니다.
+  - 예: `Client.Disclosures(ctx, query)`, `Client.Company(ctx, query)`, `Client.Document(ctx, query)`
+  - 예: `Client.CapitalIncreaseDecreaseStatus(ctx, query)`, `Client.CompanyMergerDecision(ctx, query)`
+  - 예: `Client.FullFinancialStatement(ctx, query)`, `Client.FinancialStatementXBRL(ctx, query)`
+- CLI 전체 API 지원: `internal/cli/catalog.go` 기준으로 공식 API 전체 command를 제공합니다.
+  - JSON API는 기본적으로 OpenDART 원문 JSON을 stdout에 출력합니다.
+  - 파일/XML API는 기본 `json` 출력에서 base64 envelope를 쓰고, `--output raw`일 때 원문 bytes를 stdout에 씁니다.
+- typed method 추적표는 `docs/apis/typed-sdk-checklist.md`에 있습니다.
 
 ## CLI
 

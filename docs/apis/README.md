@@ -4,16 +4,17 @@
 
 ## SDK typed 구현
 
-| API | Endpoint | SDK method | CLI |
-| --- | --- | --- | --- |
-| 고유번호 | `GET /api/corpCode.xml` | `Client.CorpCodes(ctx)` | `opendart corp-codes` |
-| 단일회사 주요계정 | `GET /api/fnlttSinglAcnt.json` | `Client.FinancialStatement(ctx, query)` | `opendart financial-statement` |
+공식 인벤토리의 83개 API는 root package typed method로 지원한다.
+
+- 전체 대응표: `docs/apis/typed-sdk-checklist.md`
+- 기준 인벤토리: `docs/apis/official-inventory.md`
+- SDK package: `github.com/ev3rlit/opendart`
 
 ## CLI 전체 API 구현 방식
 
 - 공식 JSON API는 `internal/cli`의 catalog 기반 command로 제공하고, 기본적으로 OpenDART 원문 JSON을 stdout에 출력한다.
-- `corp-codes`, `financial-statement`는 root SDK의 typed method를 호출한다.
-- SDK typed method가 아직 없는 API는 CLI 내부 generic request helper로 호출한다. public SDK API를 불필요하게 넓히지 않기 위한 선택이다.
+- `corp-codes`, `financial-statement`와 파일 API 일부는 root SDK의 typed method를 호출한다.
+- 나머지 JSON command는 원문 JSON stdout 계약을 유지하기 위해 CLI 내부 generic request helper로 호출한다.
 - `document.xml`, `corpCode.xml`, `fnlttXbrl.xml` 같은 파일/XML 계열은 기본 `json` 출력에서 base64 envelope로 감싸고, `--output raw`일 때 원문 bytes를 stdout에 쓴다.
 - 에러와 진단은 stderr로 보내며, 인증키 값은 출력하지 않는다.
 

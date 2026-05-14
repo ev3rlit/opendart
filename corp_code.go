@@ -23,7 +23,7 @@ func (client *Client) CorpCodes(ctx context.Context) ([]CorpCode, error) {
 		SetQueryParam("crtfc_key", client.apiKey).
 		Get("/api/corpCode.xml")
 	if err != nil {
-		return nil, err
+		return nil, requestError("/api/corpCode.xml", err, client.apiKey)
 	}
 	if err := checkHTTP(resp); err != nil {
 		return nil, err

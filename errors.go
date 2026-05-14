@@ -44,6 +44,27 @@ func (err *APIError) Error() string {
 	return fmt.Sprintf("opendart: api error: status=%s message=%s", err.Status, err.Message)
 }
 
+// RequestError reports a request failure with secrets redacted.
+type RequestError struct {
+	Op  string
+	Err string
+}
+
+func (err *RequestError) Error() string {
+	return fmt.Sprintf("opendart: request %s: %s", err.Op, err.Err)
+}
+
+func requestError(op string, err error, apiKey string) error {
+	if err == nil {
+		return nil
+	}
+	message := err.Error()
+	if strings.TrimSpace(apiKey) != "" {
+		message = strings.ReplaceAll(message, apiKey, "[REDACTED]")
+	}
+	return &RequestError{Op: op, Err: message}
+}
+
 func checkHTTP(resp *resty.Response) error {
 	if resp.IsSuccess() {
 		return nil
