@@ -1,0 +1,65 @@
+package opendart
+
+import (
+	"errors"
+	"net/http"
+	"strings"
+	"time"
+)
+
+const defaultBaseURL = "https://opendart.fss.or.kr"
+
+// Config holds required OpenDART client settings.
+type Config struct {
+	// APIKey is the OpenDART authentication key.
+	APIKey string
+}
+
+// Option customizes a Client.
+type Option func(*clientOptions)
+
+type clientOptions struct {
+	baseURL    string
+	httpClient *http.Client
+	timeout    time.Duration
+}
+
+// WithBaseURL overrides the OpenDART base URL.
+func WithBaseURL(baseURL string) Option {
+	return func(options *clientOptions) {
+		options.baseURL = baseURL
+	}
+}
+
+// WithHTTPClient uses a caller-provided HTTP client.
+func WithHTTPClient(httpClient *http.Client) Option {
+	return func(options *clientOptions) {
+		options.httpClient = httpClient
+	}
+}
+
+// WithTimeout sets resty's request timeout when no custom HTTP client is provided.
+func WithTimeout(timeout time.Duration) Option {
+	return func(options *clientOptions) {
+		options.timeout = timeout
+	}
+}
+
+func buildOptions(opts []Option) clientOptions {
+	options := clientOptions{
+		baseURL: defaultBaseURL,
+		timeout: 30 * time.Second,
+	}
+	for _, opt := range opts {
+		opt(&options)
+	}
+	options.baseURL = strings.TrimRight(options.baseURL, "/")
+	return options
+}
+
+func validateConfig(config Config) error {
+	if strings.TrimSpace(config.APIKey) == "" {
+		return errors.New("opendart: APIKey is required")
+	}
+	return nil
+}

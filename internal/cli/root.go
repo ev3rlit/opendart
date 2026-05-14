@@ -1,0 +1,197 @@
+package cli
+
+import (
+	"fmt"
+	"io"
+	"strings"
+
+	"github.com/ev3rlit/opendart"
+	"github.com/spf13/cobra"
+)
+
+// NewRootCommand builds the opendart CLI command tree.
+func NewRootCommand(out io.Writer, errOut io.Writer, getenv getenvFunc) *cobra.Command {
+	options := &rootOptions{
+		baseURL: defaultBaseURL,
+		output:  outputJSON,
+		out:     out,
+		errOut:  errOut,
+		getenv:  getenv,
+	}
+
+	root := &cobra.Command{
+		Use:           "opendart",
+		Short:         "OpenDART API command line client",
+		SilenceUsage:  true,
+		SilenceErrors: true,
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			return options.validateOutput()
+		},
+	}
+	root.SetOut(out)
+	root.SetErr(errOut)
+	root.PersistentFlags().StringVar(&options.apiKey, "api-key", "", "OpenDART API key. Defaults to OPENDART_API_KEY.")
+	root.PersistentFlags().StringVar(&options.baseURL, "base-url", defaultBaseURL, "OpenDART base URL.")
+	root.PersistentFlags().StringVarP(&options.output, "output", "o", outputJSON, "Output format: json or raw.")
+
+	root.AddCommand(newCorpCodesCommand(options))
+	root.AddCommand(newFinancialStatementCommand(options))
+	addAPIGroups(root, options)
+
+	return root
+}
+
+func (options *rootOptions) validateOutput() error {
+	switch options.output {
+	case outputJSON, outputRaw:
+		return nil
+	default:
+		return fmt.Errorf("opendart cli: unsupported output %q", options.output)
+	}
+}
+
+func newCorpCodesCommand(options *rootOptions) *cobra.Command {
+	return &cobra.Command{
+		Use:   "corp-codes",
+		Short: "DART 고유번호 목록을 조회합니다.",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			client, err := newSDKClient(options)
+			if err != nil {
+				return err
+			}
+			codes, err := client.CorpCodes(cmd.Context())
+			if err != nil {
+				return err
+			}
+			return writeJSON(options.out, codes)
+		},
+	}
+}
+
+func newFinancialStatementCommand(options *rootOptions) *cobra.Command {
+	var corpCode string
+	var businessYear string
+	var reportCode string
+
+	cmd := &cobra.Command{
+		Use:   "financial-statement",
+		Short: "단일회사 주요계정 재무제표를 조회합니다.",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if strings.TrimSpace(corpCode) == "" {
+				return fmt.Errorf("opendart cli: --corp-code is required")
+			}
+			if strings.TrimSpace(businessYear) == "" {
+				return fmt.Errorf("opendart cli: --business-year is required")
+			}
+			if strings.TrimSpace(reportCode) == "" {
+				return fmt.Errorf("opendart cli: --report-code is required")
+			}
+
+			client, err := newSDKClient(options)
+			if err != nil {
+				return err
+			}
+			statements, err := client.FinancialStatement(cmd.Context(), opendart.FinancialStatementQuery{
+				CorpCode:     corpCode,
+				BusinessYear: businessYear,
+				ReportCode:   opendart.ReportCode(reportCode),
+			})
+			if err != nil {
+				return err
+			}
+			return writeJSON(options.out, statements)
+		},
+	}
+
+	cmd.Flags().StringVar(&corpCode, "corp-code", "", "OpenDART corp_code.")
+	cmd.Flags().StringVar(&businessYear, "business-year", "", "Business year, for example 2025.")
+	cmd.Flags().StringVar(&reportCode, "report-code", "", "Report code, for example 11011.")
+	return cmd
+}
+
+func addAPIGroups(root *cobra.Command, options *rootOptions) {
+	groups := map[string]*cobra.Command{}
+	for _, spec := range apiCatalog {
+		group, ok := groups[spec.Group]
+		if !ok {
+			group = &cobra.Command{
+				Use:   spec.Group,
+				Short: groupDescription(spec.Group),
+			}
+			groups[spec.Group] = group
+			root.AddCommand(group)
+		}
+		group.AddCommand(newGenericAPICommand(options, spec))
+	}
+}
+
+func newGenericAPICommand(options *rootOptions, spec apiSpec) *cobra.Command {
+	values := make(map[string]*string, len(spec.Params))
+	cmd := &cobra.Command{
+		Use:   spec.Command,
+		Short: spec.Name,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			for _, param := range spec.Params {
+				value := values[param.Name]
+				if param.Required && (value == nil || strings.TrimSpace(*value) == "") {
+					return fmt.Errorf("opendart cli: --%s is required", flagName(param.Name))
+				}
+			}
+
+			body, contentType, err := requestGeneric(cmd.Context(), options, spec, derefValues(values))
+			if err != nil {
+				return err
+			}
+			if strings.HasSuffix(spec.Endpoint, ".json") {
+				return writeRawJSON(options.out, body)
+			}
+			if options.output == outputRaw {
+				_, err := options.out.Write(body)
+				return err
+			}
+			return writeBinaryJSON(options.out, spec, contentType, body)
+		},
+	}
+
+	for _, param := range spec.Params {
+		name := param.Name
+		description := param.Description
+		value := ""
+		values[name] = &value
+		cmd.Flags().StringVar(values[name], flagName(name), "", description)
+	}
+	return cmd
+}
+
+func derefValues(values map[string]*string) map[string]string {
+	result := make(map[string]string, len(values))
+	for name, value := range values {
+		if value != nil {
+			result[name] = *value
+		}
+	}
+	return result
+}
+
+func flagName(name string) string {
+	return strings.ReplaceAll(name, "_", "-")
+}
+
+func groupDescription(group string) string {
+	switch group {
+	case "disclosure":
+		return "공시정보 API"
+	case "company":
+		return "정기보고서 주요정보 API"
+	case "financial":
+		return "정기보고서 재무정보 API"
+	case "ownership":
+		return "지분공시 종합정보 API"
+	case "material":
+		return "주요사항보고서 주요정보 API"
+	case "registration":
+		return "증권신고서 주요정보 API"
+	default:
+		return "OpenDART API"
+	}
+}
