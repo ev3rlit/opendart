@@ -1,0 +1,145 @@
+{
+  "path": {
+    "get": {
+      "operationId": "elestock",
+      "summary": "임원ㆍ주요주주 소유보고",
+      "description": "임원ㆍ주요주주특정증권등 소유상황보고서 내에 임원ㆍ주요주주 소유보고 정보를 제공합니다.",
+      "tags": [
+        "지분공시 종합정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ElestockResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS004&apiId=2019022"
+      },
+      "x-opendart-api-id": "2019022",
+      "x-opendart-group-code": "DS004"
+    }
+  },
+  "components": {
+    "schemas": {
+      "ElestockItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "rcept_dt": {
+            "type": "string",
+            "title": "접수일자",
+            "description": "공시 접수일자(YYYY-MM-DD)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "회사명"
+          },
+          "repror": {
+            "type": "string",
+            "title": "보고자",
+            "description": "보고자명"
+          },
+          "isu_exctv_rgist_at": {
+            "type": "string",
+            "title": "발행 회사 관계 임원(등기여부)",
+            "description": "등기임원, 비등기임원 등"
+          },
+          "isu_exctv_ofcps": {
+            "type": "string",
+            "title": "발행 회사 관계 임원 직위",
+            "description": "대표이사, 이사, 전무 등"
+          },
+          "isu_main_shrholdr": {
+            "type": "string",
+            "title": "발행 회사 관계 주요 주주",
+            "description": "10%이상주주 등"
+          },
+          "sp_stock_lmp_cnt": {
+            "type": "string",
+            "title": "특정 증권 등 소유 수",
+            "description": "9,999,999,999"
+          },
+          "sp_stock_lmp_irds_cnt": {
+            "type": "string",
+            "title": "특정 증권 등 소유 증감 수",
+            "description": "9,999,999,999"
+          },
+          "sp_stock_lmp_rate": {
+            "type": "string",
+            "title": "특정 증권 등 소유 비율",
+            "description": "0.00"
+          },
+          "sp_stock_lmp_irds_rate": {
+            "type": "string",
+            "title": "특정 증권 등 소유 증감 비율",
+            "description": "0.00"
+          }
+        }
+      },
+      "ElestockResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElestockItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

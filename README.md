@@ -70,13 +70,14 @@ OpenDART의 `corp_code`는 DART 공시대상회사 고유번호입니다. KRX �
 
 ## 지원 범위
 
-- SDK typed 전체 API 지원: 공식 인벤토리의 83개 API를 root package typed method로 제공합니다.
+- SDK typed API 지원: 기존 공식 인벤토리의 83개 API를 root package typed method로 제공합니다.
   - 예: `Client.Disclosures(ctx, query)`, `Client.Company(ctx, query)`, `Client.Document(ctx, query)`
   - 예: `Client.CapitalIncreaseDecreaseStatus(ctx, query)`, `Client.CompanyMergerDecision(ctx, query)`
   - 예: `Client.FullFinancialStatement(ctx, query)`, `Client.FinancialStatementXBRL(ctx, query)`
-- CLI 전체 API 지원: `internal/cli/catalog.go` 기준으로 공식 API 전체 command를 제공합니다.
+- CLI API 지원: `internal/cli/catalog.go` 기준으로 기존 공식 API command를 제공합니다.
   - JSON API는 기본적으로 OpenDART 원문 JSON을 stdout에 출력합니다.
   - 파일/XML API는 기본 `json` 출력에서 base64 envelope를 쓰고, `--output raw`일 때 원문 bytes를 stdout에 씁니다.
+- 2026-05-14 기준 공식 개발가이드에는 85개 API가 있으며, OpenAPI index는 `docs/apis/opendart.openapi.json`, 단일 파일 bundle은 `docs/apis/opendart.openapi.bundle.json`, API별 스키마는 `docs/apis/openapi/apis/*.json`에 있습니다.
 - typed method 추적표는 `docs/apis/typed-sdk-checklist.md`에 있습니다.
 
 ## CLI
@@ -115,7 +116,7 @@ API 그룹별 command:
 | `material` | `opendart material cmp-mg-decsn`, `opendart material stk-extr-decsn` |
 | `registration` | `opendart registration equity`, `opendart registration debt` |
 
-공식 API 전체 목록과 CLI 대응표는 `docs/apis/official-inventory.md`에 있습니다.
+공식 API 전체 목록과 CLI 대응표는 `docs/apis/official-inventory.md`에 있고, 공식 응답 필드 기반 OpenAPI 추출물은 `docs/apis/openapi.md`에서 설명합니다.
 
 ## 오류 처리
 

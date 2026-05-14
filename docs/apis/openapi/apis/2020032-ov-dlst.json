@@ -1,0 +1,159 @@
+{
+  "path": {
+    "get": {
+      "operationId": "ovDlst",
+      "summary": "해외 증권시장 주권등 상장폐지",
+      "description": "주요사항보고서(해외 증권시장 주권등 상장폐지) 내에 주요 정보를 제공합니다.",
+      "tags": [
+        "주요사항보고서 주요정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bgn_de",
+          "in": "query",
+          "required": true,
+          "description": "검색시작 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "시작일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "end_de",
+          "in": "query",
+          "required": true,
+          "description": "검색종료 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "종료일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OvDlstResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS005&apiId=2020032"
+      },
+      "x-opendart-api-id": "2020032",
+      "x-opendart-group-code": "DS005"
+    }
+  },
+  "components": {
+    "schemas": {
+      "OvDlstItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "lstex_nt": {
+            "type": "string",
+            "title": "상장거래소 및 소재국가",
+            "description": "상장거래소 및 소재국가"
+          },
+          "dlststk_ostk_cnt": {
+            "type": "string",
+            "title": "상장폐지주식의 종류(보통주식(주))",
+            "description": "9,999,999,999"
+          },
+          "dlststk_estk_cnt": {
+            "type": "string",
+            "title": "상장폐지주식의 종류(기타주식(주))",
+            "description": "9,999,999,999"
+          },
+          "tredd": {
+            "type": "string",
+            "title": "매매거래종료일",
+            "description": "매매거래종료일"
+          },
+          "dlst_rs": {
+            "type": "string",
+            "title": "폐지사유",
+            "description": "폐지사유"
+          },
+          "cfd": {
+            "type": "string",
+            "title": "확인일자",
+            "description": "확인일자"
+          }
+        }
+      },
+      "OvDlstResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OvDlstItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

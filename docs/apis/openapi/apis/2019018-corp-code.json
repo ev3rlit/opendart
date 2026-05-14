@@ -1,0 +1,98 @@
+{
+  "path": {
+    "get": {
+      "operationId": "corpCode",
+      "summary": "고유번호",
+      "description": "DART에 등록되어있는 공시대상회사의 고유번호,회사명,종목코드, 최근변경일자를 파일로 제공합니다.",
+      "tags": [
+        "공시정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019018"
+      },
+      "x-opendart-api-id": "2019018",
+      "x-opendart-group-code": "DS001"
+    }
+  },
+  "components": {
+    "schemas": {
+      "CorpCodeItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리) ※ ZIP File 안에 있는 XML파일 정보"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "정식명칭",
+            "description": "정식회사명칭 ※ ZIP File 안에 있는 XML파일 정보"
+          },
+          "corp_eng_name": {
+            "type": "string",
+            "title": "영문 정식명칭",
+            "description": "영문정식회사명칭 ※ ZIP File 안에 있는 XML파일 정보"
+          },
+          "stock_code": {
+            "type": "string",
+            "title": "종목코드",
+            "description": "상장회사인 경우 주식의 종목코드(6자리) ※ ZIP File 안에 있는 XML파일 정보"
+          },
+          "modify_date": {
+            "type": "string",
+            "title": "최종변경일자",
+            "description": "기업개황정보 최종변경일자(YYYYMMDD) ※ ZIP File 안에 있는 XML파일 정보"
+          }
+        }
+      },
+      "CorpCodeResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CorpCodeItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

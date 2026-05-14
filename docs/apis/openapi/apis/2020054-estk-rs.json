@@ -1,0 +1,571 @@
+{
+  "path": {
+    "get": {
+      "operationId": "estkRs",
+      "summary": "지분증권",
+      "description": "증권신고서(지분증권) 내에 요약 정보를 제공합니다.",
+      "tags": [
+        "증권신고서 주요정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bgn_de",
+          "in": "query",
+          "required": true,
+          "description": "검색시작 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "시작일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "end_de",
+          "in": "query",
+          "required": true,
+          "description": "검색종료 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "종료일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstkRsResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS006&apiId=2020054"
+      },
+      "x-opendart-api-id": "2020054",
+      "x-opendart-group-code": "DS006"
+    }
+  },
+  "components": {
+    "schemas": {
+      "EstkRsGroup1Item": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "sbd": {
+            "type": "string",
+            "title": "청약기일",
+            "description": "청약기일"
+          },
+          "pymd": {
+            "type": "string",
+            "title": "납입기일",
+            "description": "납입기일"
+          },
+          "sband": {
+            "type": "string",
+            "title": "청약공고일",
+            "description": "청약공고일"
+          },
+          "asand": {
+            "type": "string",
+            "title": "배정공고일",
+            "description": "배정공고일"
+          },
+          "asstd": {
+            "type": "string",
+            "title": "배정기준일",
+            "description": "배정기준일"
+          },
+          "exstk": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(행사대상증권)",
+            "description": "신주인수권에 관한 사항(행사대상증권)"
+          },
+          "exprc": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(행사가격)",
+            "description": "9,999,999,999"
+          },
+          "expd": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(행사기간)",
+            "description": "신주인수권에 관한 사항(행사기간)"
+          },
+          "rpt_rcpn": {
+            "type": "string",
+            "title": "주요사항보고서(접수번호)",
+            "description": "주요사항보고서(접수번호)"
+          }
+        }
+      },
+      "EstkRsGroup1": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "일반사항"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EstkRsGroup1Item"
+            }
+          }
+        }
+      },
+      "EstkRsGroup2Item": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "stksen": {
+            "type": "string",
+            "title": "증권의종류",
+            "description": "증권의종류"
+          },
+          "stkcnt": {
+            "type": "string",
+            "title": "증권수량",
+            "description": "9,999,999,999"
+          },
+          "fv": {
+            "type": "string",
+            "title": "액면가액",
+            "description": "9,999,999,999"
+          },
+          "slprc": {
+            "type": "string",
+            "title": "모집(매출)가액",
+            "description": "9,999,999,999"
+          },
+          "slta": {
+            "type": "string",
+            "title": "모집(매출)총액",
+            "description": "9,999,999,999"
+          },
+          "slmthn": {
+            "type": "string",
+            "title": "모집(매출)방법",
+            "description": "모집(매출)방법"
+          }
+        }
+      },
+      "EstkRsGroup2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "증권의종류"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EstkRsGroup2Item"
+            }
+          }
+        }
+      },
+      "EstkRsGroup3Item": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "actsen": {
+            "type": "string",
+            "title": "인수인구분",
+            "description": "인수인구분"
+          },
+          "actnmn": {
+            "type": "string",
+            "title": "인수인명",
+            "description": "인수인명"
+          },
+          "stksen": {
+            "type": "string",
+            "title": "증권의종류",
+            "description": "증권의종류"
+          },
+          "udtcnt": {
+            "type": "string",
+            "title": "인수수량",
+            "description": "9,999,999,999"
+          },
+          "udtamt": {
+            "type": "string",
+            "title": "인수금액",
+            "description": "9,999,999,999"
+          },
+          "udtprc": {
+            "type": "string",
+            "title": "인수대가",
+            "description": "인수대가"
+          },
+          "udtmth": {
+            "type": "string",
+            "title": "인수방법",
+            "description": "인수방법"
+          }
+        }
+      },
+      "EstkRsGroup3": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "인수인정보"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EstkRsGroup3Item"
+            }
+          }
+        }
+      },
+      "EstkRsGroup4Item": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "se": {
+            "type": "string",
+            "title": "구분",
+            "description": "구분"
+          },
+          "amt": {
+            "type": "string",
+            "title": "금액",
+            "description": "9,999,999,999"
+          }
+        }
+      },
+      "EstkRsGroup4": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "자금의사용목적"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EstkRsGroup4Item"
+            }
+          }
+        }
+      },
+      "EstkRsGroup5Item": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "hdr": {
+            "type": "string",
+            "title": "보유자",
+            "description": "보유자"
+          },
+          "rl_cmp": {
+            "type": "string",
+            "title": "회사와의관계",
+            "description": "회사와의관계"
+          },
+          "bfsl_hdstk": {
+            "type": "string",
+            "title": "매출전보유증권수",
+            "description": "9,999,999,999"
+          },
+          "slstk": {
+            "type": "string",
+            "title": "매출증권수",
+            "description": "9,999,999,999"
+          },
+          "atsl_hdstk": {
+            "type": "string",
+            "title": "매출후보유증권수",
+            "description": "9,999,999,999"
+          }
+        }
+      },
+      "EstkRsGroup5": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "매출인에관한사항"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EstkRsGroup5Item"
+            }
+          }
+        }
+      },
+      "EstkRsGroup6Item": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "grtrs": {
+            "type": "string",
+            "title": "부여사유",
+            "description": "부여사유"
+          },
+          "exavivr": {
+            "type": "string",
+            "title": "행사가능 투자자",
+            "description": "행사가능 투자자"
+          },
+          "grtcnt": {
+            "type": "string",
+            "title": "부여수량",
+            "description": "9,999,999,999"
+          },
+          "expd": {
+            "type": "string",
+            "title": "행사기간",
+            "description": "행사기간"
+          },
+          "exprc": {
+            "type": "string",
+            "title": "행사가격",
+            "description": "9,999,999,999"
+          }
+        }
+      },
+      "EstkRsGroup6": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "일반청약자환매청구권"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EstkRsGroup6Item"
+            }
+          }
+        }
+      },
+      "EstkRsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "group": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/EstkRsGroup1"
+                },
+                {
+                  "$ref": "#/components/schemas/EstkRsGroup2"
+                },
+                {
+                  "$ref": "#/components/schemas/EstkRsGroup3"
+                },
+                {
+                  "$ref": "#/components/schemas/EstkRsGroup4"
+                },
+                {
+                  "$ref": "#/components/schemas/EstkRsGroup5"
+                },
+                {
+                  "$ref": "#/components/schemas/EstkRsGroup6"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {
+      "EstkRsResponse": [
+        {
+          "title": "일반사항",
+          "schema": "EstkRsGroup1Item"
+        },
+        {
+          "title": "증권의종류",
+          "schema": "EstkRsGroup2Item"
+        },
+        {
+          "title": "인수인정보",
+          "schema": "EstkRsGroup3Item"
+        },
+        {
+          "title": "자금의사용목적",
+          "schema": "EstkRsGroup4Item"
+        },
+        {
+          "title": "매출인에관한사항",
+          "schema": "EstkRsGroup5Item"
+        },
+        {
+          "title": "일반청약자환매청구권",
+          "schema": "EstkRsGroup6Item"
+        }
+      ]
+    }
+  }
+}

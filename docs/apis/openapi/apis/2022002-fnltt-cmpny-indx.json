@@ -1,0 +1,171 @@
+{
+  "path": {
+    "get": {
+      "operationId": "fnlttCmpnyIndx",
+      "summary": "다중회사 주요 재무지표",
+      "description": "상장법인(유가증권, 코스닥) 및 주요 비상장법인(사업보고서 제출대상 & IFRS 적용)이 제출한 정기보고서 내에 XBRL재무제표의 주요 재무지표를 제공합니다.(대상법인 복수조회 가능)",
+      "tags": [
+        "정기보고서 재무정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bsns_year",
+          "in": "query",
+          "required": true,
+          "description": "사업연도(4자리) ※ 2023년 3분기 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 4
+          },
+          "x-opendart-title": "사업연도",
+          "x-opendart-type": "STRING(4)"
+        },
+        {
+          "name": "reprt_code",
+          "in": "query",
+          "required": true,
+          "description": "1분기보고서 : 11013 반기보고서 : 11012 3분기보고서 : 11014 사업보고서 : 11011",
+          "schema": {
+            "type": "string",
+            "maxLength": 5
+          },
+          "x-opendart-title": "보고서 코드",
+          "x-opendart-type": "STRING(5)"
+        },
+        {
+          "name": "idx_cl_code",
+          "in": "query",
+          "required": true,
+          "description": "수익성지표 : M210000 안정성지표 : M220000 성장성지표 : M230000 활동성지표 : M240000",
+          "schema": {
+            "type": "string",
+            "maxLength": 7
+          },
+          "x-opendart-title": "지표분류코드",
+          "x-opendart-type": "STRING(7)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FnlttCmpnyIndxResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2022002"
+      },
+      "x-opendart-api-id": "2022002",
+      "x-opendart-group-code": "DS003"
+    }
+  },
+  "components": {
+    "schemas": {
+      "FnlttCmpnyIndxItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reprt_code": {
+            "type": "string",
+            "title": "보고서 코드",
+            "description": "1분기보고서 : 11013 반기보고서 : 11012 3분기보고서 : 11014 사업보고서 : 11011"
+          },
+          "bsns_year": {
+            "type": "string",
+            "title": "사업 연도",
+            "description": "2023"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "stock_code": {
+            "type": "string",
+            "title": "종목 코드",
+            "description": "상장회사의 종목코드(6자리)"
+          },
+          "stlm_dt": {
+            "type": "string",
+            "title": "결산기준일",
+            "description": "YYYY-MM-DD"
+          },
+          "idx_cl_code": {
+            "type": "string",
+            "title": "지표분류코드",
+            "description": "수익성지표 : M210000 안정성지표 : M220000 성장성지표 : M230000 활동성지표 : M240000"
+          },
+          "idx_cl_nm": {
+            "type": "string",
+            "title": "지표분류명",
+            "description": "수익성지표,안정성지표,성장성지표,활동성지표"
+          },
+          "idx_code": {
+            "type": "string",
+            "title": "지표코드",
+            "description": "ex) M211000"
+          },
+          "idx_nm": {
+            "type": "string",
+            "title": "지표명",
+            "description": "ex) 영업이익률"
+          },
+          "idx_val": {
+            "type": "string",
+            "title": "지표값",
+            "description": "ex) 0.256"
+          }
+        }
+      },
+      "FnlttCmpnyIndxResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FnlttCmpnyIndxItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

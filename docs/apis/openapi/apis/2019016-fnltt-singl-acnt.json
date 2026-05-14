@@ -1,0 +1,219 @@
+{
+  "path": {
+    "get": {
+      "operationId": "fnlttSinglAcnt",
+      "summary": "단일회사 주요계정",
+      "description": "상장법인(유가증권, 코스닥) 및 주요 비상장법인(사업보고서 제출대상 & IFRS 적용)이 제출한 정기보고서 내에 XBRL재무제표의 주요계정과목(재무상태표, 손익계산서)을 제공합니다.",
+      "tags": [
+        "정기보고서 재무정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bsns_year",
+          "in": "query",
+          "required": true,
+          "description": "사업연도(4자리) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 4
+          },
+          "x-opendart-title": "사업연도",
+          "x-opendart-type": "STRING(4)"
+        },
+        {
+          "name": "reprt_code",
+          "in": "query",
+          "required": true,
+          "description": "1분기보고서 : 11013 반기보고서 : 11012 3분기보고서 : 11014 사업보고서 : 11011",
+          "schema": {
+            "type": "string",
+            "maxLength": 5
+          },
+          "x-opendart-title": "보고서 코드",
+          "x-opendart-type": "STRING(5)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FnlttSinglAcntResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019016"
+      },
+      "x-opendart-api-id": "2019016",
+      "x-opendart-group-code": "DS003"
+    }
+  },
+  "components": {
+    "schemas": {
+      "FnlttSinglAcntItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "bsns_year": {
+            "type": "string",
+            "title": "사업 연도",
+            "description": "2019"
+          },
+          "stock_code": {
+            "type": "string",
+            "title": "종목 코드",
+            "description": "상장회사의 종목코드(6자리)"
+          },
+          "reprt_code": {
+            "type": "string",
+            "title": "보고서 코드",
+            "description": "1분기보고서 : 11013 반기보고서 : 11012 3분기보고서 : 11014 사업보고서 : 11011"
+          },
+          "account_nm": {
+            "type": "string",
+            "title": "계정명",
+            "description": "ex) 자본총계"
+          },
+          "fs_div": {
+            "type": "string",
+            "title": "개별/연결구분",
+            "description": "OFS:재무제표, CFS:연결재무제표"
+          },
+          "fs_nm": {
+            "type": "string",
+            "title": "개별/연결명",
+            "description": "ex) 연결재무제표 또는 재무제표 출력"
+          },
+          "sj_div": {
+            "type": "string",
+            "title": "재무제표구분",
+            "description": "BS:재무상태표, IS:손익계산서"
+          },
+          "sj_nm": {
+            "type": "string",
+            "title": "재무제표명",
+            "description": "ex) 재무상태표 또는 손익계산서 출력"
+          },
+          "thstrm_nm": {
+            "type": "string",
+            "title": "당기명",
+            "description": "ex) 제 13 기 3분기말"
+          },
+          "thstrm_dt": {
+            "type": "string",
+            "title": "당기일자",
+            "description": "ex) 2018.09.30 현재"
+          },
+          "thstrm_amount": {
+            "type": "string",
+            "title": "당기금액",
+            "description": "9,999,999,999"
+          },
+          "thstrm_add_amount": {
+            "type": "string",
+            "title": "당기누적금액",
+            "description": "9,999,999,999"
+          },
+          "frmtrm_nm": {
+            "type": "string",
+            "title": "전기명",
+            "description": "ex) 제 12 기말"
+          },
+          "frmtrm_dt": {
+            "type": "string",
+            "title": "전기일자",
+            "description": "ex) 2017.01.01 ~ 2017.12.31"
+          },
+          "frmtrm_amount": {
+            "type": "string",
+            "title": "전기금액",
+            "description": "9,999,999,999"
+          },
+          "frmtrm_add_amount": {
+            "type": "string",
+            "title": "전기누적금액",
+            "description": "9,999,999,999"
+          },
+          "bfefrmtrm_nm": {
+            "type": "string",
+            "title": "전전기명",
+            "description": "ex) 제 11 기말(※ 사업보고서의 경우에만 출력)"
+          },
+          "bfefrmtrm_dt": {
+            "type": "string",
+            "title": "전전기일자",
+            "description": "ex) 2016.12.31 현재(※ 사업보고서의 경우에만 출력)"
+          },
+          "bfefrmtrm_amount": {
+            "type": "string",
+            "title": "전전기금액",
+            "description": "9,999,999,999(※ 사업보고서의 경우에만 출력)"
+          },
+          "ord": {
+            "type": "string",
+            "title": "계정과목 정렬순서",
+            "description": "계정과목 정렬순서"
+          },
+          "currency": {
+            "type": "string",
+            "title": "통화 단위",
+            "description": "통화 단위"
+          }
+        }
+      },
+      "FnlttSinglAcntResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FnlttSinglAcntItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

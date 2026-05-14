@@ -1,0 +1,354 @@
+{
+  "path": {
+    "get": {
+      "operationId": "bdwtIsDecsn",
+      "summary": "신주인수권부사채권 발행결정",
+      "description": "주요사항보고서(신주인수권부사채권 발행결정) 내에 주요 정보를 제공합니다.",
+      "tags": [
+        "주요사항보고서 주요정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bgn_de",
+          "in": "query",
+          "required": true,
+          "description": "검색시작 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "시작일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "end_de",
+          "in": "query",
+          "required": true,
+          "description": "검색종료 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "종료일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BdwtIsDecsnResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS005&apiId=2020034"
+      },
+      "x-opendart-api-id": "2020034",
+      "x-opendart-group-code": "DS005"
+    }
+  },
+  "components": {
+    "schemas": {
+      "BdwtIsDecsnItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "bd_tm": {
+            "type": "string",
+            "title": "사채의 종류(회차)",
+            "description": "사채의 종류(회차)"
+          },
+          "bd_knd": {
+            "type": "string",
+            "title": "사채의 종류(종류)",
+            "description": "사채의 종류(종류)"
+          },
+          "bd_fta": {
+            "type": "string",
+            "title": "사채의 권면(전자등록)총액 (원)",
+            "description": "9,999,999,999"
+          },
+          "atcsc_rmislmt": {
+            "type": "string",
+            "title": "정관상 잔여 발행한도 (원)",
+            "description": "9,999,999,999 ② 2020년 7월 6일부터 추가됨"
+          },
+          "ovis_fta": {
+            "type": "string",
+            "title": "해외발행(권면(전자등록)총액)",
+            "description": "9,999,999,999"
+          },
+          "ovis_fta_crn": {
+            "type": "string",
+            "title": "해외발행(권면(전자등록)총액(통화단위))",
+            "description": "해외발행(권면(전자등록)총액(통화단위))"
+          },
+          "ovis_ster": {
+            "type": "string",
+            "title": "해외발행(기준환율등)",
+            "description": "해외발행(기준환율등)"
+          },
+          "ovis_isar": {
+            "type": "string",
+            "title": "해외발행(발행지역)",
+            "description": "해외발행(발행지역)"
+          },
+          "ovis_mktnm": {
+            "type": "string",
+            "title": "해외발행(해외상장시 시장의 명칭)",
+            "description": "해외발행(해외상장시 시장의 명칭)"
+          },
+          "fdpp_fclt": {
+            "type": "string",
+            "title": "자금조달의 목적(시설자금 (원))",
+            "description": "9,999,999,999"
+          },
+          "fdpp_bsninh": {
+            "type": "string",
+            "title": "자금조달의 목적(영업양수자금 (원))",
+            "description": "9,999,999,999 ① 2019년 12월 9일부터 추가됨"
+          },
+          "fdpp_op": {
+            "type": "string",
+            "title": "자금조달의 목적(운영자금 (원))",
+            "description": "9,999,999,999"
+          },
+          "fdpp_dtrp": {
+            "type": "string",
+            "title": "자금조달의 목적(채무상환자금 (원))",
+            "description": "9,999,999,999 ① 2019년 12월 9일부터 추가됨"
+          },
+          "fdpp_ocsa": {
+            "type": "string",
+            "title": "자금조달의 목적(타법인 증권 취득자금 (원))",
+            "description": "9,999,999,999"
+          },
+          "fdpp_etc": {
+            "type": "string",
+            "title": "자금조달의 목적(기타자금 (원))",
+            "description": "9,999,999,999"
+          },
+          "bd_intr_ex": {
+            "type": "string",
+            "title": "사채의 이율(표면이자율 (%))",
+            "description": "사채의 이율(표면이자율 (%))"
+          },
+          "bd_intr_sf": {
+            "type": "string",
+            "title": "사채의 이율(만기이자율 (%))",
+            "description": "사채의 이율(만기이자율 (%))"
+          },
+          "bd_mtd": {
+            "type": "string",
+            "title": "사채만기일",
+            "description": "사채만기일"
+          },
+          "bdis_mthn": {
+            "type": "string",
+            "title": "사채발행방법",
+            "description": "사채발행방법"
+          },
+          "ex_rt": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(행사비율 (%))",
+            "description": "신주인수권에 관한 사항(행사비율 (%))"
+          },
+          "ex_prc": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(행사가액 (원/주))",
+            "description": "9,999,999,999"
+          },
+          "ex_prc_dmth": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(행사가액 결정방법)",
+            "description": "신주인수권에 관한 사항(행사가액 결정방법)"
+          },
+          "bdwt_div_atn": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(사채와 인수권의 분리여부)",
+            "description": "신주인수권에 관한 사항(사채와 인수권의 분리여부)"
+          },
+          "nstk_pym_mth": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(신주대금 납입방법)",
+            "description": "신주인수권에 관한 사항(신주대금 납입방법)"
+          },
+          "nstk_isstk_knd": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(신주인수권 행사에 따라 발행할 주식(종류))",
+            "description": "신주인수권에 관한 사항(신주인수권 행사에 따라 발행할 주식(종류))"
+          },
+          "nstk_isstk_cnt": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(신주인수권 행사에 따라 발행할 주식(주식수))",
+            "description": "9,999,999,999"
+          },
+          "nstk_isstk_tisstk_vs": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(신주인수권 행사에 따라 발행할 주식(주식총수 대비 비율(%)))",
+            "description": "신주인수권에 관한 사항(신주인수권 행사에 따라 발행할 주식(주식총수 대비 비율(%)))"
+          },
+          "expd_bgd": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(권리행사기간(시작일))",
+            "description": "신주인수권에 관한 사항(권리행사기간(시작일))"
+          },
+          "expd_edd": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(권리행사기간(종료일))",
+            "description": "신주인수권에 관한 사항(권리행사기간(종료일))"
+          },
+          "act_mktprcfl_cvprc_lwtrsprc": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(시가하락에 따른 행사가액 조정(최저 조정가액 (원)))",
+            "description": "9,999,999,999 ② 2020년 7월 6일부터 추가됨"
+          },
+          "act_mktprcfl_cvprc_lwtrsprc_bs": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(시가하락에 따른 행사가액 조정(최저 조정가액 근거))",
+            "description": "신주인수권에 관한 사항(시가하락에 따른 행사가액 조정(최저 조정가액 근거)) ② 2020년 7월 6일부터 추가됨"
+          },
+          "rmislmt_lt70p": {
+            "type": "string",
+            "title": "신주인수권에 관한 사항(시가하락에 따른 행사가액 조정(발행당시 행사가액의 70% 미만으로 조정가능한 잔여 발행한도 (원)))",
+            "description": "9,999,999,999 ② 2020년 7월 6일부터 추가됨"
+          },
+          "abmg": {
+            "type": "string",
+            "title": "합병 관련 사항",
+            "description": "합병 관련 사항"
+          },
+          "sbd": {
+            "type": "string",
+            "title": "청약일",
+            "description": "청약일"
+          },
+          "pymd": {
+            "type": "string",
+            "title": "납입일",
+            "description": "납입일"
+          },
+          "rpmcmp": {
+            "type": "string",
+            "title": "대표주관회사",
+            "description": "대표주관회사"
+          },
+          "grint": {
+            "type": "string",
+            "title": "보증기관",
+            "description": "보증기관"
+          },
+          "bddd": {
+            "type": "string",
+            "title": "이사회결의일(결정일)",
+            "description": "이사회결의일(결정일)"
+          },
+          "od_a_at_t": {
+            "type": "string",
+            "title": "사외이사 참석여부(참석 (명))",
+            "description": "9,999,999,999"
+          },
+          "od_a_at_b": {
+            "type": "string",
+            "title": "사외이사 참석여부(불참 (명))",
+            "description": "9,999,999,999"
+          },
+          "adt_a_atn": {
+            "type": "string",
+            "title": "감사(감사위원) 참석여부",
+            "description": "감사(감사위원) 참석여부"
+          },
+          "rs_sm_atn": {
+            "type": "string",
+            "title": "증권신고서 제출대상 여부",
+            "description": "증권신고서 제출대상 여부"
+          },
+          "ex_sm_r": {
+            "type": "string",
+            "title": "제출을 면제받은 경우 그 사유",
+            "description": "제출을 면제받은 경우 그 사유"
+          },
+          "ovis_ltdtl": {
+            "type": "string",
+            "title": "당해 사채의 해외발행과 연계된 대차거래 내역",
+            "description": "당해 사채의 해외발행과 연계된 대차거래 내역"
+          },
+          "ftc_stt_atn": {
+            "type": "string",
+            "title": "공정거래위원회 신고대상 여부",
+            "description": "공정거래위원회 신고대상 여부"
+          }
+        }
+      },
+      "BdwtIsDecsnResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BdwtIsDecsnItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

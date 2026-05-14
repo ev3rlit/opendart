@@ -1,0 +1,153 @@
+{
+  "path": {
+    "get": {
+      "operationId": "company",
+      "summary": "기업개황",
+      "description": "DART에 등록되어있는 기업의 개황정보를 제공합니다.",
+      "tags": [
+        "공시정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019002"
+      },
+      "x-opendart-api-id": "2019002",
+      "x-opendart-group-code": "DS001"
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompanyResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "정식명칭",
+            "description": "정식회사명칭"
+          },
+          "corp_name_eng": {
+            "type": "string",
+            "title": "영문명칭",
+            "description": "영문정식회사명칭"
+          },
+          "stock_name": {
+            "type": "string",
+            "title": "종목명(상장사) 또는 약식명칭(기타법인)",
+            "description": "종목명(상장사) 또는 약식명칭(기타법인)"
+          },
+          "stock_code": {
+            "type": "string",
+            "title": "상장회사인 경우 주식의 종목코드",
+            "description": "상장회사의 종목코드(6자리)"
+          },
+          "ceo_nm": {
+            "type": "string",
+            "title": "대표자명",
+            "description": "대표자명"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "jurir_no": {
+            "type": "string",
+            "title": "법인등록번호",
+            "description": "법인등록번호"
+          },
+          "bizr_no": {
+            "type": "string",
+            "title": "사업자등록번호",
+            "description": "사업자등록번호"
+          },
+          "adres": {
+            "type": "string",
+            "title": "주소",
+            "description": "주소"
+          },
+          "hm_url": {
+            "type": "string",
+            "title": "홈페이지",
+            "description": "홈페이지"
+          },
+          "ir_url": {
+            "type": "string",
+            "title": "IR홈페이지",
+            "description": "IR홈페이지"
+          },
+          "phn_no": {
+            "type": "string",
+            "title": "전화번호",
+            "description": "전화번호"
+          },
+          "fax_no": {
+            "type": "string",
+            "title": "팩스번호",
+            "description": "팩스번호"
+          },
+          "induty_code": {
+            "type": "string",
+            "title": "업종코드",
+            "description": "업종코드"
+          },
+          "est_dt": {
+            "type": "string",
+            "title": "설립일(YYYYMMDD)",
+            "description": "설립일(YYYYMMDD)"
+          },
+          "acc_mt": {
+            "type": "string",
+            "title": "결산월(MM)",
+            "description": "결산월(MM)"
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

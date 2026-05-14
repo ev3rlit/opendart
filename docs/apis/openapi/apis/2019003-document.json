@@ -1,0 +1,74 @@
+{
+  "path": {
+    "get": {
+      "operationId": "document",
+      "summary": "공시서류원본파일",
+      "description": "공시보고서 원본파일을 제공합니다.",
+      "tags": [
+        "공시정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "rcept_no",
+          "in": "query",
+          "required": true,
+          "description": "접수번호",
+          "schema": {
+            "type": "string",
+            "maxLength": 14
+          },
+          "x-opendart-title": "접수번호",
+          "x-opendart-type": "STRING(14)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019003"
+      },
+      "x-opendart-api-id": "2019003",
+      "x-opendart-group-code": "DS001"
+    }
+  },
+  "components": {
+    "schemas": {
+      "DocumentResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

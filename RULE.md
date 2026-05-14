@@ -9,22 +9,62 @@
 - 필수 값은 명시적인 `Config` struct에 둔다.
 - 선택 값은 `With...` option으로 추가한다.
 - 내부 HTTP 호출은 `resty`를 사용한다.
+- HTTP client 직접 구현보다 `github.com/go-resty/resty`의 client, request, response API를 우선 사용한다.
 - I/O를 수행하는 공개 메서드는 첫 인자로 `context.Context`를 받는다.
 - 공개 타입과 메서드는 Go doc comment를 작성한다.
 - 불필요한 `any`, `interface{}`, broad catch, silent fallback을 피한다.
 
 ## Error Handling
 
+- 직접 작성하는 Go 코드는 error 생성, wrapping, joining에 `github.com/samber/oops`를 사용한다.
+- 새 error를 만들 때 `fmt.Errorf`, `errors.New`, `errors.Join`을 사용하지 않는다.
+- error 판별을 위한 `errors.Is`, `errors.As`는 사용할 수 있다.
+- 생성 코드는 이 규칙에서 제외한다. 생성 코드는 다시 생성될 수 있으므로 직접 수정하지 않는다.
+- 새 error는 `oops.New` 또는 `oops.Errorf`를 사용한다.
+- 하위 레이어 error를 원인으로 보존해야 할 때는 `Wrap` 또는 `Wrapf`를 사용한다.
+- cleanup 과정에서 여러 error를 보존해야 할 때는 `oops.Join`을 사용한다.
+- 같은 함수 안에서 domain과 context가 반복되면 재사용 가능한 builder를 먼저 만든다.
+- builder는 `.New`, `.Errorf`, `.Wrap`, `.Wrapf`, `.Join`, `.Recover`, `.Recoverf` 같은 종료 메서드로 끝낸다.
 - HTTP status error, JSON/XML/ZIP decode error, OpenDART business error를 구분한다.
 - OpenDART 응답의 `status`와 `message`는 손실 없이 보존한다.
 - decode 실패를 성공처럼 처리하지 않는다.
 - secret, 인증키, 원문 credential은 error string, log, test fixture에 남기지 않는다.
 
+예시:
+
+```go
+errb := oops.
+	In("corp_codes").
+	With(
+		"endpoint", "/api/corpCode.xml",
+		"format", "xml.zip",
+	)
+
+resp, err := client.resty.R().
+	SetContext(ctx).
+	SetQueryParam("crtfc_key", client.apiKey).
+	Get("/api/corpCode.xml")
+if err != nil {
+	return nil, errb.Wrap(err)
+}
+```
+
 ## Tests
 
 - 기본 테스트는 offline fake HTTP server 기반으로 작성한다.
-- 테스트 도구는 `testing`과 `github.com/stretchr/testify`를 사용한다.
-- `require`는 후속 검증이 의미 없어지는 조건에 사용하고, `assert`는 독립 필드 검증에 사용한다.
+- 단위 테스트에서는 `testing`과 `github.com/stretchr/testify`를 적극적으로 사용한다.
+- 실패 시 이후 검증이 의미 없으면 `require`를 우선하고, 같은 상태에서 여러 값을 함께 확인할 때는 `assert`를 사용할 수 있다.
+- 테스트 helper는 실패를 숨기지 않는다.
+- helper 안에서 테스트를 중단해야 한다면 `t.Helper()`와 `require`로 실패 위치를 호출자 기준으로 드러낸다.
+- 기본 `go test ./...`는 빠르고 재현 가능한 단위 테스트와 가벼운 통합 테스트를 대상으로 한다.
+- 실제 외부 API 호출이나 사용자의 로컬 환경에 강하게 묶인 테스트는 기본 경로에 넣지 않는다.
+- 단위 테스트는 함수, 메서드, 작은 패키지 단위를 검증한다.
+- 외부 의존성은 interface fake, stub, fake HTTP transport, `httptest`로 대체한다.
+- 통합 테스트는 repository와 SQLite, service와 provider adapter, provider client와 `httptest.Server`처럼 여러 컴포넌트의 연결을 검증한다.
+- 재현 가능하고 빠른 통합 테스트는 기본 테스트에 포함할 수 있다.
+- 빌드된 CLI 실행, 외부 프로세스, 실제 DB 서버, 실제 provider API처럼 느리거나 환경 의존성이 큰 검증은 `integration` 또는 `e2e` build tag로 분리한다.
+- e2e 테스트는 사용자가 만나는 경계에서 검증한다.
+- CLI는 `os/exec`로 바이너리를 실행해 exit code, stdout, stderr, output shape를 확인한다.
 - live OpenDART 호출은 기본 `go test ./...`에 포함하지 않는다.
 - live/e2e가 필요하면 `//go:build e2e`와 secret 기반 optional workflow로 분리한다.
 
@@ -57,4 +97,3 @@ git diff --check
 go test -race ./...
 go vet ./...
 ```
-

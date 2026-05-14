@@ -1,0 +1,354 @@
+{
+  "path": {
+    "get": {
+      "operationId": "cmpDvDecsn",
+      "summary": "회사분할 결정",
+      "description": "주요사항보고서(회사분할 결정) 내에 주요 정보를 제공합니다.",
+      "tags": [
+        "주요사항보고서 주요정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bgn_de",
+          "in": "query",
+          "required": true,
+          "description": "검색시작 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "시작일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "end_de",
+          "in": "query",
+          "required": true,
+          "description": "검색종료 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "종료일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CmpDvDecsnResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS005&apiId=2020051"
+      },
+      "x-opendart-api-id": "2020051",
+      "x-opendart-group-code": "DS005"
+    }
+  },
+  "components": {
+    "schemas": {
+      "CmpDvDecsnItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "dv_mth": {
+            "type": "string",
+            "title": "분할방법",
+            "description": "분할방법"
+          },
+          "dv_impef": {
+            "type": "string",
+            "title": "분할의 중요영향 및 효과",
+            "description": "분할의 중요영향 및 효과"
+          },
+          "dv_rt": {
+            "type": "string",
+            "title": "분할비율",
+            "description": "분할비율"
+          },
+          "dv_trfbsnprt_cn": {
+            "type": "string",
+            "title": "분할로 이전할 사업 및 재산의 내용",
+            "description": "분할로 이전할 사업 및 재산의 내용"
+          },
+          "atdv_excmp_cmpnm": {
+            "type": "string",
+            "title": "분할 후 존속회사(회사명)",
+            "description": "분할 후 존속회사(회사명)"
+          },
+          "atdvfdtl_tast": {
+            "type": "string",
+            "title": "분할 후 존속회사(분할후 재무내용(원)(자산총계))",
+            "description": "9,999,999,999"
+          },
+          "atdvfdtl_tdbt": {
+            "type": "string",
+            "title": "분할 후 존속회사(분할후 재무내용(원)(부채총계))",
+            "description": "9,999,999,999"
+          },
+          "atdvfdtl_teqt": {
+            "type": "string",
+            "title": "분할 후 존속회사(분할후 재무내용(원)(자본총계))",
+            "description": "9,999,999,999"
+          },
+          "atdvfdtl_cpt": {
+            "type": "string",
+            "title": "분할 후 존속회사(분할후 재무내용(원)(자본금))",
+            "description": "9,999,999,999"
+          },
+          "atdvfdtl_std": {
+            "type": "string",
+            "title": "분할 후 존속회사(분할후 재무내용(원)(현재기준))",
+            "description": "분할 후 존속회사(분할후 재무내용(원)(현재기준))"
+          },
+          "atdv_excmp_exbsn_rsl": {
+            "type": "string",
+            "title": "분할 후 존속회사(존속사업부문 최근 사업연도매출액(원))",
+            "description": "9,999,999,999"
+          },
+          "atdv_excmp_mbsn": {
+            "type": "string",
+            "title": "분할 후 존속회사(주요사업)",
+            "description": "분할 후 존속회사(주요사업)"
+          },
+          "atdv_excmp_atdv_lstmn_atn": {
+            "type": "string",
+            "title": "분할 후 존속회사(분할 후 상장유지 여부)",
+            "description": "분할 후 존속회사(분할 후 상장유지 여부)"
+          },
+          "dvfcmp_cmpnm": {
+            "type": "string",
+            "title": "분할설립회사(회사명)",
+            "description": "분할설립회사(회사명)"
+          },
+          "ffdtl_tast": {
+            "type": "string",
+            "title": "분할설립회사(설립시 재무내용(원)(자산총계))",
+            "description": "9,999,999,999"
+          },
+          "ffdtl_tdbt": {
+            "type": "string",
+            "title": "분할설립회사(설립시 재무내용(원)(부채총계))",
+            "description": "9,999,999,999"
+          },
+          "ffdtl_teqt": {
+            "type": "string",
+            "title": "분할설립회사(설립시 재무내용(원)(자본총계))",
+            "description": "9,999,999,999"
+          },
+          "ffdtl_cpt": {
+            "type": "string",
+            "title": "분할설립회사(설립시 재무내용(원)(자본금))",
+            "description": "9,999,999,999"
+          },
+          "ffdtl_std": {
+            "type": "string",
+            "title": "분할설립회사(설립시 재무내용(원)(현재기준))",
+            "description": "분할설립회사(설립시 재무내용(원)(현재기준))"
+          },
+          "dvfcmp_nbsn_rsl": {
+            "type": "string",
+            "title": "분할설립회사(신설사업부문 최근 사업연도 매출액(원))",
+            "description": "9,999,999,999"
+          },
+          "dvfcmp_mbsn": {
+            "type": "string",
+            "title": "분할설립회사(주요사업)",
+            "description": "분할설립회사(주요사업)"
+          },
+          "dvfcmp_rlst_atn": {
+            "type": "string",
+            "title": "분할설립회사(재상장신청 여부)",
+            "description": "분할설립회사(재상장신청 여부)"
+          },
+          "abcr_crrt": {
+            "type": "string",
+            "title": "감자에 관한 사항(감자비율(%))",
+            "description": "감자에 관한 사항(감자비율(%))"
+          },
+          "abcr_osprpd_bgd": {
+            "type": "string",
+            "title": "감자에 관한 사항(구주권 제출기간(시작일))",
+            "description": "감자에 관한 사항(구주권 제출기간(시작일))"
+          },
+          "abcr_osprpd_edd": {
+            "type": "string",
+            "title": "감자에 관한 사항(구주권 제출기간(종료일))",
+            "description": "감자에 관한 사항(구주권 제출기간(종료일))"
+          },
+          "abcr_trspprpd_bgd": {
+            "type": "string",
+            "title": "감자에 관한 사항(매매거래정지 예정기간(시작일))",
+            "description": "감자에 관한 사항(매매거래정지 예정기간(시작일))"
+          },
+          "abcr_trspprpd_edd": {
+            "type": "string",
+            "title": "감자에 관한 사항(매매거래정지 예정기간(종료일))",
+            "description": "감자에 관한 사항(매매거래정지 예정기간(종료일))"
+          },
+          "abcr_nstkascnd": {
+            "type": "string",
+            "title": "감자에 관한 사항(신주배정조건)",
+            "description": "감자에 관한 사항(신주배정조건)"
+          },
+          "abcr_shstkcnt_rt_at_rs": {
+            "type": "string",
+            "title": "감자에 관한 사항(주주 주식수 비례여부 및 사유)",
+            "description": "감자에 관한 사항(주주 주식수 비례여부 및 사유)"
+          },
+          "abcr_nstkasstd": {
+            "type": "string",
+            "title": "감자에 관한 사항(신주배정기준일)",
+            "description": "감자에 관한 사항(신주배정기준일)"
+          },
+          "abcr_nstkdlprd": {
+            "type": "string",
+            "title": "감자에 관한 사항(신주권교부예정일)",
+            "description": "감자에 관한 사항(신주권교부예정일)"
+          },
+          "abcr_nstklstprd": {
+            "type": "string",
+            "title": "감자에 관한 사항(신주의 상장예정일)",
+            "description": "감자에 관한 사항(신주의 상장예정일)"
+          },
+          "gmtsck_prd": {
+            "type": "string",
+            "title": "주주총회 예정일",
+            "description": "주주총회 예정일"
+          },
+          "cdobprpd_bgd": {
+            "type": "string",
+            "title": "채권자 이의제출기간(시작일)",
+            "description": "채권자 이의제출기간(시작일)"
+          },
+          "cdobprpd_edd": {
+            "type": "string",
+            "title": "채권자 이의제출기간(종료일)",
+            "description": "채권자 이의제출기간(종료일)"
+          },
+          "dvdt": {
+            "type": "string",
+            "title": "분할기일",
+            "description": "분할기일"
+          },
+          "dvrgsprd": {
+            "type": "string",
+            "title": "분할등기 예정일",
+            "description": "분할등기 예정일"
+          },
+          "bddd": {
+            "type": "string",
+            "title": "이사회결의일(결정일)",
+            "description": "이사회결의일(결정일)"
+          },
+          "od_a_at_t": {
+            "type": "string",
+            "title": "사외이사참석여부(참석(명))",
+            "description": "9,999,999,999"
+          },
+          "od_a_at_b": {
+            "type": "string",
+            "title": "사외이사참석여부(불참(명))",
+            "description": "9,999,999,999"
+          },
+          "adt_a_atn": {
+            "type": "string",
+            "title": "감사(사외이사가 아닌 감사위원) 참석여부",
+            "description": "감사(사외이사가 아닌 감사위원) 참석여부"
+          },
+          "popt_ctr_atn": {
+            "type": "string",
+            "title": "풋옵션 등 계약 체결여부",
+            "description": "풋옵션 등 계약 체결여부"
+          },
+          "popt_ctr_cn": {
+            "type": "string",
+            "title": "계약내용",
+            "description": "계약내용"
+          },
+          "rs_sm_atn": {
+            "type": "string",
+            "title": "증권신고서 제출대상 여부",
+            "description": "증권신고서 제출대상 여부"
+          },
+          "ex_sm_r": {
+            "type": "string",
+            "title": "제출을 면제받은 경우 그 사유",
+            "description": "제출을 면제받은 경우 그 사유"
+          }
+        }
+      },
+      "CmpDvDecsnResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CmpDvDecsnItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

@@ -2,7 +2,7 @@
 
 - 기준 문서: `docs/apis/official-inventory.md`
 - 확인 날짜: 2026-05-14
-- 범위: 공식 OpenDART API 83개
+- 범위: 공식 OpenDART API 85개 중 SDK typed method 83개
 - SDK package: `github.com/ev3rlit/opendart`
 
 ## 요약
@@ -10,12 +10,12 @@
 | Group | APIs | SDK typed |
 | --- | ---: | ---: |
 | disclosure | 4 | 4 |
-| company | 28 | 28 |
+| company | 30 | 28 |
 | financial | 7 | 7 |
 | ownership | 2 | 2 |
 | material | 36 | 36 |
 | registration | 6 | 6 |
-| total | 83 | 83 |
+| total | 85 | 83 |
 
 ## 대응표
 
@@ -53,6 +53,8 @@
 | company | 이사·감사 전체의 보수현황(보수지급금액 - 유형별) | `/api/drctrAdtAllMendngSttusMendngPymntamtTyCl.json` | `Client.DirectorAuditorCompensationByType(ctx, query)` |
 | company | 공모자금의 사용내역 | `/api/pssrpCptalUseDtls.json` | `Client.PublicOfferingCapitalUseDetails(ctx, query)` |
 | company | 사모자금의 사용내역 | `/api/prvsrpCptalUseDtls.json` | `Client.PrivatePlacementCapitalUseDetails(ctx, query)` |
+| company | 이사·감사의 개인별 보수현황(5억원 이상) (Ver 2.0) | `/api/hmvAuditIndvdlBySttusV2.json` | 미구현 |
+| company | 개인별 보수지급 금액(5억이상 상위5인) (Ver 2.0) | `/api/indvdlByPayV2.json` | 미구현 |
 | financial | 단일회사 주요계정 | `/api/fnlttSinglAcnt.json` | `Client.FinancialStatement(ctx, query)` |
 | financial | 다중회사 주요계정 | `/api/fnlttMultiAcnt.json` | `Client.MultiCompanyFinancialStatements(ctx, query)` |
 | financial | 재무제표 원본파일(XBRL) | `/api/fnlttXbrl.xml` | `Client.FinancialStatementXBRL(ctx, query)` |

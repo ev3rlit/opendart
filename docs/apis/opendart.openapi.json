@@ -1,0 +1,741 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenDART API",
+    "version": "2026-05-14",
+    "description": "Generated from the official OpenDART development guide HTML tables.",
+    "x-generated-from": [
+      "https://opendart.fss.or.kr/guide/main.do?apiGrpCd=DS001",
+      "https://opendart.fss.or.kr/guide/main.do?apiGrpCd=DS002",
+      "https://opendart.fss.or.kr/guide/main.do?apiGrpCd=DS003",
+      "https://opendart.fss.or.kr/guide/main.do?apiGrpCd=DS004",
+      "https://opendart.fss.or.kr/guide/main.do?apiGrpCd=DS005",
+      "https://opendart.fss.or.kr/guide/main.do?apiGrpCd=DS006"
+    ]
+  },
+  "servers": [
+    {
+      "url": "https://opendart.fss.or.kr"
+    }
+  ],
+  "paths": {
+    "/api/list.json": {
+      "$ref": "./openapi/apis/2019001-list.json#/path"
+    },
+    "/api/company.json": {
+      "$ref": "./openapi/apis/2019002-company.json#/path"
+    },
+    "/api/document.xml": {
+      "$ref": "./openapi/apis/2019003-document.json#/path"
+    },
+    "/api/corpCode.xml": {
+      "$ref": "./openapi/apis/2019018-corp-code.json#/path"
+    },
+    "/api/irdsSttus.json": {
+      "$ref": "./openapi/apis/2019004-irds-sttus.json#/path"
+    },
+    "/api/alotMatter.json": {
+      "$ref": "./openapi/apis/2019005-alot-matter.json#/path"
+    },
+    "/api/tesstkAcqsDspsSttus.json": {
+      "$ref": "./openapi/apis/2019006-tesstk-acqs-dsps-sttus.json#/path"
+    },
+    "/api/hyslrSttus.json": {
+      "$ref": "./openapi/apis/2019007-hyslr-sttus.json#/path"
+    },
+    "/api/hyslrChgSttus.json": {
+      "$ref": "./openapi/apis/2019008-hyslr-chg-sttus.json#/path"
+    },
+    "/api/mrhlSttus.json": {
+      "$ref": "./openapi/apis/2019009-mrhl-sttus.json#/path"
+    },
+    "/api/exctvSttus.json": {
+      "$ref": "./openapi/apis/2019010-exctv-sttus.json#/path"
+    },
+    "/api/empSttus.json": {
+      "$ref": "./openapi/apis/2019011-emp-sttus.json#/path"
+    },
+    "/api/hmvAuditIndvdlBySttus.json": {
+      "$ref": "./openapi/apis/2019012-hmv-audit-indvdl-by-sttus.json#/path"
+    },
+    "/api/hmvAuditAllSttus.json": {
+      "$ref": "./openapi/apis/2019013-hmv-audit-all-sttus.json#/path"
+    },
+    "/api/indvdlByPay.json": {
+      "$ref": "./openapi/apis/2019014-indvdl-by-pay.json#/path"
+    },
+    "/api/otrCprInvstmntSttus.json": {
+      "$ref": "./openapi/apis/2019015-otr-cpr-invstmnt-sttus.json#/path"
+    },
+    "/api/stockTotqySttus.json": {
+      "$ref": "./openapi/apis/2020002-stock-totqy-sttus.json#/path"
+    },
+    "/api/detScritsIsuAcmslt.json": {
+      "$ref": "./openapi/apis/2020003-det-scrits-isu-acmslt.json#/path"
+    },
+    "/api/entrprsBilScritsNrdmpBlce.json": {
+      "$ref": "./openapi/apis/2020004-entrprs-bil-scrits-nrdmp-blce.json#/path"
+    },
+    "/api/srtpdPsndbtNrdmpBlce.json": {
+      "$ref": "./openapi/apis/2020005-srtpd-psndbt-nrdmp-blce.json#/path"
+    },
+    "/api/cprndNrdmpBlce.json": {
+      "$ref": "./openapi/apis/2020006-cprnd-nrdmp-blce.json#/path"
+    },
+    "/api/newCaplScritsNrdmpBlce.json": {
+      "$ref": "./openapi/apis/2020007-new-capl-scrits-nrdmp-blce.json#/path"
+    },
+    "/api/cndlCaplScritsNrdmpBlce.json": {
+      "$ref": "./openapi/apis/2020008-cndl-capl-scrits-nrdmp-blce.json#/path"
+    },
+    "/api/accnutAdtorNmNdAdtOpinion.json": {
+      "$ref": "./openapi/apis/2020009-accnut-adtor-nm-nd-adt-opinion.json#/path"
+    },
+    "/api/adtServcCnclsSttus.json": {
+      "$ref": "./openapi/apis/2020010-adt-servc-cncls-sttus.json#/path"
+    },
+    "/api/accnutAdtorNonAdtServcCnclsSttus.json": {
+      "$ref": "./openapi/apis/2020011-accnut-adtor-non-adt-servc-cncls-sttus.json#/path"
+    },
+    "/api/outcmpnyDrctrNdChangeSttus.json": {
+      "$ref": "./openapi/apis/2020012-outcmpny-drctr-nd-change-sttus.json#/path"
+    },
+    "/api/unrstExctvMendngSttus.json": {
+      "$ref": "./openapi/apis/2020013-unrst-exctv-mendng-sttus.json#/path"
+    },
+    "/api/drctrAdtAllMendngSttusGmtsckConfmAmount.json": {
+      "$ref": "./openapi/apis/2020014-drctr-adt-all-mendng-sttus-gmtsck-confm-amount.json#/path"
+    },
+    "/api/drctrAdtAllMendngSttusMendngPymntamtTyCl.json": {
+      "$ref": "./openapi/apis/2020015-drctr-adt-all-mendng-sttus-mendng-pymntamt-ty-cl.json#/path"
+    },
+    "/api/pssrpCptalUseDtls.json": {
+      "$ref": "./openapi/apis/2020016-pssrp-cptal-use-dtls.json#/path"
+    },
+    "/api/prvsrpCptalUseDtls.json": {
+      "$ref": "./openapi/apis/2020017-prvsrp-cptal-use-dtls.json#/path"
+    },
+    "/api/hmvAuditIndvdlBySttusV2.json": {
+      "$ref": "./openapi/apis/2026001-hmv-audit-indvdl-by-sttus-v2.json#/path"
+    },
+    "/api/indvdlByPayV2.json": {
+      "$ref": "./openapi/apis/2026002-indvdl-by-pay-v2.json#/path"
+    },
+    "/api/fnlttSinglAcnt.json": {
+      "$ref": "./openapi/apis/2019016-fnltt-singl-acnt.json#/path"
+    },
+    "/api/fnlttMultiAcnt.json": {
+      "$ref": "./openapi/apis/2019017-fnltt-multi-acnt.json#/path"
+    },
+    "/api/fnlttXbrl.xml": {
+      "$ref": "./openapi/apis/2019019-fnltt-xbrl.json#/path"
+    },
+    "/api/fnlttSinglAcntAll.json": {
+      "$ref": "./openapi/apis/2019020-fnltt-singl-acnt-all.json#/path"
+    },
+    "/api/xbrlTaxonomy.json": {
+      "$ref": "./openapi/apis/2020001-xbrl-taxonomy.json#/path"
+    },
+    "/api/fnlttSinglIndx.json": {
+      "$ref": "./openapi/apis/2022001-fnltt-singl-indx.json#/path"
+    },
+    "/api/fnlttCmpnyIndx.json": {
+      "$ref": "./openapi/apis/2022002-fnltt-cmpny-indx.json#/path"
+    },
+    "/api/majorstock.json": {
+      "$ref": "./openapi/apis/2019021-majorstock.json#/path"
+    },
+    "/api/elestock.json": {
+      "$ref": "./openapi/apis/2019022-elestock.json#/path"
+    },
+    "/api/astInhtrfEtcPtbkOpt.json": {
+      "$ref": "./openapi/apis/2020018-ast-inhtrf-etc-ptbk-opt.json#/path"
+    },
+    "/api/dfOcr.json": {
+      "$ref": "./openapi/apis/2020019-df-ocr.json#/path"
+    },
+    "/api/bsnSp.json": {
+      "$ref": "./openapi/apis/2020020-bsn-sp.json#/path"
+    },
+    "/api/ctrcvsBgrq.json": {
+      "$ref": "./openapi/apis/2020021-ctrcvs-bgrq.json#/path"
+    },
+    "/api/dsRsOcr.json": {
+      "$ref": "./openapi/apis/2020022-ds-rs-ocr.json#/path"
+    },
+    "/api/piicDecsn.json": {
+      "$ref": "./openapi/apis/2020023-piic-decsn.json#/path"
+    },
+    "/api/fricDecsn.json": {
+      "$ref": "./openapi/apis/2020024-fric-decsn.json#/path"
+    },
+    "/api/pifricDecsn.json": {
+      "$ref": "./openapi/apis/2020025-pifric-decsn.json#/path"
+    },
+    "/api/crDecsn.json": {
+      "$ref": "./openapi/apis/2020026-cr-decsn.json#/path"
+    },
+    "/api/bnkMngtPcbg.json": {
+      "$ref": "./openapi/apis/2020027-bnk-mngt-pcbg.json#/path"
+    },
+    "/api/lwstLg.json": {
+      "$ref": "./openapi/apis/2020028-lwst-lg.json#/path"
+    },
+    "/api/ovLstDecsn.json": {
+      "$ref": "./openapi/apis/2020029-ov-lst-decsn.json#/path"
+    },
+    "/api/ovDlstDecsn.json": {
+      "$ref": "./openapi/apis/2020030-ov-dlst-decsn.json#/path"
+    },
+    "/api/ovLst.json": {
+      "$ref": "./openapi/apis/2020031-ov-lst.json#/path"
+    },
+    "/api/ovDlst.json": {
+      "$ref": "./openapi/apis/2020032-ov-dlst.json#/path"
+    },
+    "/api/cvbdIsDecsn.json": {
+      "$ref": "./openapi/apis/2020033-cvbd-is-decsn.json#/path"
+    },
+    "/api/bdwtIsDecsn.json": {
+      "$ref": "./openapi/apis/2020034-bdwt-is-decsn.json#/path"
+    },
+    "/api/exbdIsDecsn.json": {
+      "$ref": "./openapi/apis/2020035-exbd-is-decsn.json#/path"
+    },
+    "/api/bnkMngtPcsp.json": {
+      "$ref": "./openapi/apis/2020036-bnk-mngt-pcsp.json#/path"
+    },
+    "/api/wdCocobdIsDecsn.json": {
+      "$ref": "./openapi/apis/2020037-wd-cocobd-is-decsn.json#/path"
+    },
+    "/api/tsstkAqDecsn.json": {
+      "$ref": "./openapi/apis/2020038-tsstk-aq-decsn.json#/path"
+    },
+    "/api/tsstkDpDecsn.json": {
+      "$ref": "./openapi/apis/2020039-tsstk-dp-decsn.json#/path"
+    },
+    "/api/tsstkAqTrctrCnsDecsn.json": {
+      "$ref": "./openapi/apis/2020040-tsstk-aq-trctr-cns-decsn.json#/path"
+    },
+    "/api/tsstkAqTrctrCcDecsn.json": {
+      "$ref": "./openapi/apis/2020041-tsstk-aq-trctr-cc-decsn.json#/path"
+    },
+    "/api/bsnInhDecsn.json": {
+      "$ref": "./openapi/apis/2020042-bsn-inh-decsn.json#/path"
+    },
+    "/api/bsnTrfDecsn.json": {
+      "$ref": "./openapi/apis/2020043-bsn-trf-decsn.json#/path"
+    },
+    "/api/tgastInhDecsn.json": {
+      "$ref": "./openapi/apis/2020044-tgast-inh-decsn.json#/path"
+    },
+    "/api/tgastTrfDecsn.json": {
+      "$ref": "./openapi/apis/2020045-tgast-trf-decsn.json#/path"
+    },
+    "/api/otcprStkInvscrInhDecsn.json": {
+      "$ref": "./openapi/apis/2020046-otcpr-stk-invscr-inh-decsn.json#/path"
+    },
+    "/api/otcprStkInvscrTrfDecsn.json": {
+      "$ref": "./openapi/apis/2020047-otcpr-stk-invscr-trf-decsn.json#/path"
+    },
+    "/api/stkrtbdInhDecsn.json": {
+      "$ref": "./openapi/apis/2020048-stkrtbd-inh-decsn.json#/path"
+    },
+    "/api/stkrtbdTrfDecsn.json": {
+      "$ref": "./openapi/apis/2020049-stkrtbd-trf-decsn.json#/path"
+    },
+    "/api/cmpMgDecsn.json": {
+      "$ref": "./openapi/apis/2020050-cmp-mg-decsn.json#/path"
+    },
+    "/api/cmpDvDecsn.json": {
+      "$ref": "./openapi/apis/2020051-cmp-dv-decsn.json#/path"
+    },
+    "/api/cmpDvmgDecsn.json": {
+      "$ref": "./openapi/apis/2020052-cmp-dvmg-decsn.json#/path"
+    },
+    "/api/stkExtrDecsn.json": {
+      "$ref": "./openapi/apis/2020053-stk-extr-decsn.json#/path"
+    },
+    "/api/estkRs.json": {
+      "$ref": "./openapi/apis/2020054-estk-rs.json#/path"
+    },
+    "/api/bdRs.json": {
+      "$ref": "./openapi/apis/2020055-bd-rs.json#/path"
+    },
+    "/api/stkdpRs.json": {
+      "$ref": "./openapi/apis/2020056-stkdp-rs.json#/path"
+    },
+    "/api/mgRs.json": {
+      "$ref": "./openapi/apis/2020057-mg-rs.json#/path"
+    },
+    "/api/extrRs.json": {
+      "$ref": "./openapi/apis/2020058-extr-rs.json#/path"
+    },
+    "/api/dvRs.json": {
+      "$ref": "./openapi/apis/2020059-dv-rs.json#/path"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OpenDartApiKey": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "crtfc_key",
+        "description": "OpenDART API 인증키"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "공시정보",
+      "x-opendart-group-code": "DS001"
+    },
+    {
+      "name": "정기보고서 주요정보",
+      "x-opendart-group-code": "DS002"
+    },
+    {
+      "name": "정기보고서 재무정보",
+      "x-opendart-group-code": "DS003"
+    },
+    {
+      "name": "지분공시 종합정보",
+      "x-opendart-group-code": "DS004"
+    },
+    {
+      "name": "주요사항보고서 주요정보",
+      "x-opendart-group-code": "DS005"
+    },
+    {
+      "name": "증권신고서 주요정보",
+      "x-opendart-group-code": "DS006"
+    }
+  ],
+  "x-opendart-split-files": [
+    {
+      "api_id": "2019001",
+      "path": "/api/list.json",
+      "file": "openapi/apis/2019001-list.json"
+    },
+    {
+      "api_id": "2019002",
+      "path": "/api/company.json",
+      "file": "openapi/apis/2019002-company.json"
+    },
+    {
+      "api_id": "2019003",
+      "path": "/api/document.xml",
+      "file": "openapi/apis/2019003-document.json"
+    },
+    {
+      "api_id": "2019018",
+      "path": "/api/corpCode.xml",
+      "file": "openapi/apis/2019018-corp-code.json"
+    },
+    {
+      "api_id": "2019004",
+      "path": "/api/irdsSttus.json",
+      "file": "openapi/apis/2019004-irds-sttus.json"
+    },
+    {
+      "api_id": "2019005",
+      "path": "/api/alotMatter.json",
+      "file": "openapi/apis/2019005-alot-matter.json"
+    },
+    {
+      "api_id": "2019006",
+      "path": "/api/tesstkAcqsDspsSttus.json",
+      "file": "openapi/apis/2019006-tesstk-acqs-dsps-sttus.json"
+    },
+    {
+      "api_id": "2019007",
+      "path": "/api/hyslrSttus.json",
+      "file": "openapi/apis/2019007-hyslr-sttus.json"
+    },
+    {
+      "api_id": "2019008",
+      "path": "/api/hyslrChgSttus.json",
+      "file": "openapi/apis/2019008-hyslr-chg-sttus.json"
+    },
+    {
+      "api_id": "2019009",
+      "path": "/api/mrhlSttus.json",
+      "file": "openapi/apis/2019009-mrhl-sttus.json"
+    },
+    {
+      "api_id": "2019010",
+      "path": "/api/exctvSttus.json",
+      "file": "openapi/apis/2019010-exctv-sttus.json"
+    },
+    {
+      "api_id": "2019011",
+      "path": "/api/empSttus.json",
+      "file": "openapi/apis/2019011-emp-sttus.json"
+    },
+    {
+      "api_id": "2019012",
+      "path": "/api/hmvAuditIndvdlBySttus.json",
+      "file": "openapi/apis/2019012-hmv-audit-indvdl-by-sttus.json"
+    },
+    {
+      "api_id": "2019013",
+      "path": "/api/hmvAuditAllSttus.json",
+      "file": "openapi/apis/2019013-hmv-audit-all-sttus.json"
+    },
+    {
+      "api_id": "2019014",
+      "path": "/api/indvdlByPay.json",
+      "file": "openapi/apis/2019014-indvdl-by-pay.json"
+    },
+    {
+      "api_id": "2019015",
+      "path": "/api/otrCprInvstmntSttus.json",
+      "file": "openapi/apis/2019015-otr-cpr-invstmnt-sttus.json"
+    },
+    {
+      "api_id": "2020002",
+      "path": "/api/stockTotqySttus.json",
+      "file": "openapi/apis/2020002-stock-totqy-sttus.json"
+    },
+    {
+      "api_id": "2020003",
+      "path": "/api/detScritsIsuAcmslt.json",
+      "file": "openapi/apis/2020003-det-scrits-isu-acmslt.json"
+    },
+    {
+      "api_id": "2020004",
+      "path": "/api/entrprsBilScritsNrdmpBlce.json",
+      "file": "openapi/apis/2020004-entrprs-bil-scrits-nrdmp-blce.json"
+    },
+    {
+      "api_id": "2020005",
+      "path": "/api/srtpdPsndbtNrdmpBlce.json",
+      "file": "openapi/apis/2020005-srtpd-psndbt-nrdmp-blce.json"
+    },
+    {
+      "api_id": "2020006",
+      "path": "/api/cprndNrdmpBlce.json",
+      "file": "openapi/apis/2020006-cprnd-nrdmp-blce.json"
+    },
+    {
+      "api_id": "2020007",
+      "path": "/api/newCaplScritsNrdmpBlce.json",
+      "file": "openapi/apis/2020007-new-capl-scrits-nrdmp-blce.json"
+    },
+    {
+      "api_id": "2020008",
+      "path": "/api/cndlCaplScritsNrdmpBlce.json",
+      "file": "openapi/apis/2020008-cndl-capl-scrits-nrdmp-blce.json"
+    },
+    {
+      "api_id": "2020009",
+      "path": "/api/accnutAdtorNmNdAdtOpinion.json",
+      "file": "openapi/apis/2020009-accnut-adtor-nm-nd-adt-opinion.json"
+    },
+    {
+      "api_id": "2020010",
+      "path": "/api/adtServcCnclsSttus.json",
+      "file": "openapi/apis/2020010-adt-servc-cncls-sttus.json"
+    },
+    {
+      "api_id": "2020011",
+      "path": "/api/accnutAdtorNonAdtServcCnclsSttus.json",
+      "file": "openapi/apis/2020011-accnut-adtor-non-adt-servc-cncls-sttus.json"
+    },
+    {
+      "api_id": "2020012",
+      "path": "/api/outcmpnyDrctrNdChangeSttus.json",
+      "file": "openapi/apis/2020012-outcmpny-drctr-nd-change-sttus.json"
+    },
+    {
+      "api_id": "2020013",
+      "path": "/api/unrstExctvMendngSttus.json",
+      "file": "openapi/apis/2020013-unrst-exctv-mendng-sttus.json"
+    },
+    {
+      "api_id": "2020014",
+      "path": "/api/drctrAdtAllMendngSttusGmtsckConfmAmount.json",
+      "file": "openapi/apis/2020014-drctr-adt-all-mendng-sttus-gmtsck-confm-amount.json"
+    },
+    {
+      "api_id": "2020015",
+      "path": "/api/drctrAdtAllMendngSttusMendngPymntamtTyCl.json",
+      "file": "openapi/apis/2020015-drctr-adt-all-mendng-sttus-mendng-pymntamt-ty-cl.json"
+    },
+    {
+      "api_id": "2020016",
+      "path": "/api/pssrpCptalUseDtls.json",
+      "file": "openapi/apis/2020016-pssrp-cptal-use-dtls.json"
+    },
+    {
+      "api_id": "2020017",
+      "path": "/api/prvsrpCptalUseDtls.json",
+      "file": "openapi/apis/2020017-prvsrp-cptal-use-dtls.json"
+    },
+    {
+      "api_id": "2026001",
+      "path": "/api/hmvAuditIndvdlBySttusV2.json",
+      "file": "openapi/apis/2026001-hmv-audit-indvdl-by-sttus-v2.json"
+    },
+    {
+      "api_id": "2026002",
+      "path": "/api/indvdlByPayV2.json",
+      "file": "openapi/apis/2026002-indvdl-by-pay-v2.json"
+    },
+    {
+      "api_id": "2019016",
+      "path": "/api/fnlttSinglAcnt.json",
+      "file": "openapi/apis/2019016-fnltt-singl-acnt.json"
+    },
+    {
+      "api_id": "2019017",
+      "path": "/api/fnlttMultiAcnt.json",
+      "file": "openapi/apis/2019017-fnltt-multi-acnt.json"
+    },
+    {
+      "api_id": "2019019",
+      "path": "/api/fnlttXbrl.xml",
+      "file": "openapi/apis/2019019-fnltt-xbrl.json"
+    },
+    {
+      "api_id": "2019020",
+      "path": "/api/fnlttSinglAcntAll.json",
+      "file": "openapi/apis/2019020-fnltt-singl-acnt-all.json"
+    },
+    {
+      "api_id": "2020001",
+      "path": "/api/xbrlTaxonomy.json",
+      "file": "openapi/apis/2020001-xbrl-taxonomy.json"
+    },
+    {
+      "api_id": "2022001",
+      "path": "/api/fnlttSinglIndx.json",
+      "file": "openapi/apis/2022001-fnltt-singl-indx.json"
+    },
+    {
+      "api_id": "2022002",
+      "path": "/api/fnlttCmpnyIndx.json",
+      "file": "openapi/apis/2022002-fnltt-cmpny-indx.json"
+    },
+    {
+      "api_id": "2019021",
+      "path": "/api/majorstock.json",
+      "file": "openapi/apis/2019021-majorstock.json"
+    },
+    {
+      "api_id": "2019022",
+      "path": "/api/elestock.json",
+      "file": "openapi/apis/2019022-elestock.json"
+    },
+    {
+      "api_id": "2020018",
+      "path": "/api/astInhtrfEtcPtbkOpt.json",
+      "file": "openapi/apis/2020018-ast-inhtrf-etc-ptbk-opt.json"
+    },
+    {
+      "api_id": "2020019",
+      "path": "/api/dfOcr.json",
+      "file": "openapi/apis/2020019-df-ocr.json"
+    },
+    {
+      "api_id": "2020020",
+      "path": "/api/bsnSp.json",
+      "file": "openapi/apis/2020020-bsn-sp.json"
+    },
+    {
+      "api_id": "2020021",
+      "path": "/api/ctrcvsBgrq.json",
+      "file": "openapi/apis/2020021-ctrcvs-bgrq.json"
+    },
+    {
+      "api_id": "2020022",
+      "path": "/api/dsRsOcr.json",
+      "file": "openapi/apis/2020022-ds-rs-ocr.json"
+    },
+    {
+      "api_id": "2020023",
+      "path": "/api/piicDecsn.json",
+      "file": "openapi/apis/2020023-piic-decsn.json"
+    },
+    {
+      "api_id": "2020024",
+      "path": "/api/fricDecsn.json",
+      "file": "openapi/apis/2020024-fric-decsn.json"
+    },
+    {
+      "api_id": "2020025",
+      "path": "/api/pifricDecsn.json",
+      "file": "openapi/apis/2020025-pifric-decsn.json"
+    },
+    {
+      "api_id": "2020026",
+      "path": "/api/crDecsn.json",
+      "file": "openapi/apis/2020026-cr-decsn.json"
+    },
+    {
+      "api_id": "2020027",
+      "path": "/api/bnkMngtPcbg.json",
+      "file": "openapi/apis/2020027-bnk-mngt-pcbg.json"
+    },
+    {
+      "api_id": "2020028",
+      "path": "/api/lwstLg.json",
+      "file": "openapi/apis/2020028-lwst-lg.json"
+    },
+    {
+      "api_id": "2020029",
+      "path": "/api/ovLstDecsn.json",
+      "file": "openapi/apis/2020029-ov-lst-decsn.json"
+    },
+    {
+      "api_id": "2020030",
+      "path": "/api/ovDlstDecsn.json",
+      "file": "openapi/apis/2020030-ov-dlst-decsn.json"
+    },
+    {
+      "api_id": "2020031",
+      "path": "/api/ovLst.json",
+      "file": "openapi/apis/2020031-ov-lst.json"
+    },
+    {
+      "api_id": "2020032",
+      "path": "/api/ovDlst.json",
+      "file": "openapi/apis/2020032-ov-dlst.json"
+    },
+    {
+      "api_id": "2020033",
+      "path": "/api/cvbdIsDecsn.json",
+      "file": "openapi/apis/2020033-cvbd-is-decsn.json"
+    },
+    {
+      "api_id": "2020034",
+      "path": "/api/bdwtIsDecsn.json",
+      "file": "openapi/apis/2020034-bdwt-is-decsn.json"
+    },
+    {
+      "api_id": "2020035",
+      "path": "/api/exbdIsDecsn.json",
+      "file": "openapi/apis/2020035-exbd-is-decsn.json"
+    },
+    {
+      "api_id": "2020036",
+      "path": "/api/bnkMngtPcsp.json",
+      "file": "openapi/apis/2020036-bnk-mngt-pcsp.json"
+    },
+    {
+      "api_id": "2020037",
+      "path": "/api/wdCocobdIsDecsn.json",
+      "file": "openapi/apis/2020037-wd-cocobd-is-decsn.json"
+    },
+    {
+      "api_id": "2020038",
+      "path": "/api/tsstkAqDecsn.json",
+      "file": "openapi/apis/2020038-tsstk-aq-decsn.json"
+    },
+    {
+      "api_id": "2020039",
+      "path": "/api/tsstkDpDecsn.json",
+      "file": "openapi/apis/2020039-tsstk-dp-decsn.json"
+    },
+    {
+      "api_id": "2020040",
+      "path": "/api/tsstkAqTrctrCnsDecsn.json",
+      "file": "openapi/apis/2020040-tsstk-aq-trctr-cns-decsn.json"
+    },
+    {
+      "api_id": "2020041",
+      "path": "/api/tsstkAqTrctrCcDecsn.json",
+      "file": "openapi/apis/2020041-tsstk-aq-trctr-cc-decsn.json"
+    },
+    {
+      "api_id": "2020042",
+      "path": "/api/bsnInhDecsn.json",
+      "file": "openapi/apis/2020042-bsn-inh-decsn.json"
+    },
+    {
+      "api_id": "2020043",
+      "path": "/api/bsnTrfDecsn.json",
+      "file": "openapi/apis/2020043-bsn-trf-decsn.json"
+    },
+    {
+      "api_id": "2020044",
+      "path": "/api/tgastInhDecsn.json",
+      "file": "openapi/apis/2020044-tgast-inh-decsn.json"
+    },
+    {
+      "api_id": "2020045",
+      "path": "/api/tgastTrfDecsn.json",
+      "file": "openapi/apis/2020045-tgast-trf-decsn.json"
+    },
+    {
+      "api_id": "2020046",
+      "path": "/api/otcprStkInvscrInhDecsn.json",
+      "file": "openapi/apis/2020046-otcpr-stk-invscr-inh-decsn.json"
+    },
+    {
+      "api_id": "2020047",
+      "path": "/api/otcprStkInvscrTrfDecsn.json",
+      "file": "openapi/apis/2020047-otcpr-stk-invscr-trf-decsn.json"
+    },
+    {
+      "api_id": "2020048",
+      "path": "/api/stkrtbdInhDecsn.json",
+      "file": "openapi/apis/2020048-stkrtbd-inh-decsn.json"
+    },
+    {
+      "api_id": "2020049",
+      "path": "/api/stkrtbdTrfDecsn.json",
+      "file": "openapi/apis/2020049-stkrtbd-trf-decsn.json"
+    },
+    {
+      "api_id": "2020050",
+      "path": "/api/cmpMgDecsn.json",
+      "file": "openapi/apis/2020050-cmp-mg-decsn.json"
+    },
+    {
+      "api_id": "2020051",
+      "path": "/api/cmpDvDecsn.json",
+      "file": "openapi/apis/2020051-cmp-dv-decsn.json"
+    },
+    {
+      "api_id": "2020052",
+      "path": "/api/cmpDvmgDecsn.json",
+      "file": "openapi/apis/2020052-cmp-dvmg-decsn.json"
+    },
+    {
+      "api_id": "2020053",
+      "path": "/api/stkExtrDecsn.json",
+      "file": "openapi/apis/2020053-stk-extr-decsn.json"
+    },
+    {
+      "api_id": "2020054",
+      "path": "/api/estkRs.json",
+      "file": "openapi/apis/2020054-estk-rs.json"
+    },
+    {
+      "api_id": "2020055",
+      "path": "/api/bdRs.json",
+      "file": "openapi/apis/2020055-bd-rs.json"
+    },
+    {
+      "api_id": "2020056",
+      "path": "/api/stkdpRs.json",
+      "file": "openapi/apis/2020056-stkdp-rs.json"
+    },
+    {
+      "api_id": "2020057",
+      "path": "/api/mgRs.json",
+      "file": "openapi/apis/2020057-mg-rs.json"
+    },
+    {
+      "api_id": "2020058",
+      "path": "/api/extrRs.json",
+      "file": "openapi/apis/2020058-extr-rs.json"
+    },
+    {
+      "api_id": "2020059",
+      "path": "/api/dvRs.json",
+      "file": "openapi/apis/2020059-dv-rs.json"
+    }
+  ]
+}

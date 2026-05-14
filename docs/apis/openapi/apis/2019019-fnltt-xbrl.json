@@ -1,0 +1,86 @@
+{
+  "path": {
+    "get": {
+      "operationId": "fnlttXbrl",
+      "summary": "재무제표 원본파일(XBRL)",
+      "description": "상장법인(유가증권, 코스닥) 및 주요 비상장법인(사업보고서 제출대상 & IFRS 적용)이 제출한 정기보고서 내에 XBRL재무제표의 원본파일(XBRL)을 제공합니다.",
+      "tags": [
+        "정기보고서 재무정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "rcept_no",
+          "in": "query",
+          "required": true,
+          "description": "접수번호 ※ 조회방법 : 공시검색API 호출 > 응답요청 값 rcept_no 추출",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "접수번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "reprt_code",
+          "in": "query",
+          "required": true,
+          "description": "1분기보고서 : 11013 반기보고서 : 11012 3분기보고서 : 11014 사업보고서 : 11011",
+          "schema": {
+            "type": "string",
+            "maxLength": 5
+          },
+          "x-opendart-title": "보고서 코드",
+          "x-opendart-type": "STRING(5)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019019"
+      },
+      "x-opendart-api-id": "2019019",
+      "x-opendart-group-code": "DS003"
+    }
+  },
+  "components": {
+    "schemas": {
+      "FnlttXbrlResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}

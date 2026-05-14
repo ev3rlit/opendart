@@ -1,0 +1,204 @@
+{
+  "path": {
+    "get": {
+      "operationId": "bsnSp",
+      "summary": "영업정지",
+      "description": "주요사항보고서(영업정지) 내에 주요 정보를 제공합니다.",
+      "tags": [
+        "주요사항보고서 주요정보"
+      ],
+      "security": [
+        {
+          "OpenDartApiKey": []
+        }
+      ],
+      "parameters": [
+        {
+          "name": "corp_code",
+          "in": "query",
+          "required": true,
+          "description": "공시대상회사의 고유번호(8자리) ※ 개발가이드 > 공시정보 > 고유번호 참고",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "고유번호",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "bgn_de",
+          "in": "query",
+          "required": true,
+          "description": "검색시작 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "시작일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        },
+        {
+          "name": "end_de",
+          "in": "query",
+          "required": true,
+          "description": "검색종료 접수일자(YYYYMMDD) ※ 2015년 이후 부터 정보제공",
+          "schema": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "x-opendart-title": "종료일(최초접수일)",
+          "x-opendart-type": "STRING(8)"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OpenDART response. Business errors are returned with 200 and status/message fields for JSON APIs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BsnSpResponse"
+              }
+            }
+          }
+        }
+      },
+      "externalDocs": {
+        "url": "https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS005&apiId=2020020"
+      },
+      "x-opendart-api-id": "2020020",
+      "x-opendart-group-code": "DS005"
+    }
+  },
+  "components": {
+    "schemas": {
+      "BsnSpItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rcept_no": {
+            "type": "string",
+            "title": "접수번호",
+            "description": "접수번호(14자리) ※ 공시뷰어 연결에 이용예시 - PC용 : https://dart.fss.or.kr/dsaf001/main.do?rcpNo=접수번호"
+          },
+          "corp_cls": {
+            "type": "string",
+            "title": "법인구분",
+            "description": "법인구분 : Y(유가), K(코스닥), N(코넥스), E(기타)"
+          },
+          "corp_code": {
+            "type": "string",
+            "title": "고유번호",
+            "description": "공시대상회사의 고유번호(8자리)"
+          },
+          "corp_name": {
+            "type": "string",
+            "title": "회사명",
+            "description": "공시대상회사명"
+          },
+          "bsnsp_rm": {
+            "type": "string",
+            "title": "영업정지 분야",
+            "description": "영업정지 분야"
+          },
+          "bsnsp_amt": {
+            "type": "string",
+            "title": "영업정지 내역(영업정지금액)",
+            "description": "9,999,999,999"
+          },
+          "rsl": {
+            "type": "string",
+            "title": "영업정지 내역(최근매출총액)",
+            "description": "9,999,999,999"
+          },
+          "sl_vs": {
+            "type": "string",
+            "title": "영업정지 내역(매출액 대비)",
+            "description": "영업정지 내역(매출액 대비)"
+          },
+          "ls_atn": {
+            "type": "string",
+            "title": "영업정지 내역(대규모법인여부)",
+            "description": "영업정지 내역(대규모법인여부)"
+          },
+          "krx_stt_atn": {
+            "type": "string",
+            "title": "영업정지 내역(거래소 의무공시 해당 여부)",
+            "description": "영업정지 내역(거래소 의무공시 해당 여부)"
+          },
+          "bsnsp_cn": {
+            "type": "string",
+            "title": "영업정지 내용",
+            "description": "영업정지 내용"
+          },
+          "bsnsp_rs": {
+            "type": "string",
+            "title": "영업정지사유",
+            "description": "영업정지사유"
+          },
+          "ft_ctp": {
+            "type": "string",
+            "title": "향후대책",
+            "description": "향후대책"
+          },
+          "bsnsp_af": {
+            "type": "string",
+            "title": "영업정지영향",
+            "description": "영업정지영향"
+          },
+          "bsnspd": {
+            "type": "string",
+            "title": "영업정지일자",
+            "description": "영업정지일자"
+          },
+          "bddd": {
+            "type": "string",
+            "title": "이사회결의일(결정일)",
+            "description": "이사회결의일(결정일)"
+          },
+          "od_a_at_t": {
+            "type": "string",
+            "title": "사외이사 참석여부(참석)",
+            "description": "9,999,999,999"
+          },
+          "od_a_at_b": {
+            "type": "string",
+            "title": "사외이사 참석여부(불참)",
+            "description": "9,999,999,999"
+          },
+          "adt_a_atn": {
+            "type": "string",
+            "title": "감사(감사위원) 참석여부",
+            "description": "감사(감사위원) 참석여부"
+          }
+        }
+      },
+      "BsnSpResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "에러 및 정보 코드",
+            "description": "(※메시지 설명 참조)"
+          },
+          "message": {
+            "type": "string",
+            "title": "에러 및 정보 메시지",
+            "description": "(※메시지 설명 참조)"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BsnSpItem"
+            }
+          }
+        }
+      }
+    },
+    "x-opendart-groups": {}
+  }
+}
