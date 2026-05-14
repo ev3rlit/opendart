@@ -1,10 +1,11 @@
 package opendart
 
 import (
-	"errors"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/samber/oops"
 )
 
 const defaultBaseURL = "https://opendart.fss.or.kr"
@@ -59,7 +60,9 @@ func buildOptions(opts []Option) clientOptions {
 
 func validateConfig(config Config) error {
 	if strings.TrimSpace(config.APIKey) == "" {
-		return errors.New("opendart: APIKey is required")
+		return oops.In("config").
+			With("field", "APIKey").
+			New("opendart: APIKey is required")
 	}
 	return nil
 }

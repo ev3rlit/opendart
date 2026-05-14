@@ -53,6 +53,13 @@ func TestCorpCodesReturnsAPIError(t *testing.T) {
 	require.True(t, errors.As(err, &apiErr))
 	assert.Equal(t, "010", apiErr.Status)
 	assert.Equal(t, "등록되지 않은 키입니다.", apiErr.Message)
+	assertOopsContext(t, err, map[string]any{
+		"method":   "CorpCodes",
+		"endpoint": "/api/corpCode.xml",
+		"op":       "corpCode.xml",
+		"status":   "010",
+		"message":  "등록되지 않은 키입니다.",
+	})
 }
 
 func TestCorpCodesReturnsDecodeError(t *testing.T) {
@@ -70,6 +77,12 @@ func TestCorpCodesReturnsDecodeError(t *testing.T) {
 	var decodeErr *DecodeError
 	require.True(t, errors.As(err, &decodeErr))
 	assert.Equal(t, "corpCode.zip", decodeErr.Op)
+	assertOopsContext(t, err, map[string]any{
+		"method":   "CorpCodes",
+		"endpoint": "/api/corpCode.xml",
+		"op":       "corpCode.zip",
+		"format":   "zip",
+	})
 }
 
 func corpCodeFixture(t *testing.T) []byte {

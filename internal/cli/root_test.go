@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/samber/oops"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -84,6 +85,10 @@ func TestCommandRequiresAPIKeyWithoutLeakingSecret(t *testing.T) {
 	assert.Contains(t, err.Error(), envAPIKey)
 	assert.NotContains(t, err.Error(), "secret")
 	assert.Empty(t, out.String())
+	assertOopsContext(t, err, map[string]any{
+		"flag": "api-key",
+		"env":  envAPIKey,
+	})
 }
 
 func TestGenericCommandValidatesRequiredFlags(t *testing.T) {
@@ -94,6 +99,10 @@ func TestGenericCommandValidatesRequiredFlags(t *testing.T) {
 
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "--corp-code is required")
+	assertOopsContext(t, err, map[string]any{
+		"command": "single-account",
+		"flag":    "corp-code",
+	})
 }
 
 func TestGenericCommandMapsEndpointAndFlags(t *testing.T) {
@@ -230,4 +239,16 @@ func corpCodeFixture(t *testing.T) []byte {
 	require.NoError(t, err)
 	require.NoError(t, zipWriter.Close())
 	return buf.Bytes()
+}
+
+func assertOopsContext(t *testing.T, err error, expected map[string]any) {
+	t.Helper()
+
+	oopsErr, ok := oops.AsOops(err)
+	require.True(t, ok, "expected oops error context")
+
+	context := oopsErr.Context()
+	for key, value := range expected {
+		assert.Equal(t, value, context[key], "oops context %q", key)
+	}
 }

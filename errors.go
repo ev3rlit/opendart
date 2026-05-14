@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/go-resty/resty/v2"
+	"github.com/samber/oops"
 )
 
 // HTTPError reports a non-2xx HTTP response.
@@ -46,15 +47,19 @@ func (err *APIError) Error() string {
 
 // RequestError reports a request failure with secrets redacted.
 type RequestError struct {
-	Op  string
-	Err string
+	Op       string
+	Endpoint string
+	Err      string
 }
 
 func (err *RequestError) Error() string {
+	if err.Endpoint != "" && err.Endpoint != err.Op {
+		return fmt.Sprintf("opendart: request %s endpoint=%s: %s", err.Op, err.Endpoint, err.Err)
+	}
 	return fmt.Sprintf("opendart: request %s: %s", err.Op, err.Err)
 }
 
-func requestError(op string, err error, apiKey string) error {
+func requestError(method string, endpoint string, op string, err error, apiKey string) error {
 	if err == nil {
 		return nil
 	}
@@ -62,18 +67,24 @@ func requestError(op string, err error, apiKey string) error {
 	if strings.TrimSpace(apiKey) != "" {
 		message = strings.ReplaceAll(message, apiKey, "[REDACTED]")
 	}
-	return &RequestError{Op: op, Err: message}
+	requestOp := method
+	if strings.TrimSpace(requestOp) == "" {
+		requestOp = op
+	}
+	return errorBuilder("request", method, endpoint, op).
+		Wrap(&RequestError{Op: requestOp, Endpoint: endpoint, Err: message})
 }
 
-func checkHTTP(resp *resty.Response) error {
+func checkHTTP(resp *resty.Response, method string, endpoint string, op string) error {
 	if resp.IsSuccess() {
 		return nil
 	}
-	return &HTTPError{
-		StatusCode: resp.StatusCode(),
-		Status:     resp.Status(),
-		Body:       string(resp.Body()),
-	}
+	return errorBuilder("http", method, endpoint, op).
+		Wrap(&HTTPError{
+			StatusCode: resp.StatusCode(),
+			Status:     resp.Status(),
+			Body:       string(resp.Body()),
+		})
 }
 
 type statusEnvelope struct {
@@ -81,14 +92,16 @@ type statusEnvelope struct {
 	Message string `json:"message" xml:"message"`
 }
 
-func openDARTError(status, message string) error {
+func openDARTError(status, message string, method string, endpoint string, op string) error {
 	if status == "" || status == "000" {
 		return nil
 	}
-	return &APIError{Status: status, Message: message}
+	return errorBuilder("opendart_api", method, endpoint, op).
+		With("status", status, "message", message).
+		Wrap(&APIError{Status: status, Message: message})
 }
 
-func decodeBusinessError(body []byte) error {
+func decodeBusinessError(body []byte, method string, endpoint string, op string) error {
 	trimmed := strings.TrimSpace(string(body))
 	if trimmed == "" {
 		return nil
@@ -97,14 +110,41 @@ func decodeBusinessError(body []byte) error {
 	var jsonEnvelope statusEnvelope
 	if strings.HasPrefix(trimmed, "{") {
 		if err := json.Unmarshal(body, &jsonEnvelope); err == nil {
-			return openDARTError(jsonEnvelope.Status, jsonEnvelope.Message)
+			return openDARTError(jsonEnvelope.Status, jsonEnvelope.Message, method, endpoint, op)
 		}
 		return nil
 	}
 
 	var xmlEnvelope statusEnvelope
 	if err := xml.Unmarshal(body, &xmlEnvelope); err == nil {
-		return openDARTError(xmlEnvelope.Status, xmlEnvelope.Message)
+		return openDARTError(xmlEnvelope.Status, xmlEnvelope.Message, method, endpoint, op)
 	}
 	return nil
+}
+
+func decodeError(method string, endpoint string, op string, format string, err error) error {
+	if err == nil {
+		return nil
+	}
+	return errorBuilder("decode", method, endpoint, op).
+		With("format", format).
+		Wrap(&DecodeError{Op: op, Err: err})
+}
+
+func errorBuilder(domain string, method string, endpoint string, op string) oops.OopsErrorBuilder {
+	builder := oops.In(domain)
+	attrs := make([]any, 0, 6)
+	if method != "" {
+		attrs = append(attrs, "method", method)
+	}
+	if endpoint != "" {
+		attrs = append(attrs, "endpoint", endpoint)
+	}
+	if op != "" {
+		attrs = append(attrs, "op", op)
+	}
+	if len(attrs) == 0 {
+		return builder
+	}
+	return builder.With(attrs...)
 }

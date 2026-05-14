@@ -5,9 +5,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/xml"
-	"fmt"
 	"io"
 	"strings"
+
+	"github.com/samber/oops"
 )
 
 type corpCodeResult struct {
@@ -23,15 +24,15 @@ func (client *Client) CorpCodes(ctx context.Context) ([]CorpCode, error) {
 		SetQueryParam("crtfc_key", client.apiKey).
 		Get("/api/corpCode.xml")
 	if err != nil {
-		return nil, requestError("/api/corpCode.xml", err, client.apiKey)
+		return nil, requestError("CorpCodes", "/api/corpCode.xml", "corpCode.xml", err, client.apiKey)
 	}
-	if err := checkHTTP(resp); err != nil {
+	if err := checkHTTP(resp, "CorpCodes", "/api/corpCode.xml", "corpCode.xml"); err != nil {
 		return nil, err
 	}
 
 	codes, err := decodeCorpCodeZIP(resp.Body())
 	if err != nil {
-		if apiErr := decodeBusinessError(resp.Body()); apiErr != nil {
+		if apiErr := decodeBusinessError(resp.Body(), "CorpCodes", "/api/corpCode.xml", "corpCode.xml"); apiErr != nil {
 			return nil, apiErr
 		}
 		return nil, err
@@ -42,7 +43,7 @@ func (client *Client) CorpCodes(ctx context.Context) ([]CorpCode, error) {
 func decodeCorpCodeZIP(body []byte) ([]CorpCode, error) {
 	reader, err := zip.NewReader(bytes.NewReader(body), int64(len(body)))
 	if err != nil {
-		return nil, &DecodeError{Op: "corpCode.zip", Err: err}
+		return nil, decodeError("CorpCodes", "/api/corpCode.xml", "corpCode.zip", "zip", err)
 	}
 
 	for _, file := range reader.File {
@@ -52,24 +53,24 @@ func decodeCorpCodeZIP(body []byte) ([]CorpCode, error) {
 
 		xmlFile, err := file.Open()
 		if err != nil {
-			return nil, &DecodeError{Op: "corpCode.zip.open", Err: err}
+			return nil, decodeError("CorpCodes", "/api/corpCode.xml", "corpCode.zip.open", "zip", err)
 		}
 		defer xmlFile.Close()
 
 		data, err := io.ReadAll(xmlFile)
 		if err != nil {
-			return nil, &DecodeError{Op: "corpCode.xml.read", Err: err}
+			return nil, decodeError("CorpCodes", "/api/corpCode.xml", "corpCode.xml.read", "xml", err)
 		}
 
 		var result corpCodeResult
 		if err := xml.Unmarshal(data, &result); err != nil {
-			return nil, &DecodeError{Op: "corpCode.xml", Err: err}
+			return nil, decodeError("CorpCodes", "/api/corpCode.xml", "corpCode.xml", "xml", err)
 		}
-		if err := openDARTError(result.Status, result.Message); err != nil {
+		if err := openDARTError(result.Status, result.Message, "CorpCodes", "/api/corpCode.xml", "corpCode.xml"); err != nil {
 			return nil, err
 		}
 		return result.List, nil
 	}
 
-	return nil, &DecodeError{Op: "corpCode.zip", Err: fmt.Errorf("zip has no XML entries")}
+	return nil, decodeError("CorpCodes", "/api/corpCode.xml", "corpCode.zip", "zip", oops.New("zip has no XML entries"))
 }

@@ -4,133 +4,62 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/samber/oops"
 )
 
-// DisclosureListQuery is the query for the disclosure search API.
-type DisclosureListQuery struct {
-	CorpCode          string
-	BeginDate         string
-	EndDate           string
-	LastReportOnly    string
-	DisclosureType    string
-	DisclosureSubType string
-	CorpClass         string
-	Sort              string
-	SortMethod        string
-	PageNo            int
-	PageCount         int
-}
-
-// CorpCodeQuery is the query for APIs that require only corp_code.
-type CorpCodeQuery struct {
-	CorpCode string
-}
-
-// DocumentQuery is the query for disclosure document file APIs.
-type DocumentQuery struct {
-	ReceiptNo string
-}
-
-// PeriodicReportQuery is the query for periodic report information APIs.
-type PeriodicReportQuery struct {
-	CorpCode     string
-	BusinessYear string
-	ReportCode   ReportCode
-}
-
-// ReceiptReportQuery is the query for receipt-number report file APIs.
-type ReceiptReportQuery struct {
-	ReceiptNo  string
-	ReportCode ReportCode
-}
-
-// FullFinancialStatementQuery is the query for all accounts of one company.
-type FullFinancialStatementQuery struct {
-	CorpCode              string
-	BusinessYear          string
-	ReportCode            ReportCode
-	FinancialStatementDiv FinancialStatementDivision
-}
-
-// TaxonomyQuery is the query for XBRL taxonomy statement forms.
-type TaxonomyQuery struct {
-	StatementDiv StatementDivision
-}
-
-// FinancialIndexQuery is the query for financial index APIs.
-type FinancialIndexQuery struct {
-	CorpCode       string
-	BusinessYear   string
-	ReportCode     ReportCode
-	IndexClassCode string
-}
-
-// MaterialReportQuery is the query for material and registration report APIs.
-type MaterialReportQuery struct {
-	CorpCode  string
-	BeginDate string
-	EndDate   string
-}
-
-// FileResponse contains bytes returned by OpenDART file APIs.
-type FileResponse struct {
-	ContentType string
-	Body        []byte
-}
-
-func getJSON(ctx context.Context, client *Client, endpoint string, params map[string]string, op string, out any) error {
+func getJSON(ctx context.Context, client *Client, endpoint string, params map[string]string, method string, op string, out any) error {
 	resp, err := client.resty.R().
 		SetContext(ctx).
 		SetQueryParams(withAPIKey(client.apiKey, params)).
 		Get(endpoint)
 	if err != nil {
-		return requestError(endpoint, err, client.apiKey)
+		return requestError(method, endpoint, op, err, client.apiKey)
 	}
-	if err := checkHTTP(resp); err != nil {
+	if err := checkHTTP(resp, method, endpoint, op); err != nil {
 		return err
 	}
 
 	body := resp.Body()
 	var envelope statusEnvelope
 	if err := json.Unmarshal(body, &envelope); err != nil {
-		return &DecodeError{Op: op, Err: err}
+		return decodeError(method, endpoint, op, "json", err)
 	}
-	if err := openDARTError(envelope.Status, envelope.Message); err != nil {
+	if err := openDARTError(envelope.Status, envelope.Message, method, endpoint, op); err != nil {
 		return err
 	}
 	if err := json.Unmarshal(body, out); err != nil {
-		return &DecodeError{Op: op, Err: err}
+		return decodeError(method, endpoint, op, "json", err)
 	}
 	return nil
 }
 
-func getList[T any](ctx context.Context, client *Client, endpoint string, params map[string]string, op string) ([]T, error) {
+func getList[T any](ctx context.Context, client *Client, endpoint string, params map[string]string, method string, op string) ([]T, error) {
 	var result struct {
 		Status  string `json:"status"`
 		Message string `json:"message"`
 		List    []T    `json:"list"`
 	}
-	if err := getJSON(ctx, client, endpoint, params, op, &result); err != nil {
+	if err := getJSON(ctx, client, endpoint, params, method, op, &result); err != nil {
 		return nil, err
 	}
 	return result.List, nil
 }
 
-func getFile(ctx context.Context, client *Client, endpoint string, params map[string]string) (*FileResponse, error) {
+func getFile(ctx context.Context, client *Client, endpoint string, params map[string]string, method string, op string) (*FileResponse, error) {
 	resp, err := client.resty.R().
 		SetContext(ctx).
 		SetQueryParams(withAPIKey(client.apiKey, params)).
 		Get(endpoint)
 	if err != nil {
-		return nil, requestError(endpoint, err, client.apiKey)
+		return nil, requestError(method, endpoint, op, err, client.apiKey)
 	}
-	if err := checkHTTP(resp); err != nil {
+	if err := checkHTTP(resp, method, endpoint, op); err != nil {
 		return nil, err
 	}
-	if err := decodeBusinessError(resp.Body()); err != nil {
+	if err := decodeBusinessError(resp.Body(), method, endpoint, op); err != nil {
 		return nil, err
 	}
 	return &FileResponse{ContentType: resp.Header().Get("Content-Type"), Body: resp.Body()}, nil
@@ -170,27 +99,27 @@ func disclosureListParams(query DisclosureListQuery) map[string]string {
 
 func corpCodeParams(query CorpCodeQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.CorpCode) == "" {
-		return nil, errors.New("opendart: CorpCodeQuery.CorpCode is required")
+		return nil, requiredQueryFieldError("CorpCodeQuery", "CorpCode")
 	}
 	return map[string]string{"corp_code": query.CorpCode}, nil
 }
 
 func documentParams(query DocumentQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.ReceiptNo) == "" {
-		return nil, errors.New("opendart: DocumentQuery.ReceiptNo is required")
+		return nil, requiredQueryFieldError("DocumentQuery", "ReceiptNo")
 	}
 	return map[string]string{"rcept_no": query.ReceiptNo}, nil
 }
 
 func periodicReportParams(query PeriodicReportQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.CorpCode) == "" {
-		return nil, errors.New("opendart: PeriodicReportQuery.CorpCode is required")
+		return nil, requiredQueryFieldError("PeriodicReportQuery", "CorpCode")
 	}
 	if strings.TrimSpace(query.BusinessYear) == "" {
-		return nil, errors.New("opendart: PeriodicReportQuery.BusinessYear is required")
+		return nil, requiredQueryFieldError("PeriodicReportQuery", "BusinessYear")
 	}
 	if query.ReportCode == "" {
-		return nil, errors.New("opendart: PeriodicReportQuery.ReportCode is required")
+		return nil, requiredQueryFieldError("PeriodicReportQuery", "ReportCode")
 	}
 	return map[string]string{
 		"corp_code":  query.CorpCode,
@@ -201,10 +130,10 @@ func periodicReportParams(query PeriodicReportQuery) (map[string]string, error) 
 
 func receiptReportParams(query ReceiptReportQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.ReceiptNo) == "" {
-		return nil, errors.New("opendart: ReceiptReportQuery.ReceiptNo is required")
+		return nil, requiredQueryFieldError("ReceiptReportQuery", "ReceiptNo")
 	}
 	if query.ReportCode == "" {
-		return nil, errors.New("opendart: ReceiptReportQuery.ReportCode is required")
+		return nil, requiredQueryFieldError("ReceiptReportQuery", "ReportCode")
 	}
 	return map[string]string{
 		"rcept_no":   query.ReceiptNo,
@@ -214,16 +143,16 @@ func receiptReportParams(query ReceiptReportQuery) (map[string]string, error) {
 
 func fullFinancialStatementParams(query FullFinancialStatementQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.CorpCode) == "" {
-		return nil, errors.New("opendart: FullFinancialStatementQuery.CorpCode is required")
+		return nil, requiredQueryFieldError("FullFinancialStatementQuery", "CorpCode")
 	}
 	if strings.TrimSpace(query.BusinessYear) == "" {
-		return nil, errors.New("opendart: FullFinancialStatementQuery.BusinessYear is required")
+		return nil, requiredQueryFieldError("FullFinancialStatementQuery", "BusinessYear")
 	}
 	if query.ReportCode == "" {
-		return nil, errors.New("opendart: FullFinancialStatementQuery.ReportCode is required")
+		return nil, requiredQueryFieldError("FullFinancialStatementQuery", "ReportCode")
 	}
 	if query.FinancialStatementDiv == "" {
-		return nil, errors.New("opendart: FullFinancialStatementQuery.FinancialStatementDiv is required")
+		return nil, requiredQueryFieldError("FullFinancialStatementQuery", "FinancialStatementDiv")
 	}
 	return map[string]string{
 		"corp_code":  query.CorpCode,
@@ -235,23 +164,23 @@ func fullFinancialStatementParams(query FullFinancialStatementQuery) (map[string
 
 func taxonomyParams(query TaxonomyQuery) (map[string]string, error) {
 	if query.StatementDiv == "" {
-		return nil, errors.New("opendart: TaxonomyQuery.StatementDiv is required")
+		return nil, requiredQueryFieldError("TaxonomyQuery", "StatementDiv")
 	}
 	return map[string]string{"sj_div": string(query.StatementDiv)}, nil
 }
 
 func financialIndexParams(query FinancialIndexQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.CorpCode) == "" {
-		return nil, errors.New("opendart: FinancialIndexQuery.CorpCode is required")
+		return nil, requiredQueryFieldError("FinancialIndexQuery", "CorpCode")
 	}
 	if strings.TrimSpace(query.BusinessYear) == "" {
-		return nil, errors.New("opendart: FinancialIndexQuery.BusinessYear is required")
+		return nil, requiredQueryFieldError("FinancialIndexQuery", "BusinessYear")
 	}
 	if query.ReportCode == "" {
-		return nil, errors.New("opendart: FinancialIndexQuery.ReportCode is required")
+		return nil, requiredQueryFieldError("FinancialIndexQuery", "ReportCode")
 	}
 	if strings.TrimSpace(query.IndexClassCode) == "" {
-		return nil, errors.New("opendart: FinancialIndexQuery.IndexClassCode is required")
+		return nil, requiredQueryFieldError("FinancialIndexQuery", "IndexClassCode")
 	}
 	return map[string]string{
 		"corp_code":   query.CorpCode,
@@ -263,13 +192,13 @@ func financialIndexParams(query FinancialIndexQuery) (map[string]string, error) 
 
 func materialReportParams(query MaterialReportQuery) (map[string]string, error) {
 	if strings.TrimSpace(query.CorpCode) == "" {
-		return nil, errors.New("opendart: MaterialReportQuery.CorpCode is required")
+		return nil, requiredQueryFieldError("MaterialReportQuery", "CorpCode")
 	}
 	if strings.TrimSpace(query.BeginDate) == "" {
-		return nil, errors.New("opendart: MaterialReportQuery.BeginDate is required")
+		return nil, requiredQueryFieldError("MaterialReportQuery", "BeginDate")
 	}
 	if strings.TrimSpace(query.EndDate) == "" {
-		return nil, errors.New("opendart: MaterialReportQuery.EndDate is required")
+		return nil, requiredQueryFieldError("MaterialReportQuery", "EndDate")
 	}
 	return map[string]string{
 		"corp_code": query.CorpCode,
@@ -278,9 +207,57 @@ func materialReportParams(query MaterialReportQuery) (map[string]string, error) 
 	}, nil
 }
 
+type queryFieldError struct {
+	Query string
+	Field string
+}
+
+func (err *queryFieldError) Error() string {
+	return "opendart: " + err.Query + "." + err.Field + " is required"
+}
+
+func requiredQueryFieldError(query string, field string) error {
+	return oops.In("query").
+		With("query", query, "field", field).
+		Wrap(&queryFieldError{Query: query, Field: field})
+}
+
 func requiredQueryError(method string, err error) error {
 	if err == nil {
 		return nil
 	}
-	return fmt.Errorf("opendart: %s query: %w", method, err)
+	builder := oops.In("query").With("method", method)
+	var fieldErr *queryFieldError
+	if errors.As(err, &fieldErr) {
+		builder = builder.With("query", fieldErr.Query, "field", fieldErr.Field)
+	}
+	return builder.Wrapf(err, "opendart: %s query", method)
+}
+
+func getPeriodic[T any](ctx context.Context, client *Client, method string, endpoint string, query PeriodicReportQuery) ([]T, error) {
+	params, err := periodicReportParams(query)
+	if err != nil {
+		return nil, requiredQueryError(method, err)
+	}
+	return getList[T](ctx, client, endpoint, params, method, endpointOp(endpoint))
+}
+
+func getCorpList[T any](ctx context.Context, client *Client, method string, endpoint string, query CorpCodeQuery) ([]T, error) {
+	params, err := corpCodeParams(query)
+	if err != nil {
+		return nil, requiredQueryError(method, err)
+	}
+	return getList[T](ctx, client, endpoint, params, method, endpointOp(endpoint))
+}
+
+func getMaterial[T any](ctx context.Context, client *Client, method string, endpoint string, query MaterialReportQuery) ([]T, error) {
+	params, err := materialReportParams(query)
+	if err != nil {
+		return nil, requiredQueryError(method, err)
+	}
+	return getList[T](ctx, client, endpoint, params, method, endpointOp(endpoint))
+}
+
+func endpointOp(endpoint string) string {
+	return strings.TrimPrefix(endpoint, "/api/")
 }

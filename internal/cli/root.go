@@ -1,11 +1,11 @@
 package cli
 
 import (
-	"fmt"
 	"io"
 	"strings"
 
 	"github.com/ev3rlit/opendart"
+	"github.com/samber/oops"
 	"github.com/spf13/cobra"
 )
 
@@ -46,7 +46,9 @@ func (options *rootOptions) validateOutput() error {
 	case outputJSON, outputRaw:
 		return nil
 	default:
-		return fmt.Errorf("opendart cli: unsupported output %q", options.output)
+		return oops.In("opendart_cli").
+			With("output", options.output).
+			Errorf("opendart cli: unsupported output %q", options.output)
 	}
 }
 
@@ -78,13 +80,13 @@ func newFinancialStatementCommand(options *rootOptions) *cobra.Command {
 		Short: "단일회사 주요계정 재무제표를 조회합니다.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(corpCode) == "" {
-				return fmt.Errorf("opendart cli: --corp-code is required")
+				return requiredFlagError("financial-statement", "corp-code")
 			}
 			if strings.TrimSpace(businessYear) == "" {
-				return fmt.Errorf("opendart cli: --business-year is required")
+				return requiredFlagError("financial-statement", "business-year")
 			}
 			if strings.TrimSpace(reportCode) == "" {
-				return fmt.Errorf("opendart cli: --report-code is required")
+				return requiredFlagError("financial-statement", "report-code")
 			}
 
 			client, err := newSDKClient(options)
@@ -134,7 +136,7 @@ func newGenericAPICommand(options *rootOptions, spec apiSpec) *cobra.Command {
 			for _, param := range spec.Params {
 				value := values[param.Name]
 				if param.Required && (value == nil || strings.TrimSpace(*value) == "") {
-					return fmt.Errorf("opendart cli: --%s is required", flagName(param.Name))
+					return requiredFlagError(spec.Command, flagName(param.Name))
 				}
 			}
 
@@ -161,6 +163,12 @@ func newGenericAPICommand(options *rootOptions, spec apiSpec) *cobra.Command {
 		cmd.Flags().StringVar(values[name], flagName(name), "", description)
 	}
 	return cmd
+}
+
+func requiredFlagError(command string, flag string) error {
+	return oops.In("opendart_cli").
+		With("command", command, "flag", flag).
+		Errorf("opendart cli: --%s is required", flag)
 }
 
 func derefValues(values map[string]*string) map[string]string {

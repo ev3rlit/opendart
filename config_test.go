@@ -11,6 +11,7 @@ func TestNewRequiresAPIKey(t *testing.T) {
 	client, err := New(Config{})
 	require.Error(t, err)
 	assert.Nil(t, client)
+	assertOopsContext(t, err, map[string]any{"field": "APIKey"})
 }
 
 func TestNewTrimsBaseURL(t *testing.T) {

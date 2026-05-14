@@ -3,13 +3,13 @@ package cli
 import (
 	"context"
 	"crypto/tls"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/ev3rlit/opendart"
+	"github.com/samber/oops"
 )
 
 func newSDKClient(options *rootOptions) (*opendart.Client, error) {
@@ -34,7 +34,9 @@ func requestGeneric(ctx context.Context, options *rootOptions, spec apiSpec, val
 	endpoint := strings.TrimLeft(spec.Endpoint, "/")
 	requestURL, err := url.Parse(baseURL + "/" + endpoint)
 	if err != nil {
-		return nil, "", fmt.Errorf("opendart cli: invalid request URL: %w", err)
+		return nil, "", oops.In("opendart_cli").
+			With("endpoint", spec.Endpoint).
+			Wrapf(err, "opendart cli: invalid request URL")
 	}
 
 	query := requestURL.Query()
@@ -48,22 +50,30 @@ func requestGeneric(ctx context.Context, options *rootOptions, spec apiSpec, val
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, requestURL.String(), nil)
 	if err != nil {
-		return nil, "", fmt.Errorf("opendart cli: create request: %w", err)
+		return nil, "", oops.In("opendart_cli").
+			With("endpoint", spec.Endpoint).
+			Wrapf(err, "opendart cli: create request")
 	}
 	req.Header.Set("User-Agent", "github.com/ev3rlit/opendart/cmd/opendart")
 
 	resp, err := openDARTHTTPClient().Do(req)
 	if err != nil {
-		return nil, "", fmt.Errorf("opendart cli: request %s: %s", spec.Endpoint, redactAPIKey(err.Error(), apiKey))
+		return nil, "", oops.In("opendart_cli").
+			With("endpoint", spec.Endpoint).
+			Errorf("opendart cli: request %s: %s", spec.Endpoint, redactAPIKey(err.Error(), apiKey))
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, "", fmt.Errorf("opendart cli: read response: %w", err)
+		return nil, "", oops.In("opendart_cli").
+			With("endpoint", spec.Endpoint).
+			Wrapf(err, "opendart cli: read response")
 	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, "", fmt.Errorf("opendart cli: http error: status=%d %s", resp.StatusCode, resp.Status)
+		return nil, "", oops.In("opendart_cli").
+			With("endpoint", spec.Endpoint, "status_code", resp.StatusCode, "status", resp.Status).
+			Errorf("opendart cli: http error: status=%d %s", resp.StatusCode, resp.Status)
 	}
 	return body, resp.Header.Get("Content-Type"), nil
 }
@@ -135,5 +145,7 @@ func (options *rootOptions) resolvedAPIKey() (string, error) {
 			return apiKey, nil
 		}
 	}
-	return "", fmt.Errorf("opendart cli: --api-key or %s is required", envAPIKey)
+	return "", oops.In("opendart_cli").
+		With("flag", "api-key", "env", envAPIKey).
+		Errorf("opendart cli: --api-key or %s is required", envAPIKey)
 }

@@ -244,6 +244,14 @@ func TestTypedMethodsReturnAPIError(t *testing.T) {
 	var apiErr *APIError
 	require.True(t, errors.As(err, &apiErr))
 	assert.Equal(t, "013", apiErr.Status)
+	assert.Equal(t, "조회된 데이타가 없습니다.", apiErr.Message)
+	assertOopsContext(t, err, map[string]any{
+		"method":   "CompanyMergerDecision",
+		"endpoint": "/api/cmpMgDecsn.json",
+		"op":       "cmpMgDecsn.json",
+		"status":   "013",
+		"message":  "조회된 데이타가 없습니다.",
+	})
 }
 
 func TestRequestErrorRedactsAPIKey(t *testing.T) {
@@ -257,6 +265,15 @@ func TestRequestErrorRedactsAPIKey(t *testing.T) {
 
 	_, err = client.Company(context.Background(), CorpCodeQuery{CorpCode: "00126380"})
 	require.Error(t, err)
+	var requestErr *RequestError
+	require.True(t, errors.As(err, &requestErr))
+	assert.Equal(t, "Company", requestErr.Op)
+	assert.Equal(t, "/api/company.json", requestErr.Endpoint)
 	assert.NotContains(t, err.Error(), "secret-test-key")
 	assert.Contains(t, err.Error(), "[REDACTED]")
+	assertOopsContext(t, err, map[string]any{
+		"method":   "Company",
+		"endpoint": "/api/company.json",
+		"op":       "company.json",
+	})
 }

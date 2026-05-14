@@ -92,6 +92,13 @@ func TestFinancialStatementReturnsAPIError(t *testing.T) {
 	require.True(t, errors.As(err, &apiErr))
 	assert.Equal(t, "013", apiErr.Status)
 	assert.Equal(t, "조회된 데이타가 없습니다.", apiErr.Message)
+	assertOopsContext(t, err, map[string]any{
+		"method":   "FinancialStatement",
+		"endpoint": "/api/fnlttSinglAcnt.json",
+		"op":       "fnlttSinglAcnt.json",
+		"status":   "013",
+		"message":  "조회된 데이타가 없습니다.",
+	})
 }
 
 func TestFinancialStatementReturnsHTTPError(t *testing.T) {
@@ -113,6 +120,39 @@ func TestFinancialStatementReturnsHTTPError(t *testing.T) {
 	var httpErr *HTTPError
 	require.True(t, errors.As(err, &httpErr))
 	assert.Equal(t, http.StatusServiceUnavailable, httpErr.StatusCode)
+	assertOopsContext(t, err, map[string]any{
+		"method":   "FinancialStatement",
+		"endpoint": "/api/fnlttSinglAcnt.json",
+		"op":       "fnlttSinglAcnt.json",
+	})
+}
+
+func TestFinancialStatementReturnsDecodeError(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"status":"000","message":"정상","list":`))
+	}))
+	t.Cleanup(server.Close)
+
+	client, err := New(Config{APIKey: "test-key"}, WithBaseURL(server.URL))
+	require.NoError(t, err)
+
+	_, err = client.FinancialStatement(context.Background(), FinancialStatementQuery{
+		CorpCode:     "00126380",
+		BusinessYear: "2025",
+		ReportCode:   ReportAnnual,
+	})
+	require.Error(t, err)
+
+	var decodeErr *DecodeError
+	require.True(t, errors.As(err, &decodeErr))
+	assert.Equal(t, "fnlttSinglAcnt.json", decodeErr.Op)
+	assertOopsContext(t, err, map[string]any{
+		"method":   "FinancialStatement",
+		"endpoint": "/api/fnlttSinglAcnt.json",
+		"op":       "fnlttSinglAcnt.json",
+		"format":   "json",
+	})
 }
 
 func TestFinancialStatementValidatesQuery(t *testing.T) {
@@ -121,4 +161,11 @@ func TestFinancialStatementValidatesQuery(t *testing.T) {
 
 	_, err = client.FinancialStatement(context.Background(), FinancialStatementQuery{})
 	require.Error(t, err)
+	assert.Contains(t, err.Error(), "FinancialStatement")
+	assert.Contains(t, err.Error(), "FinancialStatementQuery.CorpCode")
+	assertOopsContext(t, err, map[string]any{
+		"method": "FinancialStatement",
+		"query":  "FinancialStatementQuery",
+		"field":  "CorpCode",
+	})
 }

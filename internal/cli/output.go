@@ -3,8 +3,9 @@ package cli
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io"
+
+	"github.com/samber/oops"
 )
 
 func writeJSON(out io.Writer, value any) error {
@@ -15,7 +16,9 @@ func writeJSON(out io.Writer, value any) error {
 
 func writeRawJSON(out io.Writer, body []byte) error {
 	if !json.Valid(body) {
-		return fmt.Errorf("opendart cli: response is not valid JSON")
+		return oops.In("opendart_cli").
+			With("format", "json").
+			New("opendart cli: response is not valid JSON")
 	}
 	if _, err := out.Write(body); err != nil {
 		return err
