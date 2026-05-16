@@ -2,7 +2,8 @@
 
 - 공식 문서: https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS001&apiId=2019018
 - 그룹: 공시정보
-- SDK method: `Client.CorpCodes(ctx)`
+- SDK raw method: `Client.CorpCode(ctx)`
+- Friendly name history: `Client.CorpCodes(ctx)` is preserved in `docs/apis/sdk-names.yaml`.
 
 ## 기본 정보
 
@@ -36,4 +37,3 @@
 ## 주의
 
 `corp_code`는 OpenDART에서 쓰는 8자리 회사 고유번호이고, KRX 단축코드나 종목코드가 아니다. 재무제표 API 호출에는 `stock_code`가 아니라 `corp_code`를 사용한다.
-

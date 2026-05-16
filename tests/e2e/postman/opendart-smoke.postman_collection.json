@@ -1,0 +1,166 @@
+{
+  "info": {
+    "_postman_id": "7b0c3df6-1829-43a0-9f5b-e20dfcf08a18",
+    "name": "OpenDART Live Smoke",
+    "description": "Opt-in live smoke checks for a small JSON subset of the OpenDART API. Requires crtfc_key at run time.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "company.json - company profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/company.json?crtfc_key={{crtfc_key}}&corp_code={{corp_code}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "company.json"
+          ],
+          "query": [
+            {
+              "key": "crtfc_key",
+              "value": "{{crtfc_key}}"
+            },
+            {
+              "key": "corp_code",
+              "value": "{{corp_code}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let body;",
+              "",
+              "pm.test('JSON response is parseable', function () {",
+              "  pm.expect(function () {",
+              "    body = pm.response.json();",
+              "  }).to.not.throw();",
+              "});",
+              "",
+              "pm.test('JSON response has success status', function () {",
+              "  pm.expect(body).to.have.property('status', '000');",
+              "});",
+              "",
+              "pm.test('Company response shape is present', function () {",
+              "  pm.expect(body).to.have.property('message');",
+              "  pm.expect(body).to.have.property('corp_name').that.is.a('string').and.is.not.empty;",
+              "  pm.expect(body).to.have.property('corp_cls').that.is.a('string').and.is.not.empty;",
+              "  pm.expect(body).to.have.property('stock_code').that.is.a('string').and.is.not.empty;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "fnlttSinglAcnt.json - single company account",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/fnlttSinglAcnt.json?crtfc_key={{crtfc_key}}&corp_code={{corp_code}}&bsns_year={{bsns_year}}&reprt_code={{reprt_code}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fnlttSinglAcnt.json"
+          ],
+          "query": [
+            {
+              "key": "crtfc_key",
+              "value": "{{crtfc_key}}"
+            },
+            {
+              "key": "corp_code",
+              "value": "{{corp_code}}"
+            },
+            {
+              "key": "bsns_year",
+              "value": "{{bsns_year}}"
+            },
+            {
+              "key": "reprt_code",
+              "value": "{{reprt_code}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let body;",
+              "",
+              "pm.test('JSON response is parseable', function () {",
+              "  pm.expect(function () {",
+              "    body = pm.response.json();",
+              "  }).to.not.throw();",
+              "});",
+              "",
+              "pm.test('JSON response has success status', function () {",
+              "  pm.expect(body).to.have.property('status', '000');",
+              "});",
+              "",
+              "pm.test('Financial statement response shape is present', function () {",
+              "  pm.expect(body).to.have.property('message');",
+              "  pm.expect(body).to.have.property('list').that.is.an('array').and.is.not.empty;",
+              "  const first = body.list[0];",
+              "  pm.expect(first).to.have.property('rcept_no').that.is.a('string').and.is.not.empty;",
+              "  pm.expect(first).to.have.property('bsns_year').that.is.a('string').and.is.not.empty;",
+              "  pm.expect(first).to.have.property('account_nm').that.is.a('string').and.is.not.empty;",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://opendart.fss.or.kr"
+    },
+    {
+      "key": "corp_code",
+      "value": "00126380"
+    },
+    {
+      "key": "bsns_year",
+      "value": "2025"
+    },
+    {
+      "key": "reprt_code",
+      "value": "11011"
+    }
+  ]
+}

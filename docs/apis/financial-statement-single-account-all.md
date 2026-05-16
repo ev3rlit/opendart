@@ -2,7 +2,8 @@
 
 - 공식 문서: https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019020
 - 그룹: 정기보고서 재무정보
-- SDK 상태: `Client.FullFinancialStatement(ctx, query)` 구현
+- SDK raw method: `Client.FnlttSinglAcntAll(ctx, params)`
+- Friendly name history: `Client.FullFinancialStatement(ctx, query)` is preserved in `docs/apis/sdk-names.yaml`.
 
 ## 기본 정보
 
@@ -23,17 +24,17 @@
 | `reprt_code` | 보고서 코드 | `STRING(5)` | Y | `11013`, `11012`, `11014`, `11011` |
 | `fs_div` | 개별/연결구분 | `STRING(3)` | Y | `OFS` 또는 `CFS` |
 
-## typed constant 후보
+## 코드 값
 
-| code | 의미 | SDK constant |
-| --- | --- | --- |
-| `OFS` | 재무제표, 별도 | `FinancialStatementSeparate` |
-| `CFS` | 연결재무제표 | `FinancialStatementConsolidated` |
-| `BS` | 재무상태표 | `StatementBalanceSheet` |
-| `IS` | 손익계산서 | `StatementIncomeStatement` |
-| `CIS` | 포괄손익계산서 | `StatementComprehensiveIncome` |
-| `CF` | 현금흐름표 | `StatementCashFlow` |
-| `SCE` | 자본변동표 | `StatementChangesInEquity` |
+| code | 의미 |
+| --- | --- |
+| `OFS` | 재무제표, 별도 |
+| `CFS` | 연결재무제표 |
+| `BS` | 재무상태표 |
+| `IS` | 손익계산서 |
+| `CIS` | 포괄손익계산서 |
+| `CF` | 현금흐름표 |
+| `SCE` | 자본변동표 |
 
 ## 응답 필드
 

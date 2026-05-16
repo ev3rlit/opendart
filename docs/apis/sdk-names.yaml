@@ -1,0 +1,504 @@
+# Friendly SDK names live outside the OpenAPI source so operationId values stay
+# traceable to the official OpenDART guide.
+#
+# This file preserves the handwritten root SDK method names that existed
+# before generated raw API methods became the primary public surface.
+apis:
+  list:
+    api_id: "2019001"
+    endpoint: "/api/list.json"
+    official_name: "공시검색"
+    friendly_method: Disclosures
+    source_area: disclosure
+  company:
+    api_id: "2019002"
+    endpoint: "/api/company.json"
+    official_name: "기업개황"
+    friendly_method: Company
+    source_area: disclosure
+  document:
+    api_id: "2019003"
+    endpoint: "/api/document.xml"
+    official_name: "공시서류원본파일"
+    friendly_method: Document
+    source_area: disclosure
+  corpCode:
+    api_id: "2019018"
+    endpoint: "/api/corpCode.xml"
+    official_name: "고유번호"
+    friendly_method: CorpCodes
+    source_area: disclosure
+  irdsSttus:
+    api_id: "2019004"
+    endpoint: "/api/irdsSttus.json"
+    official_name: "증자(감자) 현황"
+    friendly_method: CapitalIncreaseDecreaseStatus
+    source_area: company
+  alotMatter:
+    api_id: "2019005"
+    endpoint: "/api/alotMatter.json"
+    official_name: "배당에 관한 사항"
+    friendly_method: DividendMatters
+    source_area: company
+  tesstkAcqsDspsSttus:
+    api_id: "2019006"
+    endpoint: "/api/tesstkAcqsDspsSttus.json"
+    official_name: "자기주식 취득 및 처분 현황"
+    friendly_method: TreasuryStockAcquisitionDisposalStatus
+    source_area: company
+  hyslrSttus:
+    api_id: "2019007"
+    endpoint: "/api/hyslrSttus.json"
+    official_name: "최대주주 현황"
+    friendly_method: LargestShareholderStatus
+    source_area: company
+  hyslrChgSttus:
+    api_id: "2019008"
+    endpoint: "/api/hyslrChgSttus.json"
+    official_name: "최대주주 변동현황"
+    friendly_method: LargestShareholderChangeStatus
+    source_area: company
+  mrhlSttus:
+    api_id: "2019009"
+    endpoint: "/api/mrhlSttus.json"
+    official_name: "소액주주 현황"
+    friendly_method: MinorityShareholderStatus
+    source_area: company
+  exctvSttus:
+    api_id: "2019010"
+    endpoint: "/api/exctvSttus.json"
+    official_name: "임원 현황"
+    friendly_method: ExecutiveStatus
+    source_area: company
+  empSttus:
+    api_id: "2019011"
+    endpoint: "/api/empSttus.json"
+    official_name: "직원 현황"
+    friendly_method: EmployeeStatus
+    source_area: company
+  hmvAuditIndvdlBySttus:
+    api_id: "2019012"
+    endpoint: "/api/hmvAuditIndvdlBySttus.json"
+    official_name: "이사·감사의 개인별 보수현황"
+    friendly_method: DirectorAuditorIndividualCompensationStatus
+    source_area: company
+  hmvAuditAllSttus:
+    api_id: "2019013"
+    endpoint: "/api/hmvAuditAllSttus.json"
+    official_name: "이사·감사 전체의 보수현황"
+    friendly_method: DirectorAuditorTotalCompensationStatus
+    source_area: company
+  indvdlByPay:
+    api_id: "2019014"
+    endpoint: "/api/indvdlByPay.json"
+    official_name: "개인별 보수지급 금액"
+    friendly_method: IndividualCompensation
+    source_area: company
+  otrCprInvstmntSttus:
+    api_id: "2019015"
+    endpoint: "/api/otrCprInvstmntSttus.json"
+    official_name: "타법인 출자현황"
+    friendly_method: OtherCorporationInvestmentStatus
+    source_area: company
+  stockTotqySttus:
+    api_id: "2020002"
+    endpoint: "/api/stockTotqySttus.json"
+    official_name: "주식의 총수 현황"
+    friendly_method: StockTotalQuantityStatus
+    source_area: company
+  detScritsIsuAcmslt:
+    api_id: "2020003"
+    endpoint: "/api/detScritsIsuAcmslt.json"
+    official_name: "채무증권 발행실적"
+    friendly_method: DebtSecuritiesIssuanceResults
+    source_area: company
+  entrprsBilScritsNrdmpBlce:
+    api_id: "2020004"
+    endpoint: "/api/entrprsBilScritsNrdmpBlce.json"
+    official_name: "기업어음증권 미상환 잔액"
+    friendly_method: CommercialPaperOutstandingBalance
+    source_area: company
+  srtpdPsndbtNrdmpBlce:
+    api_id: "2020005"
+    endpoint: "/api/srtpdPsndbtNrdmpBlce.json"
+    official_name: "단기사채 미상환 잔액"
+    friendly_method: ShortTermBondOutstandingBalance
+    source_area: company
+  cprndNrdmpBlce:
+    api_id: "2020006"
+    endpoint: "/api/cprndNrdmpBlce.json"
+    official_name: "회사채 미상환 잔액"
+    friendly_method: CorporateBondOutstandingBalance
+    source_area: company
+  newCaplScritsNrdmpBlce:
+    api_id: "2020007"
+    endpoint: "/api/newCaplScritsNrdmpBlce.json"
+    official_name: "신종자본증권 미상환 잔액"
+    friendly_method: NewCapitalSecuritiesOutstandingBalance
+    source_area: company
+  cndlCaplScritsNrdmpBlce:
+    api_id: "2020008"
+    endpoint: "/api/cndlCaplScritsNrdmpBlce.json"
+    official_name: "조건부 자본증권 미상환 잔액"
+    friendly_method: ContingentCapitalSecuritiesOutstandingBalance
+    source_area: company
+  accnutAdtorNmNdAdtOpinion:
+    api_id: "2020009"
+    endpoint: "/api/accnutAdtorNmNdAdtOpinion.json"
+    official_name: "회계감사인의 명칭 및 감사의견"
+    friendly_method: AuditorNameAndOpinion
+    source_area: company
+  adtServcCnclsSttus:
+    api_id: "2020010"
+    endpoint: "/api/adtServcCnclsSttus.json"
+    official_name: "감사용역체결현황"
+    friendly_method: AuditServiceContractStatus
+    source_area: company
+  accnutAdtorNonAdtServcCnclsSttus:
+    api_id: "2020011"
+    endpoint: "/api/accnutAdtorNonAdtServcCnclsSttus.json"
+    official_name: "회계감사인과의 비감사용역 계약체결 현황"
+    friendly_method: NonAuditServiceContractStatus
+    source_area: company
+  outcmpnyDrctrNdChangeSttus:
+    api_id: "2020012"
+    endpoint: "/api/outcmpnyDrctrNdChangeSttus.json"
+    official_name: "사외이사 및 그 변동현황"
+    friendly_method: OutsideDirectorChangeStatus
+    source_area: company
+  unrstExctvMendngSttus:
+    api_id: "2020013"
+    endpoint: "/api/unrstExctvMendngSttus.json"
+    official_name: "미등기임원 보수현황"
+    friendly_method: UnregisteredExecutiveCompensationStatus
+    source_area: company
+  drctrAdtAllMendngSttusGmtsckConfmAmount:
+    api_id: "2020014"
+    endpoint: "/api/drctrAdtAllMendngSttusGmtsckConfmAmount.json"
+    official_name: "이사·감사 전체의 보수현황(주주총회 승인금액)"
+    friendly_method: DirectorAuditorShareholderMeetingApprovedAmount
+    source_area: company
+  drctrAdtAllMendngSttusMendngPymntamtTyCl:
+    api_id: "2020015"
+    endpoint: "/api/drctrAdtAllMendngSttusMendngPymntamtTyCl.json"
+    official_name: "이사·감사 전체의 보수현황(보수지급금액 - 유형별)"
+    friendly_method: DirectorAuditorCompensationByType
+    source_area: company
+  pssrpCptalUseDtls:
+    api_id: "2020016"
+    endpoint: "/api/pssrpCptalUseDtls.json"
+    official_name: "공모자금의 사용내역"
+    friendly_method: PublicOfferingCapitalUseDetails
+    source_area: company
+  prvsrpCptalUseDtls:
+    api_id: "2020017"
+    endpoint: "/api/prvsrpCptalUseDtls.json"
+    official_name: "사모자금의 사용내역"
+    friendly_method: PrivatePlacementCapitalUseDetails
+    source_area: company
+  fnlttSinglAcnt:
+    api_id: "2019016"
+    endpoint: "/api/fnlttSinglAcnt.json"
+    official_name: "단일회사 주요계정"
+    friendly_method: FinancialStatement
+    source_area: financial
+  fnlttMultiAcnt:
+    api_id: "2019017"
+    endpoint: "/api/fnlttMultiAcnt.json"
+    official_name: "다중회사 주요계정"
+    friendly_method: MultiCompanyFinancialStatements
+    source_area: financial
+  fnlttXbrl:
+    api_id: "2019019"
+    endpoint: "/api/fnlttXbrl.xml"
+    official_name: "재무제표 원본파일(XBRL)"
+    friendly_method: FinancialStatementXBRL
+    source_area: financial
+  fnlttSinglAcntAll:
+    api_id: "2019020"
+    endpoint: "/api/fnlttSinglAcntAll.json"
+    official_name: "단일회사 전체 재무제표"
+    friendly_method: FullFinancialStatement
+    source_area: financial
+  xbrlTaxonomy:
+    api_id: "2020001"
+    endpoint: "/api/xbrlTaxonomy.json"
+    official_name: "XBRL택사노미재무제표양식"
+    friendly_method: XBRLTaxonomy
+    source_area: financial
+  fnlttSinglIndx:
+    api_id: "2022001"
+    endpoint: "/api/fnlttSinglIndx.json"
+    official_name: "단일회사 주요 재무지표"
+    friendly_method: FinancialIndex
+    source_area: financial
+  fnlttCmpnyIndx:
+    api_id: "2022002"
+    endpoint: "/api/fnlttCmpnyIndx.json"
+    official_name: "다중회사 주요 재무지표"
+    friendly_method: CompanyFinancialIndex
+    source_area: financial
+  majorstock:
+    api_id: "2019021"
+    endpoint: "/api/majorstock.json"
+    official_name: "대량보유 상황보고"
+    friendly_method: MajorStock
+    source_area: ownership
+  elestock:
+    api_id: "2019022"
+    endpoint: "/api/elestock.json"
+    official_name: "임원ㆍ주요주주 소유보고"
+    friendly_method: ExecutiveStock
+    source_area: ownership
+  astInhtrfEtcPtbkOpt:
+    api_id: "2020018"
+    endpoint: "/api/astInhtrfEtcPtbkOpt.json"
+    official_name: "자산양수도(기타), 풋백옵션"
+    friendly_method: AssetTransferEtcPutbackOption
+    source_area: material
+  dfOcr:
+    api_id: "2020019"
+    endpoint: "/api/dfOcr.json"
+    official_name: "부도발생"
+    friendly_method: DefaultOccurrence
+    source_area: material
+  bsnSp:
+    api_id: "2020020"
+    endpoint: "/api/bsnSp.json"
+    official_name: "영업정지"
+    friendly_method: BusinessSuspension
+    source_area: material
+  ctrcvsBgrq:
+    api_id: "2020021"
+    endpoint: "/api/ctrcvsBgrq.json"
+    official_name: "회생절차 개시신청"
+    friendly_method: RehabilitationProcedureApplication
+    source_area: material
+  dsRsOcr:
+    api_id: "2020022"
+    endpoint: "/api/dsRsOcr.json"
+    official_name: "해산사유 발생"
+    friendly_method: DissolutionReasonOccurrence
+    source_area: material
+  piicDecsn:
+    api_id: "2020023"
+    endpoint: "/api/piicDecsn.json"
+    official_name: "유상증자 결정"
+    friendly_method: PaidInCapitalIncreaseDecision
+    source_area: material
+  fricDecsn:
+    api_id: "2020024"
+    endpoint: "/api/fricDecsn.json"
+    official_name: "무상증자 결정"
+    friendly_method: BonusIssueDecision
+    source_area: material
+  pifricDecsn:
+    api_id: "2020025"
+    endpoint: "/api/pifricDecsn.json"
+    official_name: "유무상증자 결정"
+    friendly_method: PaidInBonusIssueDecision
+    source_area: material
+  crDecsn:
+    api_id: "2020026"
+    endpoint: "/api/crDecsn.json"
+    official_name: "감자 결정"
+    friendly_method: CapitalReductionDecision
+    source_area: material
+  bnkMngtPcbg:
+    api_id: "2020027"
+    endpoint: "/api/bnkMngtPcbg.json"
+    official_name: "채권은행 등의 관리절차 개시"
+    friendly_method: CreditorBankManagementProcedureStart
+    source_area: material
+  lwstLg:
+    api_id: "2020028"
+    endpoint: "/api/lwstLg.json"
+    official_name: "소송 등의 제기"
+    friendly_method: LawsuitFiling
+    source_area: material
+  ovLstDecsn:
+    api_id: "2020029"
+    endpoint: "/api/ovLstDecsn.json"
+    official_name: "해외 증권시장 주권등 상장 결정"
+    friendly_method: OverseasListingDecision
+    source_area: material
+  ovDlstDecsn:
+    api_id: "2020030"
+    endpoint: "/api/ovDlstDecsn.json"
+    official_name: "해외 증권시장 주권등 상장폐지 결정"
+    friendly_method: OverseasDelistingDecision
+    source_area: material
+  ovLst:
+    api_id: "2020031"
+    endpoint: "/api/ovLst.json"
+    official_name: "해외 증권시장 주권등 상장"
+    friendly_method: OverseasListing
+    source_area: material
+  ovDlst:
+    api_id: "2020032"
+    endpoint: "/api/ovDlst.json"
+    official_name: "해외 증권시장 주권등 상장폐지"
+    friendly_method: OverseasDelisting
+    source_area: material
+  cvbdIsDecsn:
+    api_id: "2020033"
+    endpoint: "/api/cvbdIsDecsn.json"
+    official_name: "전환사채권 발행결정"
+    friendly_method: ConvertibleBondIssueDecision
+    source_area: material
+  bdwtIsDecsn:
+    api_id: "2020034"
+    endpoint: "/api/bdwtIsDecsn.json"
+    official_name: "신주인수권부사채권 발행결정"
+    friendly_method: BondWithWarrantIssueDecision
+    source_area: material
+  exbdIsDecsn:
+    api_id: "2020035"
+    endpoint: "/api/exbdIsDecsn.json"
+    official_name: "교환사채권 발행결정"
+    friendly_method: ExchangeableBondIssueDecision
+    source_area: material
+  bnkMngtPcsp:
+    api_id: "2020036"
+    endpoint: "/api/bnkMngtPcsp.json"
+    official_name: "채권은행 등의 관리절차 중단"
+    friendly_method: CreditorBankManagementProcedureStop
+    source_area: material
+  wdCocobdIsDecsn:
+    api_id: "2020037"
+    endpoint: "/api/wdCocobdIsDecsn.json"
+    official_name: "상각형 조건부자본증권 발행결정"
+    friendly_method: WriteDownContingentCapitalBondIssueDecision
+    source_area: material
+  tsstkAqDecsn:
+    api_id: "2020038"
+    endpoint: "/api/tsstkAqDecsn.json"
+    official_name: "자기주식 취득 결정"
+    friendly_method: TreasuryStockAcquisitionDecision
+    source_area: material
+  tsstkDpDecsn:
+    api_id: "2020039"
+    endpoint: "/api/tsstkDpDecsn.json"
+    official_name: "자기주식 처분 결정"
+    friendly_method: TreasuryStockDisposalDecision
+    source_area: material
+  tsstkAqTrctrCnsDecsn:
+    api_id: "2020040"
+    endpoint: "/api/tsstkAqTrctrCnsDecsn.json"
+    official_name: "자기주식취득 신탁계약 체결 결정"
+    friendly_method: TreasuryStockTrustContractConclusionDecision
+    source_area: material
+  tsstkAqTrctrCcDecsn:
+    api_id: "2020041"
+    endpoint: "/api/tsstkAqTrctrCcDecsn.json"
+    official_name: "자기주식취득 신탁계약 해지 결정"
+    friendly_method: TreasuryStockTrustContractCancellationDecision
+    source_area: material
+  bsnInhDecsn:
+    api_id: "2020042"
+    endpoint: "/api/bsnInhDecsn.json"
+    official_name: "영업양수 결정"
+    friendly_method: BusinessTransferInDecision
+    source_area: material
+  bsnTrfDecsn:
+    api_id: "2020043"
+    endpoint: "/api/bsnTrfDecsn.json"
+    official_name: "영업양도 결정"
+    friendly_method: BusinessTransferOutDecision
+    source_area: material
+  tgastInhDecsn:
+    api_id: "2020044"
+    endpoint: "/api/tgastInhDecsn.json"
+    official_name: "유형자산 양수 결정"
+    friendly_method: TangibleAssetTransferInDecision
+    source_area: material
+  tgastTrfDecsn:
+    api_id: "2020045"
+    endpoint: "/api/tgastTrfDecsn.json"
+    official_name: "유형자산 양도 결정"
+    friendly_method: TangibleAssetTransferOutDecision
+    source_area: material
+  otcprStkInvscrInhDecsn:
+    api_id: "2020046"
+    endpoint: "/api/otcprStkInvscrInhDecsn.json"
+    official_name: "타법인 주식 및 출자증권 양수결정"
+    friendly_method: OtherCorporationStockInvestmentSecurityTransferInDecision
+    source_area: material
+  otcprStkInvscrTrfDecsn:
+    api_id: "2020047"
+    endpoint: "/api/otcprStkInvscrTrfDecsn.json"
+    official_name: "타법인 주식 및 출자증권 양도결정"
+    friendly_method: OtherCorporationStockInvestmentSecurityTransferOutDecision
+    source_area: material
+  stkrtbdInhDecsn:
+    api_id: "2020048"
+    endpoint: "/api/stkrtbdInhDecsn.json"
+    official_name: "주권 관련 사채권 양수 결정"
+    friendly_method: StockRelatedBondTransferInDecision
+    source_area: material
+  stkrtbdTrfDecsn:
+    api_id: "2020049"
+    endpoint: "/api/stkrtbdTrfDecsn.json"
+    official_name: "주권 관련 사채권 양도 결정"
+    friendly_method: StockRelatedBondTransferOutDecision
+    source_area: material
+  cmpMgDecsn:
+    api_id: "2020050"
+    endpoint: "/api/cmpMgDecsn.json"
+    official_name: "회사합병 결정"
+    friendly_method: CompanyMergerDecision
+    source_area: material
+  cmpDvDecsn:
+    api_id: "2020051"
+    endpoint: "/api/cmpDvDecsn.json"
+    official_name: "회사분할 결정"
+    friendly_method: CompanyDivisionDecision
+    source_area: material
+  cmpDvmgDecsn:
+    api_id: "2020052"
+    endpoint: "/api/cmpDvmgDecsn.json"
+    official_name: "회사분할합병 결정"
+    friendly_method: CompanyDivisionMergerDecision
+    source_area: material
+  stkExtrDecsn:
+    api_id: "2020053"
+    endpoint: "/api/stkExtrDecsn.json"
+    official_name: "주식교환·이전 결정"
+    friendly_method: StockExchangeTransferDecision
+    source_area: material
+  estkRs:
+    api_id: "2020054"
+    endpoint: "/api/estkRs.json"
+    official_name: "지분증권"
+    friendly_method: EquitySecuritiesRegistration
+    source_area: registration
+  bdRs:
+    api_id: "2020055"
+    endpoint: "/api/bdRs.json"
+    official_name: "채무증권"
+    friendly_method: DebtSecuritiesRegistration
+    source_area: registration
+  stkdpRs:
+    api_id: "2020056"
+    endpoint: "/api/stkdpRs.json"
+    official_name: "증권예탁증권"
+    friendly_method: DepositaryReceiptRegistration
+    source_area: registration
+  mgRs:
+    api_id: "2020057"
+    endpoint: "/api/mgRs.json"
+    official_name: "합병"
+    friendly_method: MergerRegistration
+    source_area: registration
+  extrRs:
+    api_id: "2020058"
+    endpoint: "/api/extrRs.json"
+    official_name: "주식의포괄적교환·이전"
+    friendly_method: ShareExchangeTransferRegistration
+    source_area: registration
+  dvRs:
+    api_id: "2020059"
+    endpoint: "/api/dvRs.json"
+    official_name: "분할"
+    friendly_method: DivisionRegistration
+    source_area: registration

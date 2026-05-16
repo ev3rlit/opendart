@@ -4,13 +4,15 @@ import (
 	"crypto/tls"
 	"net/http"
 
+	opendartapi "github.com/ev3rlit/opendart/internal/generated/opendartapi"
 	"github.com/go-resty/resty/v2"
 )
 
 // Client calls OpenDART APIs.
 type Client struct {
-	apiKey string
-	resty  *resty.Client
+	apiKey    string
+	resty     *resty.Client
+	apiCaller opendartapi.Caller
 }
 
 // New creates an OpenDART client.
@@ -30,9 +32,14 @@ func New(config Config, opts ...Option) (*Client, error) {
 		SetHeader("User-Agent", "github.com/ev3rlit/opendart").
 		SetTimeout(options.timeout)
 
-	return &Client{
+	callerConfig := apiCallerConfig{
 		apiKey: config.APIKey,
 		resty:  httpClient,
+	}
+	return &Client{
+		apiKey:    callerConfig.apiKey,
+		resty:     callerConfig.resty,
+		apiCaller: generatedAPICaller{config: callerConfig},
 	}, nil
 }
 

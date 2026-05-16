@@ -117,15 +117,15 @@ func requestTypedFile(ctx context.Context, options *rootOptions, spec apiSpec, v
 
 	switch spec.Endpoint {
 	case "/api/document.xml":
-		file, err := client.Document(ctx, opendart.DocumentQuery{ReceiptNo: values["rcept_no"]})
+		file, err := client.DocumentRaw(ctx, opendart.DocumentParams{RceptNo: values["rcept_no"]})
 		if err != nil {
 			return nil, "", true, err
 		}
 		return file.Body, file.ContentType, true, nil
 	case "/api/fnlttXbrl.xml":
-		file, err := client.FinancialStatementXBRL(ctx, opendart.ReceiptReportQuery{
-			ReceiptNo:  values["rcept_no"],
-			ReportCode: opendart.ReportCode(values["reprt_code"]),
+		file, err := client.FnlttXbrl(ctx, opendart.FnlttXbrlParams{
+			RceptNo:   values["rcept_no"],
+			ReprtCode: values["reprt_code"],
 		})
 		if err != nil {
 			return nil, "", true, err

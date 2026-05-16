@@ -61,7 +61,11 @@ func newCorpCodesCommand(options *rootOptions) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			codes, err := client.CorpCodes(cmd.Context())
+			file, err := client.CorpCode(cmd.Context())
+			if err != nil {
+				return err
+			}
+			codes, err := decodeCorpCodeZIP(file.Body)
 			if err != nil {
 				return err
 			}
@@ -93,15 +97,15 @@ func newFinancialStatementCommand(options *rootOptions) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			statements, err := client.FinancialStatement(cmd.Context(), opendart.FinancialStatementQuery{
-				CorpCode:     corpCode,
-				BusinessYear: businessYear,
-				ReportCode:   opendart.ReportCode(reportCode),
+			result, err := client.FnlttSinglAcnt(cmd.Context(), opendart.FnlttSinglAcntParams{
+				CorpCode:  corpCode,
+				BsnsYear:  businessYear,
+				ReprtCode: reportCode,
 			})
 			if err != nil {
 				return err
 			}
-			return writeJSON(options.out, statements)
+			return writeJSON(options.out, result.List)
 		},
 	}
 

@@ -1,13 +1,15 @@
-# SDK typed method 대응표
+# 과거 SDK friendly method 대응표
 
 - 기준 문서: `docs/apis/official-inventory.md`
 - 확인 날짜: 2026-05-14
-- 범위: 공식 OpenDART API 85개 중 SDK typed method 83개
+- 범위: 공식 OpenDART API 85개 중 과거 수작업 friendly method 83개
 - SDK package: `github.com/ev3rlit/opendart`
+- 현재 root SDK는 OpenAPI `operationId` 기반 generated raw method를 기본으로 제공한다.
+- 이 표의 friendly 이름은 `docs/apis/sdk-names.yaml`에 보존되어 있다.
 
 ## 요약
 
-| Group | APIs | SDK typed |
+| Group | APIs | Friendly names |
 | --- | ---: | ---: |
 | disclosure | 4 | 4 |
 | company | 30 | 28 |

@@ -31,21 +31,21 @@ func main() {
 
 	ctx := context.Background()
 
-	codes, err := client.CorpCodes(ctx)
+	codes, err := client.CorpCode(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("corp codes:", len(codes))
+	log.Println("corp code file bytes:", len(codes.Body))
 
-	statements, err := client.FinancialStatement(ctx, opendart.FinancialStatementQuery{
-		CorpCode:     "00126380",
-		BusinessYear: "2025",
-		ReportCode:   opendart.ReportAnnual,
+	statements, err := client.FnlttSinglAcnt(ctx, opendart.FnlttSinglAcntParams{
+		CorpCode:  "00126380",
+		BsnsYear:  "2025",
+		ReprtCode: "11011",
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("financial statements:", len(statements))
+	log.Println("financial statements:", len(statements.List))
 }
 ```
 
@@ -70,15 +70,15 @@ OpenDART의 `corp_code`는 DART 공시대상회사 고유번호입니다. KRX �
 
 ## 지원 범위
 
-- SDK typed API 지원: 기존 공식 인벤토리의 83개 API를 root package typed method로 제공합니다.
-  - 예: `Client.Disclosures(ctx, query)`, `Client.Company(ctx, query)`, `Client.Document(ctx, query)`
-  - 예: `Client.CapitalIncreaseDecreaseStatus(ctx, query)`, `Client.CompanyMergerDecision(ctx, query)`
-  - 예: `Client.FullFinancialStatement(ctx, query)`, `Client.FinancialStatementXBRL(ctx, query)`
+- SDK generated raw API 지원: OpenAPI `operationId` 기반 root package method를 제공합니다.
+  - 예: `Client.List(ctx, params)`, `Client.CompanyRaw(ctx, params)`, `Client.DocumentRaw(ctx, params)`
+  - 예: `Client.IrdsSttus(ctx, params)`, `Client.CmpMgDecsn(ctx, params)`
+  - 예: `Client.FnlttSinglAcnt(ctx, params)`, `Client.FnlttXbrl(ctx, params)`
 - CLI API 지원: `internal/cli/catalog.go` 기준으로 기존 공식 API command를 제공합니다.
   - JSON API는 기본적으로 OpenDART 원문 JSON을 stdout에 출력합니다.
   - 파일/XML API는 기본 `json` 출력에서 base64 envelope를 쓰고, `--output raw`일 때 원문 bytes를 stdout에 씁니다.
 - 2026-05-14 기준 공식 개발가이드에는 85개 API가 있으며, OpenAPI index는 `docs/apis/opendart.openapi.json`, 단일 파일 bundle은 `docs/apis/opendart.openapi.bundle.json`, API별 스키마는 `docs/apis/openapi/apis/*.json`에 있습니다.
-- typed method 추적표는 `docs/apis/typed-sdk-checklist.md`에 있습니다.
+- 과거 수작업 friendly method 이름은 `docs/apis/sdk-names.yaml`에 보존되어 있습니다.
 
 ## CLI
 
@@ -136,3 +136,25 @@ git diff --check
 ```
 
 기본 테스트는 live OpenDART 호출을 하지 않습니다.
+
+### Live e2e smoke
+
+실제 OpenDART 서버를 호출하는 e2e smoke는 opt-in으로만 실행합니다. 인증키는 파일에 저장하지 않고 `OPENDART_API_KEY` 환경변수로 주입합니다.
+
+```sh
+OPENDART_API_KEY=... scripts/e2e-newman.sh
+```
+
+스크립트는 `tests/e2e/postman/opendart-smoke.postman_collection.json`을 Newman으로 실행하고 JUnit report를 `test-results/newman.xml`에 씁니다. `newman` 실행 파일이 없으면 `npx --yes newman`을 사용합니다. CLI reporter는 요청 URL의 query string에 인증키를 표시할 수 있어 기본으로 사용하지 않습니다.
+
+로컬 Postman 환경 예시는 `tests/e2e/postman/opendart.local.postman_environment.example.json`에 있으며, 스크립트의 기본 base URL은 `https://opendart.fss.or.kr`입니다. 다른 endpoint로 실행해야 하면 `OPENDART_BASE_URL`로 덮어씁니다.
+
+직접 실행할 때는 아래처럼 환경변수만 넘깁니다.
+
+```sh
+newman run tests/e2e/postman/opendart-smoke.postman_collection.json \
+  --env-var "base_url=https://opendart.fss.or.kr" \
+  --env-var "crtfc_key=$OPENDART_API_KEY" \
+  --reporters junit \
+  --reporter-junit-export test-results/newman.xml
+```

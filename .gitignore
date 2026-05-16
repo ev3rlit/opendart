@@ -21,3 +21,6 @@ vendor/
 .env
 .env.*
 !.env.example
+
+# Local test reports
+test-results/

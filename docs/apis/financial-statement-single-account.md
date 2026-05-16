@@ -2,7 +2,8 @@
 
 - 공식 문서: https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019016
 - 그룹: 정기보고서 재무정보
-- SDK method: `Client.FinancialStatement(ctx, query)`
+- SDK raw method: `Client.FnlttSinglAcnt(ctx, params)`
+- Friendly name history: `Client.FinancialStatement(ctx, query)` is preserved in `docs/apis/sdk-names.yaml`.
 
 ## 기본 정보
 
@@ -24,12 +25,12 @@
 
 ## 보고서 코드
 
-| code | 의미 | SDK constant |
-| --- | --- | --- |
-| `11013` | 1분기보고서 | `ReportFirstQuarter` |
-| `11012` | 반기보고서 | `ReportHalf` |
-| `11014` | 3분기보고서 | `ReportThirdQuarter` |
-| `11011` | 사업보고서 | `ReportAnnual` |
+| code | 의미 |
+| --- | --- |
+| `11013` | 1분기보고서 |
+| `11012` | 반기보고서 |
+| `11014` | 3분기보고서 |
+| `11011` | 사업보고서 |
 
 ## 응답 필드
 
@@ -63,4 +64,3 @@
 ## MVP 결정
 
 MVP 재무제표 API는 단일회사 주요계정으로 구현한다. 공식 문서 기준 필수 query가 `corp_code`, `bsns_year`, `reprt_code`로 단순하고, 사용 예시 목표와도 맞다.
-
