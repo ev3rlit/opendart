@@ -7,6 +7,11 @@ const (
 	envAPIKey      = "OPENDART_API_KEY"
 	outputJSON     = "json"
 	outputRaw      = "raw"
+	outputTable    = "table"
+	outputCSV      = "csv"
+	viewSummary    = "summary"
+	viewDetail     = "detail"
+	viewSource     = "source"
 )
 
 type getenvFunc func(string) string
@@ -24,6 +29,8 @@ type rootOptions struct {
 type apiSpec struct {
 	Group       string
 	Command     string
+	Verb        string
+	Resource    string
 	APIID       string
 	OperationID string
 	Name        string

@@ -6,6 +6,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "disclosure",
 		Command:     "list",
+		Verb:        "search",
+		Resource:    "disclosures",
 		APIID:       "2019001",
 		OperationID: "list",
 		Name:        "공시검색",
@@ -27,6 +29,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "disclosure",
 		Command:     "company",
+		Verb:        "get",
+		Resource:    "company-profile",
 		APIID:       "2019002",
 		OperationID: "company",
 		Name:        "기업개황",
@@ -38,6 +42,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "disclosure",
 		Command:     "document",
+		Verb:        "download",
+		Resource:    "document",
 		APIID:       "2019003",
 		OperationID: "document",
 		Name:        "공시서류원본파일",
@@ -49,6 +55,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "disclosure",
 		Command:     "corp-code",
+		Verb:        "list",
+		Resource:    "corp-codes",
 		APIID:       "2019018",
 		OperationID: "corpCode",
 		Name:        "고유번호",
@@ -57,6 +65,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "irds-sttus",
+		Verb:        "get",
+		Resource:    "capital-change-status",
 		APIID:       "2019004",
 		OperationID: "irdsSttus",
 		Name:        "증자(감자) 현황",
@@ -70,6 +80,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "alot-matter",
+		Verb:        "get",
+		Resource:    "dividend-matters",
 		APIID:       "2019005",
 		OperationID: "alotMatter",
 		Name:        "배당에 관한 사항",
@@ -83,6 +95,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "tesstk-acqs-dsps-sttus",
+		Verb:        "get",
+		Resource:    "treasury-stock-status",
 		APIID:       "2019006",
 		OperationID: "tesstkAcqsDspsSttus",
 		Name:        "자기주식 취득 및 처분 현황",
@@ -96,6 +110,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "hyslr-sttus",
+		Verb:        "get",
+		Resource:    "largest-shareholder-status",
 		APIID:       "2019007",
 		OperationID: "hyslrSttus",
 		Name:        "최대주주 현황",
@@ -109,6 +125,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "hyslr-chg-sttus",
+		Verb:        "get",
+		Resource:    "largest-shareholder-change-status",
 		APIID:       "2019008",
 		OperationID: "hyslrChgSttus",
 		Name:        "최대주주 변동현황",
@@ -122,6 +140,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "mrhl-sttus",
+		Verb:        "get",
+		Resource:    "minority-shareholder-status",
 		APIID:       "2019009",
 		OperationID: "mrhlSttus",
 		Name:        "소액주주 현황",
@@ -135,6 +155,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "exctv-sttus",
+		Verb:        "get",
+		Resource:    "executive-status",
 		APIID:       "2019010",
 		OperationID: "exctvSttus",
 		Name:        "임원 현황",
@@ -148,6 +170,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "emp-sttus",
+		Verb:        "get",
+		Resource:    "employee-status",
 		APIID:       "2019011",
 		OperationID: "empSttus",
 		Name:        "직원 현황",
@@ -161,6 +185,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "hmv-audit-indvdl-by-sttus",
+		Verb:        "get",
+		Resource:    "director-auditor-pay-individual",
 		APIID:       "2019012",
 		OperationID: "hmvAuditIndvdlBySttus",
 		Name:        "이사·감사의 개인별 보수현황(5억원 이상)",
@@ -174,6 +200,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "hmv-audit-all-sttus",
+		Verb:        "get",
+		Resource:    "director-auditor-pay-total",
 		APIID:       "2019013",
 		OperationID: "hmvAuditAllSttus",
 		Name:        "이사·감사 전체의 보수현황(보수지급금액 - 이사·감사 전체)",
@@ -187,6 +215,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "indvdl-by-pay",
+		Verb:        "get",
+		Resource:    "individual-pay-top5",
 		APIID:       "2019014",
 		OperationID: "indvdlByPay",
 		Name:        "개인별 보수지급 금액(5억이상 상위5인)",
@@ -200,6 +230,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "otr-cpr-invstmnt-sttus",
+		Verb:        "get",
+		Resource:    "other-company-investments",
 		APIID:       "2019015",
 		OperationID: "otrCprInvstmntSttus",
 		Name:        "타법인 출자현황",
@@ -213,6 +245,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "stock-totqy-sttus",
+		Verb:        "get",
+		Resource:    "stock-total-quantity",
 		APIID:       "2020002",
 		OperationID: "stockTotqySttus",
 		Name:        "주식의 총수 현황",
@@ -226,6 +260,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "det-scrits-isu-acmslt",
+		Verb:        "get",
+		Resource:    "debt-securities-issued",
 		APIID:       "2020003",
 		OperationID: "detScritsIsuAcmslt",
 		Name:        "채무증권 발행실적",
@@ -239,6 +275,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "entrprs-bil-scrits-nrdmp-blce",
+		Verb:        "get",
+		Resource:    "commercial-paper-balance",
 		APIID:       "2020004",
 		OperationID: "entrprsBilScritsNrdmpBlce",
 		Name:        "기업어음증권 미상환 잔액",
@@ -252,6 +290,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "srtpd-psndbt-nrdmp-blce",
+		Verb:        "get",
+		Resource:    "short-term-bond-balance",
 		APIID:       "2020005",
 		OperationID: "srtpdPsndbtNrdmpBlce",
 		Name:        "단기사채 미상환 잔액",
@@ -265,6 +305,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "cprnd-nrdmp-blce",
+		Verb:        "get",
+		Resource:    "corporate-bond-balance",
 		APIID:       "2020006",
 		OperationID: "cprndNrdmpBlce",
 		Name:        "회사채 미상환 잔액",
@@ -278,6 +320,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "new-capl-scrits-nrdmp-blce",
+		Verb:        "get",
+		Resource:    "hybrid-capital-balance",
 		APIID:       "2020007",
 		OperationID: "newCaplScritsNrdmpBlce",
 		Name:        "신종자본증권 미상환 잔액",
@@ -291,6 +335,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "cndl-capl-scrits-nrdmp-blce",
+		Verb:        "get",
+		Resource:    "contingent-capital-balance",
 		APIID:       "2020008",
 		OperationID: "cndlCaplScritsNrdmpBlce",
 		Name:        "조건부 자본증권 미상환 잔액",
@@ -304,6 +350,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "accnut-adtor-nm-nd-adt-opinion",
+		Verb:        "get",
+		Resource:    "auditor-opinion",
 		APIID:       "2020009",
 		OperationID: "accnutAdtorNmNdAdtOpinion",
 		Name:        "회계감사인의 명칭 및 감사의견",
@@ -317,6 +365,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "adt-servc-cncls-sttus",
+		Verb:        "get",
+		Resource:    "audit-service-contracts",
 		APIID:       "2020010",
 		OperationID: "adtServcCnclsSttus",
 		Name:        "감사용역체결현황",
@@ -330,6 +380,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "accnut-adtor-non-adt-servc-cncls-sttus",
+		Verb:        "get",
+		Resource:    "non-audit-service-contracts",
 		APIID:       "2020011",
 		OperationID: "accnutAdtorNonAdtServcCnclsSttus",
 		Name:        "회계감사인과의 비감사용역 계약체결 현황",
@@ -343,6 +395,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "outcmpny-drctr-nd-change-sttus",
+		Verb:        "get",
+		Resource:    "outside-director-change-status",
 		APIID:       "2020012",
 		OperationID: "outcmpnyDrctrNdChangeSttus",
 		Name:        "사외이사 및 그 변동현황",
@@ -356,6 +410,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "unrst-exctv-mendng-sttus",
+		Verb:        "get",
+		Resource:    "unregistered-executive-pay",
 		APIID:       "2020013",
 		OperationID: "unrstExctvMendngSttus",
 		Name:        "미등기임원 보수현황",
@@ -369,6 +425,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "drctr-adt-all-mendng-sttus-gmtsck-confm-amount",
+		Verb:        "get",
+		Resource:    "director-auditor-approved-pay",
 		APIID:       "2020014",
 		OperationID: "drctrAdtAllMendngSttusGmtsckConfmAmount",
 		Name:        "이사·감사 전체의 보수현황(주주총회 승인금액)",
@@ -382,6 +440,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "drctr-adt-all-mendng-sttus-mendng-pymntamt-ty-cl",
+		Verb:        "get",
+		Resource:    "director-auditor-paid-by-type",
 		APIID:       "2020015",
 		OperationID: "drctrAdtAllMendngSttusMendngPymntamtTyCl",
 		Name:        "이사·감사 전체의 보수현황(보수지급금액 - 유형별)",
@@ -395,6 +455,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "pssrp-cptal-use-dtls",
+		Verb:        "get",
+		Resource:    "public-offering-fund-use",
 		APIID:       "2020016",
 		OperationID: "pssrpCptalUseDtls",
 		Name:        "공모자금의 사용내역",
@@ -408,6 +470,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "prvsrp-cptal-use-dtls",
+		Verb:        "get",
+		Resource:    "private-placement-fund-use",
 		APIID:       "2020017",
 		OperationID: "prvsrpCptalUseDtls",
 		Name:        "사모자금의 사용내역",
@@ -421,6 +485,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "hmv-audit-indvdl-by-sttus-v2",
+		Verb:        "get",
+		Resource:    "director-auditor-pay-individual-v2",
 		APIID:       "2026001",
 		OperationID: "hmvAuditIndvdlBySttusV2",
 		Name:        "이사·감사의 개인별 보수현황(5억원 이상) (Ver 2.0)",
@@ -434,6 +500,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "company",
 		Command:     "indvdl-by-pay-v2",
+		Verb:        "get",
+		Resource:    "individual-pay-top5-v2",
 		APIID:       "2026002",
 		OperationID: "indvdlByPayV2",
 		Name:        "개인별 보수지급 금액(5억이상 상위5인) (Ver 2.0)",
@@ -447,6 +515,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "single-account",
+		Verb:        "get",
+		Resource:    "financial-statement",
 		APIID:       "2019016",
 		OperationID: "fnlttSinglAcnt",
 		Name:        "단일회사 주요계정",
@@ -460,6 +530,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "multi-account",
+		Verb:        "get",
+		Resource:    "financial-statement-multi",
 		APIID:       "2019017",
 		OperationID: "fnlttMultiAcnt",
 		Name:        "다중회사 주요계정",
@@ -473,6 +545,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "xbrl",
+		Verb:        "download",
+		Resource:    "financial-xbrl",
 		APIID:       "2019019",
 		OperationID: "fnlttXbrl",
 		Name:        "재무제표 원본파일(XBRL)",
@@ -485,6 +559,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "single-account-all",
+		Verb:        "get",
+		Resource:    "financial-statement-full",
 		APIID:       "2019020",
 		OperationID: "fnlttSinglAcntAll",
 		Name:        "단일회사 전체 재무제표",
@@ -499,6 +575,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "xbrl-taxonomy",
+		Verb:        "get",
+		Resource:    "xbrl-taxonomy",
 		APIID:       "2020001",
 		OperationID: "xbrlTaxonomy",
 		Name:        "XBRL택사노미재무제표양식",
@@ -510,6 +588,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "single-index",
+		Verb:        "get",
+		Resource:    "financial-index",
 		APIID:       "2022001",
 		OperationID: "fnlttSinglIndx",
 		Name:        "단일회사 주요 재무지표",
@@ -524,6 +604,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "financial",
 		Command:     "company-index",
+		Verb:        "get",
+		Resource:    "financial-index-multi",
 		APIID:       "2022002",
 		OperationID: "fnlttCmpnyIndx",
 		Name:        "다중회사 주요 재무지표",
@@ -538,6 +620,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "ownership",
 		Command:     "major-stock",
+		Verb:        "get",
+		Resource:    "major-stock-ownership",
 		APIID:       "2019021",
 		OperationID: "majorstock",
 		Name:        "대량보유 상황보고",
@@ -549,6 +633,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "ownership",
 		Command:     "executive-stock",
+		Verb:        "get",
+		Resource:    "executive-stock-ownership",
 		APIID:       "2019022",
 		OperationID: "elestock",
 		Name:        "임원ㆍ주요주주 소유보고",
@@ -560,6 +646,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ast-inhtrf-etc-ptbk-opt",
+		Verb:        "get",
+		Resource:    "asset-transfer-putback-option",
 		APIID:       "2020018",
 		OperationID: "astInhtrfEtcPtbkOpt",
 		Name:        "자산양수도(기타), 풋백옵션",
@@ -573,6 +661,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "df-ocr",
+		Verb:        "get",
+		Resource:    "default-occurrence",
 		APIID:       "2020019",
 		OperationID: "dfOcr",
 		Name:        "부도발생",
@@ -586,6 +676,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "bsn-sp",
+		Verb:        "get",
+		Resource:    "business-suspension",
 		APIID:       "2020020",
 		OperationID: "bsnSp",
 		Name:        "영업정지",
@@ -599,6 +691,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ctrcvs-bgrq",
+		Verb:        "get",
+		Resource:    "rehabilitation-application",
 		APIID:       "2020021",
 		OperationID: "ctrcvsBgrq",
 		Name:        "회생절차 개시신청",
@@ -612,6 +706,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ds-rs-ocr",
+		Verb:        "get",
+		Resource:    "dissolution-cause",
 		APIID:       "2020022",
 		OperationID: "dsRsOcr",
 		Name:        "해산사유 발생",
@@ -625,6 +721,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "piic-decsn",
+		Verb:        "get",
+		Resource:    "paid-in-capital-increase",
 		APIID:       "2020023",
 		OperationID: "piicDecsn",
 		Name:        "유상증자 결정",
@@ -638,6 +736,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "fric-decsn",
+		Verb:        "get",
+		Resource:    "free-capital-increase",
 		APIID:       "2020024",
 		OperationID: "fricDecsn",
 		Name:        "무상증자 결정",
@@ -651,6 +751,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "pifric-decsn",
+		Verb:        "get",
+		Resource:    "paid-and-free-capital-increase",
 		APIID:       "2020025",
 		OperationID: "pifricDecsn",
 		Name:        "유무상증자 결정",
@@ -664,6 +766,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "cr-decsn",
+		Verb:        "get",
+		Resource:    "capital-reduction",
 		APIID:       "2020026",
 		OperationID: "crDecsn",
 		Name:        "감자 결정",
@@ -677,6 +781,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "bnk-mngt-pcbg",
+		Verb:        "get",
+		Resource:    "bank-management-start",
 		APIID:       "2020027",
 		OperationID: "bnkMngtPcbg",
 		Name:        "채권은행 등의 관리절차 개시",
@@ -690,6 +796,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "lwst-lg",
+		Verb:        "get",
+		Resource:    "lawsuit",
 		APIID:       "2020028",
 		OperationID: "lwstLg",
 		Name:        "소송 등의 제기",
@@ -703,6 +811,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ov-lst-decsn",
+		Verb:        "get",
+		Resource:    "overseas-listing-decision",
 		APIID:       "2020029",
 		OperationID: "ovLstDecsn",
 		Name:        "해외 증권시장 주권등 상장 결정",
@@ -716,6 +826,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ov-dlst-decsn",
+		Verb:        "get",
+		Resource:    "overseas-delisting-decision",
 		APIID:       "2020030",
 		OperationID: "ovDlstDecsn",
 		Name:        "해외 증권시장 주권등 상장폐지 결정",
@@ -729,6 +841,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ov-lst",
+		Verb:        "get",
+		Resource:    "overseas-listing",
 		APIID:       "2020031",
 		OperationID: "ovLst",
 		Name:        "해외 증권시장 주권등 상장",
@@ -742,6 +856,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "ov-dlst",
+		Verb:        "get",
+		Resource:    "overseas-delisting",
 		APIID:       "2020032",
 		OperationID: "ovDlst",
 		Name:        "해외 증권시장 주권등 상장폐지",
@@ -755,6 +871,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "cvbd-is-decsn",
+		Verb:        "get",
+		Resource:    "convertible-bond-issuance",
 		APIID:       "2020033",
 		OperationID: "cvbdIsDecsn",
 		Name:        "전환사채권 발행결정",
@@ -768,6 +886,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "bdwt-is-decsn",
+		Verb:        "get",
+		Resource:    "bond-with-warrant-issuance",
 		APIID:       "2020034",
 		OperationID: "bdwtIsDecsn",
 		Name:        "신주인수권부사채권 발행결정",
@@ -781,6 +901,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "exbd-is-decsn",
+		Verb:        "get",
+		Resource:    "exchangeable-bond-issuance",
 		APIID:       "2020035",
 		OperationID: "exbdIsDecsn",
 		Name:        "교환사채권 발행결정",
@@ -794,6 +916,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "bnk-mngt-pcsp",
+		Verb:        "get",
+		Resource:    "bank-management-stop",
 		APIID:       "2020036",
 		OperationID: "bnkMngtPcsp",
 		Name:        "채권은행 등의 관리절차 중단",
@@ -807,6 +931,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "wd-cocobd-is-decsn",
+		Verb:        "get",
+		Resource:    "write-down-coco-bond-issuance",
 		APIID:       "2020037",
 		OperationID: "wdCocobdIsDecsn",
 		Name:        "상각형 조건부자본증권 발행결정",
@@ -820,6 +946,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "tsstk-aq-decsn",
+		Verb:        "get",
+		Resource:    "treasury-stock-acquisition-decision",
 		APIID:       "2020038",
 		OperationID: "tsstkAqDecsn",
 		Name:        "자기주식 취득 결정",
@@ -833,6 +961,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "tsstk-dp-decsn",
+		Verb:        "get",
+		Resource:    "treasury-stock-disposal-decision",
 		APIID:       "2020039",
 		OperationID: "tsstkDpDecsn",
 		Name:        "자기주식 처분 결정",
@@ -846,6 +976,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "tsstk-aq-trctr-cns-decsn",
+		Verb:        "get",
+		Resource:    "treasury-stock-trust-contract",
 		APIID:       "2020040",
 		OperationID: "tsstkAqTrctrCnsDecsn",
 		Name:        "자기주식취득 신탁계약 체결 결정",
@@ -859,6 +991,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "tsstk-aq-trctr-cc-decsn",
+		Verb:        "get",
+		Resource:    "treasury-stock-trust-cancellation",
 		APIID:       "2020041",
 		OperationID: "tsstkAqTrctrCcDecsn",
 		Name:        "자기주식취득 신탁계약 해지 결정",
@@ -872,6 +1006,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "bsn-inh-decsn",
+		Verb:        "get",
+		Resource:    "business-acquisition",
 		APIID:       "2020042",
 		OperationID: "bsnInhDecsn",
 		Name:        "영업양수 결정",
@@ -885,6 +1021,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "bsn-trf-decsn",
+		Verb:        "get",
+		Resource:    "business-transfer",
 		APIID:       "2020043",
 		OperationID: "bsnTrfDecsn",
 		Name:        "영업양도 결정",
@@ -898,6 +1036,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "tgast-inh-decsn",
+		Verb:        "get",
+		Resource:    "tangible-asset-acquisition",
 		APIID:       "2020044",
 		OperationID: "tgastInhDecsn",
 		Name:        "유형자산 양수 결정",
@@ -911,6 +1051,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "tgast-trf-decsn",
+		Verb:        "get",
+		Resource:    "tangible-asset-transfer",
 		APIID:       "2020045",
 		OperationID: "tgastTrfDecsn",
 		Name:        "유형자산 양도 결정",
@@ -924,6 +1066,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "otcpr-stk-invscr-inh-decsn",
+		Verb:        "get",
+		Resource:    "other-company-stock-acquisition",
 		APIID:       "2020046",
 		OperationID: "otcprStkInvscrInhDecsn",
 		Name:        "타법인 주식 및 출자증권 양수결정",
@@ -937,6 +1081,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "otcpr-stk-invscr-trf-decsn",
+		Verb:        "get",
+		Resource:    "other-company-stock-transfer",
 		APIID:       "2020047",
 		OperationID: "otcprStkInvscrTrfDecsn",
 		Name:        "타법인 주식 및 출자증권 양도결정",
@@ -950,6 +1096,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "stkrtbd-inh-decsn",
+		Verb:        "get",
+		Resource:    "stock-related-bond-acquisition",
 		APIID:       "2020048",
 		OperationID: "stkrtbdInhDecsn",
 		Name:        "주권 관련 사채권 양수 결정",
@@ -963,6 +1111,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "stkrtbd-trf-decsn",
+		Verb:        "get",
+		Resource:    "stock-related-bond-transfer",
 		APIID:       "2020049",
 		OperationID: "stkrtbdTrfDecsn",
 		Name:        "주권 관련 사채권 양도 결정",
@@ -976,6 +1126,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "cmp-mg-decsn",
+		Verb:        "get",
+		Resource:    "merger-decision",
 		APIID:       "2020050",
 		OperationID: "cmpMgDecsn",
 		Name:        "회사합병 결정",
@@ -989,6 +1141,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "cmp-dv-decsn",
+		Verb:        "get",
+		Resource:    "split-decision",
 		APIID:       "2020051",
 		OperationID: "cmpDvDecsn",
 		Name:        "회사분할 결정",
@@ -1002,6 +1156,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "cmp-dvmg-decsn",
+		Verb:        "get",
+		Resource:    "split-merger-decision",
 		APIID:       "2020052",
 		OperationID: "cmpDvmgDecsn",
 		Name:        "회사분할합병 결정",
@@ -1015,6 +1171,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "material",
 		Command:     "stk-extr-decsn",
+		Verb:        "get",
+		Resource:    "stock-exchange-transfer-decision",
 		APIID:       "2020053",
 		OperationID: "stkExtrDecsn",
 		Name:        "주식교환·이전 결정",
@@ -1028,6 +1186,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "registration",
 		Command:     "equity",
+		Verb:        "get",
+		Resource:    "registration-equity",
 		APIID:       "2020054",
 		OperationID: "estkRs",
 		Name:        "지분증권",
@@ -1041,6 +1201,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "registration",
 		Command:     "debt",
+		Verb:        "get",
+		Resource:    "registration-debt",
 		APIID:       "2020055",
 		OperationID: "bdRs",
 		Name:        "채무증권",
@@ -1054,6 +1216,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "registration",
 		Command:     "depositary-receipt",
+		Verb:        "get",
+		Resource:    "registration-depositary-receipt",
 		APIID:       "2020056",
 		OperationID: "stkdpRs",
 		Name:        "증권예탁증권",
@@ -1067,6 +1231,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "registration",
 		Command:     "merger",
+		Verb:        "get",
+		Resource:    "registration-merger",
 		APIID:       "2020057",
 		OperationID: "mgRs",
 		Name:        "합병",
@@ -1080,6 +1246,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "registration",
 		Command:     "share-exchange-transfer",
+		Verb:        "get",
+		Resource:    "registration-share-exchange-transfer",
 		APIID:       "2020058",
 		OperationID: "extrRs",
 		Name:        "주식의포괄적교환·이전",
@@ -1093,6 +1261,8 @@ var apiCatalog = []apiSpec{
 	{
 		Group:       "registration",
 		Command:     "division",
+		Verb:        "get",
+		Resource:    "registration-division",
 		APIID:       "2020059",
 		OperationID: "dvRs",
 		Name:        "분할",

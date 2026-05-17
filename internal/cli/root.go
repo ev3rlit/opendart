@@ -32,18 +32,20 @@ func NewRootCommand(out io.Writer, errOut io.Writer, getenv getenvFunc) *cobra.C
 	root.SetErr(errOut)
 	root.PersistentFlags().StringVar(&options.apiKey, "api-key", "", "OpenDART API key. Defaults to OPENDART_API_KEY.")
 	root.PersistentFlags().StringVar(&options.baseURL, "base-url", defaultBaseURL, "OpenDART base URL.")
-	root.PersistentFlags().StringVarP(&options.output, "output", "o", outputJSON, "Output format: json or raw.")
+	root.PersistentFlags().StringVarP(&options.output, "output", "o", outputJSON, "Output format: json, raw, table, or csv.")
 
-	root.AddCommand(newCorpCodesCommand(options))
-	root.AddCommand(newFinancialStatementCommand(options))
-	addAPIGroups(root, options)
+	addAPIVerbs(root, options)
+	addHiddenDeprecatedCommand(root, newSummarizeCommand(options), "use `opendart get <business-resource> --view summary` instead")
+	addHiddenDeprecatedCommand(root, newCompareCommand(options), "use `opendart get <business-resource> --corp-codes ...` instead")
+	addHiddenDeprecatedCommand(root, newInspectCommand(options), "use `opendart get financial-metric --view source` instead")
+	addLegacyAliases(root, options)
 
 	return root
 }
 
 func (options *rootOptions) validateOutput() error {
 	switch options.output {
-	case outputJSON, outputRaw:
+	case outputJSON, outputRaw, outputTable, outputCSV:
 		return nil
 	default:
 		return oops.In("opendart_cli").
@@ -57,19 +59,7 @@ func newCorpCodesCommand(options *rootOptions) *cobra.Command {
 		Use:   "corp-codes",
 		Short: "DART 고유번호 목록을 조회합니다.",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			client, err := newSDKClient(options)
-			if err != nil {
-				return err
-			}
-			file, err := client.CorpCode(cmd.Context())
-			if err != nil {
-				return err
-			}
-			codes, err := decodeCorpCodeZIP(file.Body)
-			if err != nil {
-				return err
-			}
-			return writeJSON(options.out, codes)
+			return runCorpCodes(cmd, options)
 		},
 	}
 }
@@ -115,32 +105,91 @@ func newFinancialStatementCommand(options *rootOptions) *cobra.Command {
 	return cmd
 }
 
-func addAPIGroups(root *cobra.Command, options *rootOptions) {
+func runCorpCodes(cmd *cobra.Command, options *rootOptions) error {
+	client, err := newSDKClient(options)
+	if err != nil {
+		return err
+	}
+	file, err := client.CorpCode(cmd.Context())
+	if err != nil {
+		return err
+	}
+	if options.output == outputRaw {
+		_, err := options.out.Write(file.Body)
+		return err
+	}
+	codes, err := decodeCorpCodeZIP(file.Body)
+	if err != nil {
+		return err
+	}
+	return writeJSON(options.out, codes)
+}
+
+func addAPIVerbs(root *cobra.Command, options *rootOptions) {
+	verbs := map[string]*cobra.Command{}
+	for _, spec := range apiCatalog {
+		verb, ok := verbs[spec.Verb]
+		if !ok {
+			verb = &cobra.Command{
+				Use:   spec.Verb,
+				Short: verbDescription(spec.Verb),
+			}
+			verbs[spec.Verb] = verb
+			root.AddCommand(verb)
+		}
+		verb.AddCommand(newGenericAPICommand(options, spec, spec.Resource))
+	}
+	if getCommand := verbs["get"]; getCommand != nil {
+		addFinancialViewCommands(getCommand, options)
+	}
+}
+
+func addHiddenDeprecatedCommand(root *cobra.Command, cmd *cobra.Command, message string) {
+	cmd.Hidden = true
+	cmd.Deprecated = message
+	root.AddCommand(cmd)
+}
+
+func addLegacyAliases(root *cobra.Command, options *rootOptions) {
+	corpCodes := newCorpCodesCommand(options)
+	corpCodes.Hidden = true
+	root.AddCommand(corpCodes)
+
+	financialStatement := newFinancialStatementCommand(options)
+	financialStatement.Hidden = true
+	root.AddCommand(financialStatement)
+
 	groups := map[string]*cobra.Command{}
 	for _, spec := range apiCatalog {
 		group, ok := groups[spec.Group]
 		if !ok {
 			group = &cobra.Command{
-				Use:   spec.Group,
-				Short: groupDescription(spec.Group),
+				Use:    spec.Group,
+				Short:  groupDescription(spec.Group),
+				Hidden: true,
 			}
 			groups[spec.Group] = group
 			root.AddCommand(group)
 		}
-		group.AddCommand(newGenericAPICommand(options, spec))
+		legacy := newGenericAPICommand(options, spec, spec.Command)
+		legacy.Hidden = true
+		group.AddCommand(legacy)
 	}
 }
 
-func newGenericAPICommand(options *rootOptions, spec apiSpec) *cobra.Command {
+func newGenericAPICommand(options *rootOptions, spec apiSpec, use string) *cobra.Command {
 	values := make(map[string]*string, len(spec.Params))
 	cmd := &cobra.Command{
-		Use:   spec.Command,
+		Use:   use,
 		Short: spec.Name,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if spec.OperationID == "corpCode" {
+				return runCorpCodes(cmd, options)
+			}
 			for _, param := range spec.Params {
 				value := values[param.Name]
 				if param.Required && (value == nil || strings.TrimSpace(*value) == "") {
-					return requiredFlagError(spec.Command, flagName(param.Name))
+					return requiredFlagError(commandLabel(spec), flagName(param.Name))
 				}
 			}
 
@@ -167,6 +216,16 @@ func newGenericAPICommand(options *rootOptions, spec apiSpec) *cobra.Command {
 		cmd.Flags().StringVar(values[name], flagName(name), "", description)
 	}
 	return cmd
+}
+
+func commandLabel(spec apiSpec) string {
+	if spec.Verb != "" && spec.Resource != "" {
+		return spec.Verb + " " + spec.Resource
+	}
+	if spec.Command != "" {
+		return spec.Command
+	}
+	return spec.OperationID
 }
 
 func requiredFlagError(command string, flag string) error {
@@ -203,6 +262,21 @@ func groupDescription(group string) string {
 		return "주요사항보고서 주요정보 API"
 	case "registration":
 		return "증권신고서 주요정보 API"
+	default:
+		return "OpenDART API"
+	}
+}
+
+func verbDescription(verb string) string {
+	switch verb {
+	case "search":
+		return "공시와 공개 자료를 검색합니다."
+	case "get":
+		return "OpenDART JSON API 원문 응답을 조회합니다."
+	case "list":
+		return "마스터 목록을 조회합니다."
+	case "download":
+		return "OpenDART 파일 응답을 다운로드합니다."
 	default:
 		return "OpenDART API"
 	}

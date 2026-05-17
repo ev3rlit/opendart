@@ -130,31 +130,44 @@ go install github.com/ev3rlit/opendart/cmd/opendart@latest
 
 ```sh
 go run ./cmd/opendart --help
-go run ./cmd/opendart corp-codes
-go run ./cmd/opendart financial-statement \
+go run ./cmd/opendart list corp-codes
+go run ./cmd/opendart get financial-statement \
   --corp-code 00126380 \
-  --business-year 2025 \
-  --report-code 11011
+  --bsns-year 2025 \
+  --reprt-code 11011
+
+go run ./cmd/opendart get quarter-performance \
+  --corp-code 00126380 \
+  --year 2025 \
+  --fs-div CFS
 ```
 
 공통 flag:
 
 - `--api-key`: OpenDART 인증키. 비어 있으면 `OPENDART_API_KEY`를 사용합니다.
 - `--base-url`: fake server나 테스트용 base URL을 지정합니다.
-- `--output`: 기본값은 `json`입니다. 파일/XML API는 `raw`를 지정하면 원문 bytes를 stdout에 씁니다.
+- `--output`: 기본값은 `json`입니다. 파일/XML API는 `raw`를 지정하면 원문 bytes를 stdout에 씁니다. 비즈니스 view 리소스는 `json`, `table`, `csv`를 지원합니다.
 
-API 그룹별 command:
+CLI command는 verb-first 구조를 사용합니다. `search`, `get`, `list`, `download`는 데이터 접근 방식을 나타내고, 실제로 보고 싶은 대상은 resource 이름으로 표현합니다. 기존 group-first command와 과거 `summarize`, `compare`, `inspect` top-level command는 숨김 호환 alias로만 남겨 두며, 새 문서와 테스트 기준은 `opendart <verb> <resource>`입니다.
 
-| Group | 예시 |
-| --- | --- |
-| `disclosure` | `opendart disclosure list`, `opendart disclosure company`, `opendart disclosure document` |
-| `company` | `opendart company irds-sttus`, `opendart company alot-matter` |
-| `financial` | `opendart financial single-account`, `opendart financial single-account-all`, `opendart financial xbrl` |
-| `ownership` | `opendart ownership major-stock`, `opendart ownership executive-stock` |
-| `material` | `opendart material cmp-mg-decsn`, `opendart material stk-extr-decsn` |
-| `registration` | `opendart registration equity`, `opendart registration debt` |
+| Verb | 용도 | 예시 |
+| --- | --- | --- |
+| `search` | 검색형 API | `opendart search disclosures` |
+| `get` | JSON raw API와 비즈니스 view 조회 | `opendart get company-profile`, `opendart get financial-statement-full`, `opendart get quarter-performance` |
+| `list` | 목록/마스터 조회 | `opendart list corp-codes` |
+| `download` | 파일/XML 원문 조회 | `opendart download document`, `opendart download financial-xbrl` |
 
-공식 API 전체 목록과 CLI 대응표는 `docs/apis/official-inventory.md`에 있고, 공식 응답 필드 기반 OpenAPI 추출물은 `docs/apis/openapi.md`에서 설명합니다.
+비즈니스 view 리소스는 `get <resource>` 아래에 둡니다. 요약/상세/원천 row 확인은 command verb가 아니라 `--view summary|detail|source`로 고르고, 출력 형식은 `--output json|table|csv`로 고릅니다. 여러 회사를 한 번에 볼 때는 `--corp-codes`에 쉼표로 구분한 `corp_code`를 넘깁니다.
+
+| Resource | 용도 | 예시 |
+| --- | --- | --- |
+| `quarter-performance` | 1Q~4Q 손익 주요 지표. 4Q는 사업보고서 누적 `11011`에서 3분기 누적 `11014`를 뺍니다. | `opendart get quarter-performance --corp-code 00126380 --year 2025 --fs-div CFS --output table` |
+| `annual-performance` | 연간 손익 주요 지표 | `opendart get annual-performance --corp-codes 00126380,00126371 --year 2025 --fs-div CFS` |
+| `financial-position` | 재무상태표 주요 지표 | `opendart get financial-position --corp-code 00126380 --year 2025 --fs-div CFS --view detail` |
+| `cash-flow` | 현금흐름 주요 지표 | `opendart get cash-flow --corp-code 00126380 --year 2025 --fs-div CFS --output csv` |
+| `financial-metric` | 특정 정규화 지표와 원천 row 확인 | `opendart get financial-metric --corp-code 00126380 --year 2025 --fs-div CFS --metric revenue --view source` |
+
+공식 API 전체 목록과 verb-first CLI 대응표는 `docs/apis/official-inventory.md`에 있고, 공식 응답 필드 기반 OpenAPI 추출물은 `docs/apis/openapi.md`에서 설명합니다.
 
 ## 오류 처리
 
