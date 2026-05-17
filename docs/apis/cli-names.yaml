@@ -1,0 +1,28 @@
+# CLI catalog naming overrides for generated OpenDART commands.
+#
+# Operation IDs, API IDs, parameters, summaries, and endpoints come from the
+# split OpenAPI documents. This file keeps only the human-facing command names
+# that should not be derived mechanically from operationId.
+groups:
+  DS001: disclosure
+  DS002: company
+  DS003: financial
+  DS004: ownership
+  DS005: material
+  DS006: registration
+
+commands:
+  fnlttSinglAcnt: single-account
+  fnlttMultiAcnt: multi-account
+  fnlttXbrl: xbrl
+  fnlttSinglAcntAll: single-account-all
+  fnlttSinglIndx: single-index
+  fnlttCmpnyIndx: company-index
+  majorstock: major-stock
+  elestock: executive-stock
+  estkRs: equity
+  bdRs: debt
+  stkdpRs: depositary-receipt
+  mgRs: merger
+  extrRs: share-exchange-transfer
+  dvRs: division

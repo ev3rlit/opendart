@@ -37,10 +37,11 @@ func main() {
 	}
 	log.Println("corp code file bytes:", len(codes.Body))
 
-	statements, err := client.FnlttSinglAcnt(ctx, opendart.FnlttSinglAcntParams{
+	statements, err := client.FnlttSinglAcntAll(ctx, opendart.FnlttSinglAcntAllParams{
 		CorpCode:  "00126380",
 		BsnsYear:  "2025",
-		ReprtCode: "11011",
+		ReprtCode: opendart.ReportCodeAnnual,
+		FsDiv:     opendart.FinancialStatementDivisionConsolidated,
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -79,6 +80,43 @@ OpenDART의 `corp_code`는 DART 공시대상회사 고유번호입니다. KRX �
   - 파일/XML API는 기본 `json` 출력에서 base64 envelope를 쓰고, `--output raw`일 때 원문 bytes를 stdout에 씁니다.
 - 2026-05-14 기준 공식 개발가이드에는 85개 API가 있으며, OpenAPI index는 `docs/apis/opendart.openapi.json`, 단일 파일 bundle은 `docs/apis/opendart.openapi.bundle.json`, API별 스키마는 `docs/apis/openapi/apis/*.json`에 있습니다.
 - 과거 수작업 friendly method 이름은 `docs/apis/sdk-names.yaml`에 보존되어 있습니다.
+
+## 재무제표 정규화 레이어
+
+`FnlttSinglAcntAll`은 OpenDART 원문 row를 그대로 반환합니다. 화면, 분석, 상위 애플리케이션에서 공통 지표가 필요하면 별도의 normalized layer를 사용할 수 있습니다.
+
+```go
+raw, err := client.FnlttSinglAcntAll(ctx, opendart.FnlttSinglAcntAllParams{
+	CorpCode:  "00126380",
+	BsnsYear:  "2024",
+	ReprtCode: opendart.ReportCodeAnnual,
+	FsDiv:     opendart.FinancialStatementDivisionConsolidated,
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+metrics, err := opendart.NormalizeFnlttSinglAcntAllResponse(raw, opendart.FnlttSinglAcntAllParams{
+	CorpCode:  "00126380",
+	BsnsYear:  "2024",
+	ReprtCode: opendart.ReportCodeAnnual,
+	FsDiv:     opendart.FinancialStatementDivisionConsolidated,
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+revenue, ok := metrics.Find(opendart.FinancialMetricRevenue)
+if ok {
+	log.Println(revenue.Amount, revenue.SourceAccountID, revenue.MatchMethod)
+}
+```
+
+정규화는 `account_id` exact match를 우선하고, `account_nm` alias는 보조 근거로 사용합니다. 각 metric에는 `source_row_index`, `source_row`, `source_account_id`, `source_account_name`, `source_account_detail`, `match_method`, `confidence`가 포함되어 원문 row로 되돌아갈 수 있습니다. 회사 고유 계정이나 `-표준계정코드 미사용-` row는 실패로 처리하지 않고 `UnmappedRows`에 남깁니다.
+
+원문 row를 분석용 스키마로 다룰 때는 `AnalyzeFnlttSinglAcntAllResponse`를 사용할 수 있습니다. 2024년 사업보고서 연결 기준 주요 200개 기업 audit에서 100% 채워진 key field는 string으로 유지하고, 일부 row에서 비는 당기/전기/전전기 금액과 기간명은 nullable field로 둡니다.
+
+회사별/업종별 계정을 metric으로 승격해야 하면 `WithFinancialMetricOverrideRules`로 수동 rule을 추가합니다. 기본 raw SDK 응답과 CLI JSON 출력은 이 레이어를 사용하지 않으므로 기존 출력 계약은 유지됩니다.
 
 ## CLI
 
@@ -158,3 +196,26 @@ newman run tests/e2e/postman/opendart-smoke.postman_collection.json \
   --reporters junit \
   --reporter-junit-export test-results/newman.xml
 ```
+
+### Live financial metric audit
+
+재무제표 정규화 레이어는 KOSPI 주요 기업 목록 같은 실제 표본으로 분포를 측정할 수 있습니다. 이 검증도 `e2e` build tag와 `OPENDART_API_KEY`가 있을 때만 실행합니다.
+
+```sh
+OPENDART_API_KEY=... \
+OPENDART_E2E_TARGETS_FILE=tests/e2e/financial-metric-audit.sample.targets \
+go test -tags=e2e -run TestE2EFinancialMetricAuditForMajorCompanies -count=1 -v .
+```
+
+200개 기업을 검증할 때는 같은 형식의 target 파일을 만들고 최소 표본 수를 명시합니다.
+
+```sh
+OPENDART_API_KEY=... \
+OPENDART_E2E_TARGETS_FILE=tests/e2e/kospi200.targets \
+OPENDART_E2E_MIN_TARGETS=200 \
+go test -tags=e2e -run TestE2EFinancialMetricAuditForMajorCompanies -count=1 -v .
+```
+
+target 파일은 한 줄에 `stock_code name` 또는 `corp_code name`을 적습니다. `stock_code`만 있어도 테스트가 OpenDART 고유번호 목록을 받아 `corp_code`로 변환합니다. 기본 조회 조건은 `2024`, `11011`, `CFS`이며 `OPENDART_E2E_BSNS_YEAR`, `OPENDART_E2E_REPRT_CODE`, `OPENDART_E2E_FS_DIV`로 바꿀 수 있습니다.
+
+테스트 로그에는 raw field coverage, normalized metric coverage, `account_id`/`account_nm` 분포, 회사별 누락 metric, `sj_div` 분포가 JSON으로 출력됩니다. `status=013` 데이터 부재는 `no_data`로 기록하고, 그 외 API 호출 실패나 raw row 공백 같은 계약 위반은 실패로 봅니다.

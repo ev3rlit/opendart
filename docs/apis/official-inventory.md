@@ -19,6 +19,9 @@
 - 파일/XML API인 `document.xml`, `corpCode.xml`, `fnlttXbrl.xml`은 OpenDART 원문 bytes를 반환한다. CLI 기본 JSON 출력에서는 `api_id`, `api_name`, `endpoint`, `content_type`, `content_base64` envelope로 감싼다.
 - business error는 공통 메시지 코드(`status`, `message`)를 따른다. 기본 테스트는 live 호출 없이 fake server로 검증한다.
 - 공식 응답 필드 전체는 `docs/apis/opendart.openapi.json`, `docs/apis/opendart.openapi.bundle.json`, `docs/apis/openapi/apis/*.json`에 OpenAPI 3.1 형태로 추출했다.
+- CLI catalog는 `go generate ./internal/generated/opendartapi` 실행 시 OpenAPI split 문서와 `docs/apis/cli-names.yaml`에서 생성된다.
+- root package `opendart`는 공식 문서나 repo-local OpenAPI scrape에서 목록이 확인되는 반복 코드값을 public const로 제공한다.
+- `idx_cl_code`, `pblntf_detail_ty`처럼 전체 목록 확인이 필요한 상세 코드는 이번 public const 범위에서 제외하고 후속 조사 대상으로 둔다.
 
 ## 파라미터 프로필
 
@@ -67,8 +70,8 @@
 | company | 2020015 | 이사·감사 전체의 보수현황(보수지급금액 - 유형별) | `/api/drctrAdtAllMendngSttusMendngPymntamtTyCl.json` | `opendart company drctr-adt-all-mendng-sttus-mendng-pymntamt-ty-cl` | `periodic` | `status`, `message`, `list[]` |
 | company | 2020016 | 공모자금의 사용내역 | `/api/pssrpCptalUseDtls.json` | `opendart company pssrp-cptal-use-dtls` | `periodic` | `status`, `message`, `list[]` |
 | company | 2020017 | 사모자금의 사용내역 | `/api/prvsrpCptalUseDtls.json` | `opendart company prvsrp-cptal-use-dtls` | `periodic` | `status`, `message`, `list[]` |
-| company | 2026001 | 이사·감사의 개인별 보수현황(5억원 이상) (Ver 2.0) | `/api/hmvAuditIndvdlBySttusV2.json` | 미구현 | `periodic` | `status`, `message`, `list[]` |
-| company | 2026002 | 개인별 보수지급 금액(5억이상 상위5인) (Ver 2.0) | `/api/indvdlByPayV2.json` | 미구현 | `periodic` | `status`, `message`, `list[]` |
+| company | 2026001 | 이사·감사의 개인별 보수현황(5억원 이상) (Ver 2.0) | `/api/hmvAuditIndvdlBySttusV2.json` | `opendart company hmv-audit-indvdl-by-sttus-v2` | `periodic` | `status`, `message`, `list[]` |
+| company | 2026002 | 개인별 보수지급 금액(5억이상 상위5인) (Ver 2.0) | `/api/indvdlByPayV2.json` | `opendart company indvdl-by-pay-v2` | `periodic` | `status`, `message`, `list[]` |
 | financial | 2019016 | 단일회사 주요계정 | `/api/fnlttSinglAcnt.json` | `opendart financial single-account`, `opendart financial-statement` | `periodic` | `status`, `message`, `list[]` major account fields |
 | financial | 2019017 | 다중회사 주요계정 | `/api/fnlttMultiAcnt.json` | `opendart financial multi-account` | `periodic` | `status`, `message`, `list[]` major account fields |
 | financial | 2019019 | 재무제표 원본파일(XBRL) | `/api/fnlttXbrl.xml` | `opendart financial xbrl` | `receipt-report` | file bytes or base64 envelope |
@@ -124,7 +127,7 @@
 ## 추적 기준
 
 - `Group`, `API ID`, `Endpoint`, `Params`는 공식 상세 페이지에서 확인했다.
-- `CLI command`는 `internal/cli/catalog.go`와 대응한다. `미구현` 항목은 공식 개발가이드에 새로 추가되었지만 현재 CLI catalog에는 아직 없다.
+- `CLI command`는 생성 파일인 `internal/cli/catalog_gen.go`와 대응한다. 사람이 조정하는 group/command 이름은 `docs/apis/cli-names.yaml`에만 둔다.
 - SDK typed method 대응표는 `docs/apis/typed-sdk-checklist.md`에서 별도로 추적한다.
 - 전체 요청/응답 필드 스키마는 `docs/apis/opendart.openapi.json`, `docs/apis/opendart.openapi.bundle.json`, `docs/apis/openapi/apis/*.json`, 원본 표 덤프는 `docs/apis/opendart-api-metadata.json`에서 확인한다.
 - `corp_code`는 OpenDART 고유번호이며 KRX 종목코드가 아니다.

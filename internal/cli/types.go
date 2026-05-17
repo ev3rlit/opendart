@@ -22,12 +22,13 @@ type rootOptions struct {
 }
 
 type apiSpec struct {
-	Group    string
-	Command  string
-	APIID    string
-	Name     string
-	Endpoint string
-	Params   []paramSpec
+	Group       string
+	Command     string
+	APIID       string
+	OperationID string
+	Name        string
+	Endpoint    string
+	Params      []paramSpec
 }
 
 type paramSpec struct {

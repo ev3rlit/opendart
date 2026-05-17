@@ -22,6 +22,10 @@
 - 문서: Markdown 문서를 `README.md`와 `docs/apis/` 아래에 둔다.
 - 인증키: `OPENDART_API_KEY` 환경변수를 기본 입력으로 사용하고, secret은 커밋하지 않는다.
 
+## 자동 생성 코드
+
+OpenDART API 자동 생성은 `internal/generated/opendartapi/generate_split.py`와 `go generate ./internal/generated/opendartapi`를 기준으로 관리하며, root SDK의 API 타입/메서드 생성물과 CLI가 소비하는 API catalog 생성물을 같은 흐름에서 갱신한다. 생성된 Go 파일은 직접 손수 수정하지 않고, CLI의 사람이 읽기 좋은 group/command 이름처럼 조정이 필요한 값은 `docs/apis/cli-names.yaml` 같은 override 문서에 둔 뒤 generator를 수정해 재생성한다.
+
 ## Git branch strategy
 
 핵심 규칙:

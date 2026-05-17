@@ -111,7 +111,7 @@ func newFinancialStatementCommand(options *rootOptions) *cobra.Command {
 
 	cmd.Flags().StringVar(&corpCode, "corp-code", "", "OpenDART corp_code.")
 	cmd.Flags().StringVar(&businessYear, "business-year", "", "Business year, for example 2025.")
-	cmd.Flags().StringVar(&reportCode, "report-code", "", "Report code, for example 11011.")
+	cmd.Flags().StringVar(&reportCode, "report-code", "", "Report code, for example "+opendart.ReportCodeAnnual+".")
 	return cmd
 }
 
