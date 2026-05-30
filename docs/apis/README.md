@@ -12,7 +12,7 @@
 - OpenAPI bundle: `docs/apis/opendart.openapi.bundle.json`
 - API별 OpenAPI 파일: `docs/apis/openapi/apis/*.json`
 - OpenAPI 생성 기준: `docs/apis/openapi.md`
-- SDK package: `github.com/ev3rlit/opendart`
+- SDK package: `github.com/awuzag/opendart`
 
 ## CLI 구현 방식
 

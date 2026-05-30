@@ -10,7 +10,7 @@ from pathlib import Path
 API_PACKAGE = "opendartapi"
 SCHEMA_PACKAGE = "opendartschema"
 OAPI_CODEGEN = "github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.7.0"
-SCHEMA_IMPORT = "github.com/ev3rlit/opendart/internal/generated/opendartschema"
+SCHEMA_IMPORT = "github.com/awuzag/opendart/internal/generated/opendartschema"
 ROOT_METHOD_OVERRIDES = {
     "company": "CompanyRaw",
     "document": "DocumentRaw",
@@ -265,7 +265,7 @@ def write_root_aliases(repo_root: Path, names: list[str]) -> None:
         "",
         "package opendart",
         "",
-        'import opendartschema "github.com/ev3rlit/opendart/internal/generated/opendartschema"',
+        'import opendartschema "github.com/awuzag/opendart/internal/generated/opendartschema"',
         "",
     ]
     for name in names:
@@ -416,7 +416,7 @@ def write_root_methods(repo_root: Path, apis: list[APIDef]) -> None:
         "import (",
         '\t"context"',
         "",
-        '\topendartapi "github.com/ev3rlit/opendart/internal/generated/opendartapi"',
+        '\topendartapi "github.com/awuzag/opendart/internal/generated/opendartapi"',
         ")",
         "",
     ]

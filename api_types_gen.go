@@ -2,7 +2,7 @@
 
 package opendart
 
-import opendartschema "github.com/ev3rlit/opendart/internal/generated/opendartschema"
+import opendartschema "github.com/awuzag/opendart/internal/generated/opendartschema"
 
 // ListItem is a generated OpenDART API schema type.
 type ListItem = opendartschema.ListItem

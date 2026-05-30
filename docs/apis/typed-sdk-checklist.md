@@ -3,7 +3,7 @@
 - 기준 문서: `docs/apis/official-inventory.md`
 - 확인 날짜: 2026-05-14
 - 범위: 공식 OpenDART API 85개 중 과거 수작업 friendly method 83개
-- SDK package: `github.com/ev3rlit/opendart`
+- SDK package: `github.com/awuzag/opendart`
 - 현재 root SDK는 OpenAPI `operationId` 기반 generated raw method를 기본으로 제공한다.
 - 이 표의 friendly 이름은 `docs/apis/sdk-names.yaml`에 보존되어 있다.
 

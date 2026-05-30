@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/ev3rlit/opendart"
+	"github.com/awuzag/opendart"
 )
 
 func ExampleNew() {

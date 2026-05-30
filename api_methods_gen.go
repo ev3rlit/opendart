@@ -5,7 +5,7 @@ package opendart
 import (
 	"context"
 
-	opendartapi "github.com/ev3rlit/opendart/internal/generated/opendartapi"
+	opendartapi "github.com/awuzag/opendart/internal/generated/opendartapi"
 )
 
 // List calls the generated OpenDART list API operation.

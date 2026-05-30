@@ -1,11 +1,11 @@
 # opendart
 
-`opendart`는 OpenDART API를 위한 독립 Go 클라이언트 라이브러리와 CLI입니다. Go 사용자는 계속 root package `github.com/ev3rlit/opendart`를 import하고, CLI executable은 `cmd/opendart`에서 별도로 관리합니다.
+`opendart`는 OpenDART API를 위한 독립 Go 클라이언트 라이브러리와 CLI입니다. Go 사용자는 계속 root package `github.com/awuzag/opendart`를 import하고, CLI executable은 `cmd/opendart`에서 별도로 관리합니다.
 
 ## 설치
 
 ```sh
-go get github.com/ev3rlit/opendart
+go get github.com/awuzag/opendart
 ```
 
 ## 사용 예시
@@ -18,7 +18,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/ev3rlit/opendart"
+	"github.com/awuzag/opendart"
 )
 
 func main() {
@@ -123,7 +123,7 @@ if ok {
 설치:
 
 ```sh
-go install github.com/ev3rlit/opendart/cmd/opendart@latest
+go install github.com/awuzag/opendart/cmd/opendart@latest
 ```
 
 로컬 checkout에서 실행:

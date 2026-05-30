@@ -4,7 +4,7 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	opendartapi "github.com/ev3rlit/opendart/internal/generated/opendartapi"
+	opendartapi "github.com/awuzag/opendart/internal/generated/opendartapi"
 	"github.com/go-resty/resty/v2"
 )
 
@@ -29,7 +29,7 @@ func New(config Config, opts ...Option) (*Client, error) {
 
 	httpClient.
 		SetBaseURL(options.baseURL).
-		SetHeader("User-Agent", "github.com/ev3rlit/opendart").
+		SetHeader("User-Agent", "github.com/awuzag/opendart").
 		SetTimeout(options.timeout)
 
 	callerConfig := apiCallerConfig{

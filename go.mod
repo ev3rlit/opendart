@@ -1,4 +1,4 @@
-module github.com/ev3rlit/opendart
+module github.com/awuzag/opendart
 
 go 1.26.3
 

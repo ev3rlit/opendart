@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/ev3rlit/opendart"
+	"github.com/awuzag/opendart"
 	"github.com/samber/oops"
 	"github.com/spf13/cobra"
 )

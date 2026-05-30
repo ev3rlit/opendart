@@ -1,6 +1,6 @@
 # RULE.md
 
-이 저장소는 `github.com/ev3rlit/opendart` 독립 Go SDK를 제공한다. `mwosa`나 다른 상위 애플리케이션에 의존하지 않고, OpenDART 공식 API를 얇고 안정적인 타입 메서드로 감싼다.
+이 저장소는 `github.com/awuzag/opendart` 독립 Go SDK를 제공한다. `mwosa`나 다른 상위 애플리케이션에 의존하지 않고, OpenDART 공식 API를 얇고 안정적인 타입 메서드로 감싼다.
 
 ## Go 코드
 

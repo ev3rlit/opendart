@@ -4,7 +4,7 @@ package opendartapi
 
 import (
 	"context"
-	opendartschema "github.com/ev3rlit/opendart/internal/generated/opendartschema"
+	opendartschema "github.com/awuzag/opendart/internal/generated/opendartschema"
 )
 
 // IndvdlByPayV2Spec describes the generated indvdlByPayV2 API operation.

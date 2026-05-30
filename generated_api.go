@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	opendartapi "github.com/ev3rlit/opendart/internal/generated/opendartapi"
+	opendartapi "github.com/awuzag/opendart/internal/generated/opendartapi"
 	"github.com/go-resty/resty/v2"
 	"github.com/samber/oops"
 )

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ev3rlit/opendart/internal/cli"
+	"github.com/awuzag/opendart/internal/cli"
 )
 
 func main() {

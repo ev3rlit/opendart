@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/ev3rlit/opendart"
+	"github.com/awuzag/opendart"
 	"github.com/samber/oops"
 )
 
@@ -54,7 +54,7 @@ func requestGeneric(ctx context.Context, options *rootOptions, spec apiSpec, val
 			With("endpoint", spec.Endpoint).
 			Wrapf(err, "opendart cli: create request")
 	}
-	req.Header.Set("User-Agent", "github.com/ev3rlit/opendart/cmd/opendart")
+	req.Header.Set("User-Agent", "github.com/awuzag/opendart/cmd/opendart")
 
 	resp, err := openDARTHTTPClient().Do(req)
 	if err != nil {

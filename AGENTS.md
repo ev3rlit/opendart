@@ -12,7 +12,7 @@
 
 ## 기술스택
 
-- 언어와 모듈: Go 1.26.3, `github.com/ev3rlit/opendart`.
+- 언어와 모듈: Go 1.26.3, `github.com/awuzag/opendart`.
 - Go 버전은 `go.mod`의 `go` directive와 로컬 검증 환경에서 항시 최신 안정 버전으로 유지한다.
 - 제공 형태: root package Go SDK와 `cmd/opendart` CLI를 함께 제공한다.
 - HTTP client: `github.com/go-resty/resty/v2`를 기본으로 사용한다.
